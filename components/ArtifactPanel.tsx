@@ -38,12 +38,12 @@ export default function ArtifactPanel({ isOpen, onClose, title, soundEnabled, wi
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Dimmed overlay */}
+            {/* Dimmed overlay — above navbar (1000) */}
             <motion.div
               style={{
                 position: 'fixed',
                 inset: 0,
-                zIndex: 40,
+                zIndex: 1010,
                 background: 'radial-gradient(circle at center, rgba(0,0,0,0.3) 200px, rgba(0,0,0,0.65) 700px)',
               }}
               initial={{ opacity: 0 }}
@@ -58,7 +58,7 @@ export default function ArtifactPanel({ isOpen, onClose, title, soundEnabled, wi
               onClick={e => e.stopPropagation()}
               style={{
                 position: 'fixed',
-                zIndex: 50,
+                zIndex: 1020,
                 top: '50%',
                 left: '50%',
                 translateX: '-50%',
@@ -81,7 +81,7 @@ export default function ArtifactPanel({ isOpen, onClose, title, soundEnabled, wi
               <div style={{
                 position: 'sticky',
                 top: 0,
-                zIndex: 2,
+                zIndex: 10,
                 background: 'var(--bg-secondary)',
                 display: 'flex',
                 alignItems: 'center',
@@ -120,7 +120,7 @@ export default function ArtifactPanel({ isOpen, onClose, title, soundEnabled, wi
                     alignItems: 'center',
                     justifyContent: 'center',
                     transition: 'border-color 0.2s ease, color 0.2s ease',
-                    zIndex: 60,
+                    zIndex: 1030,
                     position: 'relative',
                   }}
                   onMouseEnter={e => {

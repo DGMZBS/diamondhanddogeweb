@@ -23,7 +23,7 @@ const SEAT_L  = (SCENE_W - SEAT_W) / 2           // 15
 const ARM_W   = 24
 const ARM_H   = 70
 const ARM_T   = SEAT_T - ARM_H + SEAT_H          // armrest top aligns with seat top, extends up
-const DOGE_L  = (SCENE_W - CW) / 2              // canvas left in scene = 20
+
 
 function drawCoinAboveHead(
   ctx: CanvasRenderingContext2D,
@@ -187,7 +187,7 @@ export default function DogeThrone() {
   ]
 
   return (
-    <div style={{
+    <div className="doge-throne-root" style={{
       position: 'absolute',
       bottom: '72px',
       left: '12%',

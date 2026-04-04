@@ -478,32 +478,50 @@ export default function CaveWorld() {
         /* ── Mobile layout ── */
         @media (max-width: 767px) {
 
-          /* Logo — smaller, sits just below navbar */
+          /* Logo — pushed down, smaller */
           .dhd-logo-wrap {
-            top: 68px !important;
+            top: 110px !important;
           }
           .dhd-logo-wrap img {
             width: 64px !important;
             height: 64px !important;
           }
 
-          /* Nav cards — compact row, full width */
+          /* Nav cards — pushed down below logo, compact row */
           .cave-nav-cards {
-            top: 142px !important;
+            top: 188px !important;
             width: calc(100vw - 20px) !important;
             gap: 8px !important;
             max-width: 100% !important;
           }
 
-          /* Hide throne and signpost — not usable at mobile sizes */
-          .cave-throne { display: none !important; }
+          /* Throne — centered in the empty middle zone, scaled down */
+          .cave-throne {
+            display: block !important;
+          }
+          .cave-throne .doge-throne-root {
+            position: relative !important;
+            bottom: auto !important;
+            left: auto !important;
+            transform: scale(0.72) !important;
+            transform-origin: top center !important;
+          }
+          .cave-throne {
+            position: absolute !important;
+            top: 400px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            z-index: 10 !important;
+          }
+
+          /* Signpost — hidden on mobile */
           .cave-signpost { display: none !important; }
 
           /* Mobile sign buttons — shown instead of signpost */
           .cave-mobile-actions {
             display: flex !important;
             position: absolute;
-            bottom: 200px;
+            bottom: 215px;
             left: 50%;
             transform: translateX(-50%);
             width: calc(100vw - 32px);
@@ -512,14 +530,15 @@ export default function CaveWorld() {
             pointer-events: all;
           }
 
-          /* Bottom info — full width, no overflow */
+          /* Bottom info — full width, offset right to clear sound button */
           .cave-bottom-info {
             bottom: 16px !important;
-            width: calc(100vw - 24px) !important;
+            width: calc(100vw - 72px) !important;
             max-width: 100% !important;
+            left: calc(50% + 24px) !important;
           }
 
-          /* Contract address — allow wrapping on tiny screens */
+          /* Contract address — wrap on small screens */
           .cave-bottom-info button[aria-label="Copy contract address"] {
             white-space: normal !important;
             word-break: break-all !important;
@@ -533,21 +552,22 @@ export default function CaveWorld() {
             box-sizing: border-box !important;
           }
 
-          /* Social links — wrap to 2 rows */
+          /* Social links — tighter, wrap naturally */
           .cave-socials {
             gap: 0 !important;
+            justify-content: flex-end !important;
           }
           .cave-socials a {
             font-size: 11px !important;
-            padding: 0 6px !important;
+            padding: 0 5px !important;
             min-height: 36px !important;
           }
 
-          /* Sound toggle — smaller on mobile */
+          /* Sound toggle — bottom-left, same height as bottom info */
           .cave-sound-btn {
-            width: 36px !important;
-            height: 36px !important;
-            bottom: 16px !important;
+            width: 40px !important;
+            height: 40px !important;
+            bottom: 28px !important;
             left: 12px !important;
           }
         }
