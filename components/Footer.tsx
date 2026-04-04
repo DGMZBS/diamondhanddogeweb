@@ -230,25 +230,46 @@ export default function Footer() {
             </div>
           </div>
 
-          <a
-            href="https://solana.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontFamily: 'var(--font-body)',
-              fontSize: '12px',
-              color: 'var(--text-dim)',
-              textDecoration: 'none',
-              transition: 'color 0.2s ease',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent-cyan)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-dim)')}
-          >
-            Built on Solana →
-          </a>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+            <a
+              href="https://www.bensound.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Music: Theatre Of Delays — bensound.com | License: OPCDZFN8EMTC5HJU"
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '11px',
+                color: 'var(--text-dim)',
+                textDecoration: 'none',
+                opacity: 0.5,
+                transition: 'opacity 0.2s ease',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '0.5')}
+            >
+              music credits
+            </a>
+            <span style={{ color: 'var(--border-subtle)', fontSize: '12px' }}>|</span>
+            <a
+              href="https://solana.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                fontFamily: 'var(--font-body)',
+                fontSize: '12px',
+                color: 'var(--text-dim)',
+                textDecoration: 'none',
+                transition: 'color 0.2s ease',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent-cyan)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-dim)')}
+            >
+              Built on Solana →
+            </a>
+          </div>
         </div>
       </div>
     </footer>

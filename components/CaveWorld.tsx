@@ -99,7 +99,7 @@ export default function CaveWorld() {
     crystal5: 0.65, crystal6: 0.55,
   })
   const rafRef = useRef<number>(0)
-  const [soundEnabled, setSoundEnabled] = useState(false)
+  const [soundEnabled, setSoundEnabled] = useState(true)
   const [activePanel, setActivePanel] = useState<string | null>(null)
 
   const SIGN_TO_PANEL: Record<string, string> = {
@@ -326,8 +326,7 @@ export default function CaveWorld() {
         <LiveChartPanel />
       </ArtifactPanel>
 
-      {/* Sound — TODO: add /public/sounds/cave-ambient.mp3 */}
-      <audio ref={ambientRef} src="/sounds/cave-ambient.mp3" loop preload="none" />
+      <audio ref={ambientRef} src="/sounds/cave-ambient.mp3" loop preload="auto" />
 
       {/* Always-visible cave info — center of screen */}
       <div className="cave-bottom-info" style={{
