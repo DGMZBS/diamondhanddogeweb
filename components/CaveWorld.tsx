@@ -495,23 +495,21 @@ export default function CaveWorld() {
             max-width: 100% !important;
           }
 
-          /* Throne — centered in the empty middle zone, scaled down */
+          /* Throne — centered in the empty middle zone, scaled down, no text overlap */
           .cave-throne {
+            position: absolute !important;
             display: block !important;
+            top: 305px !important;
+            left: 50% !important;
+            transform: translateX(-60%) !important;
+            z-index: 10 !important;
           }
           .cave-throne .doge-throne-root {
             position: relative !important;
             bottom: auto !important;
             left: auto !important;
-            transform: scale(0.72) !important;
-            transform-origin: top center !important;
-          }
-          .cave-throne {
-            position: absolute !important;
-            top: 400px !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            z-index: 10 !important;
+            transform: scale(0.68) !important;
+            transform-origin: top left !important;
           }
 
           /* Signpost — hidden on mobile */
@@ -530,12 +528,14 @@ export default function CaveWorld() {
             pointer-events: all;
           }
 
-          /* Bottom info — full width, offset right to clear sound button */
+          /* Bottom info — centered, full width minus gutters */
           .cave-bottom-info {
             bottom: 16px !important;
-            width: calc(100vw - 72px) !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            width: calc(100vw - 32px) !important;
             max-width: 100% !important;
-            left: calc(50% + 24px) !important;
+            align-items: center !important;
           }
 
           /* Contract address — wrap on small screens */
@@ -552,10 +552,10 @@ export default function CaveWorld() {
             box-sizing: border-box !important;
           }
 
-          /* Social links — tighter, wrap naturally */
+          /* Social links — tighter, centered */
           .cave-socials {
             gap: 0 !important;
-            justify-content: flex-end !important;
+            justify-content: center !important;
           }
           .cave-socials a {
             font-size: 11px !important;
