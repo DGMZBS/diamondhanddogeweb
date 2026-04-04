@@ -283,10 +283,40 @@ export default function CaveWorld() {
       </div>
 
       {/* Doge on Throne */}
-      <DogeThrone />
+      <div className="cave-throne"><DogeThrone /></div>
 
       {/* Navigation Signpost */}
-      <CaveSignpost onSignClick={label => setActivePanel(SIGN_TO_PANEL[label] ?? null)} />
+      <div className="cave-signpost"><CaveSignpost onSignClick={label => setActivePanel(SIGN_TO_PANEL[label] ?? null)} /></div>
+
+      {/* Mobile-only: HOW TO BUY + LIVE CHART buttons (replace signpost on small screens) */}
+      <div className="cave-mobile-actions" style={{ display: 'none' }}>
+        {[
+          { label: 'HOW TO BUY', panel: 'howToBuy' },
+          { label: 'LIVE CHART', panel: 'chart' },
+        ].map(item => (
+          <button
+            key={item.panel}
+            onClick={() => setActivePanel(item.panel)}
+            style={{
+              flex: 1,
+              padding: '12px 8px',
+              background: 'rgba(160,101,42,0.85)',
+              border: '1px solid rgba(255,184,0,0.5)',
+              borderRadius: '8px',
+              fontFamily: 'var(--font-display)',
+              fontSize: '11px',
+              fontWeight: 700,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: '#F5DFA0',
+              cursor: 'pointer',
+              pointerEvents: 'all',
+            }}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
 
       {/* Artifact Panels */}
       <ArtifactPanel isOpen={activePanel === 'howToBuy'} onClose={() => setActivePanel(null)} title="How to Buy" soundEnabled={soundEnabled}>
@@ -300,7 +330,7 @@ export default function CaveWorld() {
       <audio ref={ambientRef} src="/sounds/cave-ambient.mp3" loop preload="none" />
 
       {/* Always-visible cave info — center of screen */}
-      <div style={{
+      <div className="cave-bottom-info" style={{
         position: 'absolute',
         bottom: '80px',
         left: '50%',
@@ -311,6 +341,7 @@ export default function CaveWorld() {
         gap: '12px',
         zIndex: 20,
         pointerEvents: 'all',
+        width: 'max-content',
       }}>
         {/* Contract address — full address, click anywhere on the row to copy */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
@@ -365,7 +396,7 @@ export default function CaveWorld() {
         </a>
 
         {/* Social links — 44px tap targets */}
-        <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+        <div className="cave-socials" style={{ display: 'flex', gap: '4px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
           {[
             { href: LINKS.twitter,     label: '𝕏 Twitter' },
             { href: LINKS.telegram,    label: '✈️ Telegram' },
@@ -405,6 +436,7 @@ export default function CaveWorld() {
 
       {/* Sound toggle — bottom-left */}
       <button
+        className="cave-sound-btn"
         onClick={() => setSoundEnabled(v => !v)}
         aria-label={soundEnabled ? 'Mute sound' : 'Enable sound'}
         style={{
@@ -443,18 +475,81 @@ export default function CaveWorld() {
           from { filter: drop-shadow(0 0 10px rgba(255,184,0,0.5)); }
           to   { filter: drop-shadow(0 0 28px rgba(255,184,0,0.9)); }
         }
+
+        /* ── Mobile layout ── */
         @media (max-width: 767px) {
+
+          /* Logo — smaller, sits just below navbar */
           .dhd-logo-wrap {
-            top: 70px !important;
+            top: 68px !important;
           }
           .dhd-logo-wrap img {
-            width: 80px !important;
-            height: 80px !important;
+            width: 64px !important;
+            height: 64px !important;
           }
+
+          /* Nav cards — compact row, full width */
           .cave-nav-cards {
-            top: 170px !important;
-            flex-direction: column !important;
-            width: calc(100vw - 32px) !important;
+            top: 142px !important;
+            width: calc(100vw - 20px) !important;
+            gap: 8px !important;
+            max-width: 100% !important;
+          }
+
+          /* Hide throne and signpost — not usable at mobile sizes */
+          .cave-throne { display: none !important; }
+          .cave-signpost { display: none !important; }
+
+          /* Mobile sign buttons — shown instead of signpost */
+          .cave-mobile-actions {
+            display: flex !important;
+            position: absolute;
+            bottom: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100vw - 32px);
+            gap: 10px;
+            z-index: 20;
+            pointer-events: all;
+          }
+
+          /* Bottom info — full width, no overflow */
+          .cave-bottom-info {
+            bottom: 16px !important;
+            width: calc(100vw - 24px) !important;
+            max-width: 100% !important;
+          }
+
+          /* Contract address — allow wrapping on tiny screens */
+          .cave-bottom-info button[aria-label="Copy contract address"] {
+            white-space: normal !important;
+            word-break: break-all !important;
+            font-size: 10px !important;
+            padding: 8px 10px !important;
+          }
+
+          /* Buy DHD — full width on mobile */
+          .cave-bottom-info a[href*="raydium"] {
+            width: 100% !important;
+            box-sizing: border-box !important;
+          }
+
+          /* Social links — wrap to 2 rows */
+          .cave-socials {
+            gap: 0 !important;
+          }
+          .cave-socials a {
+            font-size: 11px !important;
+            padding: 0 6px !important;
+            min-height: 36px !important;
+          }
+
+          /* Sound toggle — smaller on mobile */
+          .cave-sound-btn {
+            width: 36px !important;
+            height: 36px !important;
+            bottom: 16px !important;
+            left: 12px !important;
           }
         }
       `}</style>

@@ -21,7 +21,7 @@ export default function LiveChartPanel() {
           style={{
             display: 'block',
             width: '100%',
-            height: '520px',
+            height: 'clamp(320px, 55vh, 520px)',
             border: 'none',
           }}
           allow="clipboard-write"
