@@ -12,181 +12,175 @@ const fadeUp = (delay = 0) => ({
   viewport: { once: true },
 })
 
-// ── Twitter ────────────────────────────────────────────────────────
-function TwitterCard() {
-  return (
-    <SocialCard icon="𝕏" title="Diamond Hand Doge on X" subtitle="Follow @dogehanddiamond for the latest updates" accentColor="var(--text-primary)">
-      <div style={{ borderRadius: '12px', overflow: 'hidden', flex: 1 }}>
-        <iframe
-          src="https://syndication.twitter.com/srv/timeline-profile/screen-name/dogehanddiamond?dnt=false&embedId=twitter-widget-0&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfX0%3D&frame=false&hideBorder=false&hideFooter=false&hideHeader=false&hideScrollBar=false&lang=en&maxHeight=460px&origin=https%3A%2F%2Fpublish.twitter.com&sessionId=&showHeader=true&showReplies=false&theme=dark&transparent=false&widgetsVersion=2615f7e52b7e0%3A1702314776716"
-          style={{ width: '100%', minHeight: '460px', border: 'none', display: 'block', colorScheme: 'dark' }}
-          title="@dogehanddiamond on X"
-          scrolling="no"
-        />
-      </div>
-      <CtaButton href={LINKS.twitter} label="Follow on X →" />
-    </SocialCard>
-  )
-}
-
-// ── Telegram ────────────────────────────────────────────────────────
-function TelegramCard() {
-  return (
-    <SocialCard icon="✈️" title="DHD Telegram Community" subtitle="Join the conversation. Live updates, community calls, and more." accentColor="#29B6F6">
-      <div style={{
-        flex: 1,
-        background: 'var(--bg-elevated)',
-        border: '1px solid rgba(41,182,246,0.15)',
-        borderRadius: '12px',
-        padding: '40px 24px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '20px',
-        textAlign: 'center',
-      }}>
-        <span style={{ fontSize: '64px', lineHeight: 1 }}>✈️</span>
-        <div>
-          <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: '#29B6F6', letterSpacing: '0.05em' }}>
-            @diamondhanddoge
-          </p>
-          <p style={{ margin: '10px 0 0', fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.7, maxWidth: '300px' }}>
-            The official DHD Telegram. Live price updates, community discussions, and breaking news — all in one place.
-          </p>
-        </div>
-        <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
-          {['📢 Announcements', '💬 Community Chat', '🚀 Launch Updates'].map(f => (
-            <span key={f} style={{ fontFamily: 'var(--font-display)', fontSize: '9px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-secondary)' }}>
-              {f}
-            </span>
-          ))}
-        </div>
-      </div>
-      <CtaButton href={LINKS.telegram} label="Join on Telegram →" color="#29B6F6" />
-    </SocialCard>
-  )
-}
-
-// ── DEX Screener ────────────────────────────────────────────────────
-function DexScreenerCard() {
-  return (
-    <SocialCard icon="📊" title="DHD on DEX Screener" subtitle="Live price, volume, and trading activity." accentColor="var(--accent-cyan)">
-      <div style={{ borderRadius: '12px', overflow: 'hidden' }}>
-        <iframe
-          src="https://dexscreener.com/solana/3UG4RvNMV9idmR9FpaEXz6ov9A9DkczDGuxMbGyFWFH2?embed=1&theme=dark&trades=0&info=0"
-          height="420"
-          style={{ width: '100%', border: 'none', display: 'block' }}
-          title="DHD Live Chart"
-          allow="fullscreen"
-        />
-      </div>
-      <CtaButton href={LINKS.dexscreener} label="View Full Chart →" />
-    </SocialCard>
-  )
-}
-
-// ── Raydium ─────────────────────────────────────────────────────────
-function RaydiumCard() {
-  return (
-    <SocialCard icon="⚡" title="Trade DHD on Raydium" subtitle="Buy and sell DHD directly on Raydium DEX." accentColor="var(--accent-gold)">
-      <div style={{
-        flex: 1,
-        background: 'var(--bg-elevated)',
-        border: '1px solid rgba(255,184,0,0.15)',
-        borderRadius: '12px',
-        padding: '40px 24px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '20px',
-        textAlign: 'center',
-      }}>
-        <span style={{ fontSize: '64px', lineHeight: 1 }}>⚡</span>
-        <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.7, maxWidth: '300px' }}>
-          The fastest way to buy DHD. Connect your Solana wallet and swap SOL for DHD in seconds.
-        </p>
-        <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '11px', color: 'var(--text-dim)', letterSpacing: '0.03em' }}>
-          Powered by Raydium · Solana Network · Low fees · Instant settlement
-        </p>
-      </div>
-      <CtaButton href={LINKS.raydium} label="Trade on Raydium →" color="var(--accent-gold)" dark />
-    </SocialCard>
-  )
-}
-
-// ── DEX Tools ───────────────────────────────────────────────────────
-function DexToolsCard() {
-  return (
-    <SocialCard icon="🔧" title="DHD on DEX Tools" subtitle="Advanced charts and token analytics." accentColor="var(--accent-green)">
-      <div style={{
-        flex: 1,
-        background: 'var(--bg-elevated)',
-        border: '1px solid rgba(0,255,136,0.12)',
-        borderRadius: '12px',
-        padding: '40px 24px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '20px',
-        textAlign: 'center',
-      }}>
-        <span style={{ fontSize: '64px', lineHeight: 1 }}>🔧</span>
-        <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.7, maxWidth: '300px' }}>
-          Track DHD&apos;s price action, holder data, and on-chain analytics on DEX Tools.
-        </p>
-      </div>
-      <CtaButton href={LINKS.dextools} label="Open DEX Tools →" color="var(--accent-green)" />
-    </SocialCard>
-  )
-}
-
 // ── Shared primitives ────────────────────────────────────────────────
-function SocialCard({ icon, title, subtitle, accentColor, children }: {
-  icon: string; title: string; subtitle: string; accentColor: string; children: React.ReactNode
+function SocialCard({ children, glowColor = 'rgba(0,212,255,0.06)' }: {
+  children: React.ReactNode
+  glowColor?: string
 }) {
   return (
-    <Card style={{ padding: '28px', display: 'flex', flexDirection: 'column', gap: '18px', height: '100%' }}>
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-        <span style={{ fontSize: '26px', lineHeight: 1, flexShrink: 0 }}>{icon}</span>
-        <div>
-          <h3 style={{ margin: '0 0 5px', fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, letterSpacing: '0.05em', color: accentColor }}>{title}</h3>
-          <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{subtitle}</p>
-        </div>
-      </div>
+    <Card style={{
+      padding: '32px',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '20px',
+      height: '100%',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: `radial-gradient(ellipse at top left, ${glowColor}, transparent 60%)`,
+        pointerEvents: 'none',
+      }} />
       {children}
     </Card>
   )
 }
 
-function CtaButton({ href, label, color = 'var(--accent-cyan)', dark = false }: {
-  href: string; label: string; color?: string; dark?: boolean
+function CardHeader({ icon, title, subtitle, accentColor }: {
+  icon: string; title: string; subtitle: string; accentColor: string
+}) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', position: 'relative' }}>
+      <div style={{
+        width: '48px', height: '48px', flexShrink: 0,
+        borderRadius: '12px',
+        background: `${accentColor}18`,
+        border: `1px solid ${accentColor}30`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: '22px',
+      }}>{icon}</div>
+      <div>
+        <h3 style={{ margin: '0 0 4px', fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, letterSpacing: '0.04em', color: accentColor }}>{title}</h3>
+        <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{subtitle}</p>
+      </div>
+    </div>
+  )
+}
+
+function CtaButton({ href, label, color = 'var(--accent-cyan)', filled = false }: {
+  href: string; label: string; color?: string; filled?: boolean
 }) {
   return (
     <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
+      href={href} target="_blank" rel="noopener noreferrer"
       style={{
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        padding: '11px 24px', minHeight: '44px',
-        background: dark ? color : 'transparent',
-        border: dark ? 'none' : `1px solid ${color}`,
+        padding: '12px 28px', minHeight: '48px',
+        background: filled ? color : 'transparent',
+        border: filled ? 'none' : `1px solid ${color}`,
         borderRadius: '8px',
         fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 700,
         letterSpacing: '0.12em', textTransform: 'uppercase',
-        color: dark ? '#05081A' : color,
+        color: filled ? '#05081A' : color,
         textDecoration: 'none',
         transition: 'opacity 0.2s, transform 0.2s',
         alignSelf: 'flex-start',
+        boxShadow: filled ? `0 0 20px ${color}66` : 'none',
+        position: 'relative',
       }}
-      onMouseEnter={e => { e.currentTarget.style.opacity = '0.8'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+      onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; e.currentTarget.style.transform = 'translateY(-2px)' }}
       onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)' }}
     >
       {label}
     </a>
+  )
+}
+
+function StatPill({ label }: { label: string }) {
+  return (
+    <span style={{
+      padding: '5px 12px',
+      background: 'var(--bg-elevated)',
+      border: '1px solid var(--border-subtle)',
+      borderRadius: '20px',
+      fontFamily: 'var(--font-display)',
+      fontSize: '9px',
+      fontWeight: 600,
+      letterSpacing: '0.1em',
+      textTransform: 'uppercase',
+      color: 'var(--text-secondary)',
+      whiteSpace: 'nowrap',
+    }}>{label}</span>
+  )
+}
+
+// ── Cards ────────────────────────────────────────────────────────────
+function TwitterCard() {
+  return (
+    <SocialCard glowColor="rgba(255,255,255,0.04)">
+      <CardHeader icon="𝕏" title="Diamond Hand Doge on X" subtitle="Follow @dogehanddiamond for real-time updates, memes, and milestones." accentColor="var(--text-primary)" />
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+        {['💎 Price Updates', '🔥 Burn Alerts', '🚀 Milestones', '😂 Memes'].map(l => <StatPill key={l} label={l} />)}
+      </div>
+      <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.7, flex: 1 }}>
+        Stay up to date with every DHD milestone, burn event, and community update. Our X account is the fastest way to know what&apos;s happening in the DHD ecosystem.
+      </p>
+      <CtaButton href={LINKS.twitter} label="Follow on X →" color="var(--text-primary)" />
+    </SocialCard>
+  )
+}
+
+function TelegramCard() {
+  return (
+    <SocialCard glowColor="rgba(41,182,246,0.06)">
+      <CardHeader icon="✈️" title="DHD Telegram Community" subtitle="Join the conversation. Live updates, community calls, and more." accentColor="#29B6F6" />
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+        {['📢 Announcements', '💬 Community Chat', '🚀 Launch Updates'].map(l => <StatPill key={l} label={l} />)}
+      </div>
+      <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.7, flex: 1 }}>
+        The official DHD Telegram is where the community lives. Get live price alerts, join discussions, and be the first to hear about new partnerships and exchange listings.
+      </p>
+      <CtaButton href={LINKS.telegram} label="Join on Telegram →" color="#29B6F6" />
+    </SocialCard>
+  )
+}
+
+function RaydiumCard() {
+  return (
+    <SocialCard glowColor="rgba(255,184,0,0.05)">
+      <CardHeader icon="⚡" title="Trade DHD on Raydium" subtitle="Buy and sell DHD directly on Raydium DEX." accentColor="var(--accent-gold)" />
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+        {['◎ Solana Network', '💸 Low Fees', '⚡ Instant Settlement'].map(l => <StatPill key={l} label={l} />)}
+      </div>
+      <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.7, flex: 1 }}>
+        The fastest way to buy DHD. Connect your Phantom or Solflare wallet and swap SOL for DHD in seconds — no sign-up required.
+      </p>
+      <CtaButton href={LINKS.raydium} label="Trade on Raydium →" color="var(--accent-gold)" filled />
+    </SocialCard>
+  )
+}
+
+function DexToolsCard() {
+  return (
+    <SocialCard glowColor="rgba(0,255,136,0.04)">
+      <CardHeader icon="🔧" title="DHD on DEX Tools" subtitle="Advanced charts and token analytics." accentColor="var(--accent-green)" />
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+        {['📈 Price Charts', '👥 Holder Data', '🔍 On-Chain Analytics'].map(l => <StatPill key={l} label={l} />)}
+      </div>
+      <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.7, flex: 1 }}>
+        Track DHD&apos;s price action, holder distribution, and on-chain analytics. DEX Tools gives you the full picture on every trade.
+      </p>
+      <CtaButton href={LINKS.dextools} label="Open DEX Tools →" color="var(--accent-green)" />
+    </SocialCard>
+  )
+}
+
+function DexScreenerCard() {
+  return (
+    <SocialCard glowColor="rgba(0,212,255,0.04)">
+      <CardHeader icon="📊" title="DHD on DEX Screener" subtitle="Live price, volume, and trading activity." accentColor="var(--accent-cyan)" />
+      <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--border-subtle)', background: '#0d1117' }}>
+        <iframe
+          src={`${LINKS.chartEmbed}&tab=chart`}
+          title="DHD Live Chart"
+          style={{ display: 'block', width: '100%', height: '420px', border: 'none' }}
+          allow="clipboard-write"
+          loading="lazy"
+        />
+      </div>
+      <CtaButton href={LINKS.dexscreener} label="View Full Chart →" />
+    </SocialCard>
   )
 }
 
@@ -226,7 +220,7 @@ export default function SocialsPage() {
       {/* Cards */}
       <section style={{ padding: '0 24px 100px', maxWidth: '1100px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
 
-        {/* Row 1: Twitter + Telegram — equal height */}
+        {/* Row 1: X + Telegram */}
         <div className="socials-row">
           <motion.div {...fadeUp(0)} style={{ flex: 1, minWidth: 0 }}><TwitterCard /></motion.div>
           <motion.div {...fadeUp(0.1)} style={{ flex: 1, minWidth: 0 }}><TelegramCard /></motion.div>
@@ -235,7 +229,7 @@ export default function SocialsPage() {
         {/* Row 2: DEX Screener full-width */}
         <motion.div {...fadeUp(0.15)}><DexScreenerCard /></motion.div>
 
-        {/* Row 3: Raydium + DEX Tools — equal height */}
+        {/* Row 3: Raydium + DEX Tools */}
         <div className="socials-row">
           <motion.div {...fadeUp(0.2)} style={{ flex: 1, minWidth: 0 }}><RaydiumCard /></motion.div>
           <motion.div {...fadeUp(0.25)} style={{ flex: 1, minWidth: 0 }}><DexToolsCard /></motion.div>
