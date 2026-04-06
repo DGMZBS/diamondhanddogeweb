@@ -3,12 +3,13 @@
 import { useState, useEffect } from 'react'
 import IntroAnimation from '@/components/IntroAnimation'
 import AboutSection from '@/components/AboutSection'
+import CaveTransition from '@/components/CaveTransition'
 
 const INTRO_KEY = 'dhd_intro_seen'
 
 export default function Home() {
-  // Start as true to avoid flash — will be corrected in useEffect
   const [introComplete, setIntroComplete] = useState(true)
+  const [transitioning, setTransitioning] = useState(false)
 
   useEffect(() => {
     const seen = sessionStorage.getItem(INTRO_KEY)
@@ -29,8 +30,11 @@ export default function Home() {
       )}
 
       {introComplete && (
-        <AboutSection />
+        <AboutSection onEnterCave={() => setTransitioning(true)} />
       )}
+
+      {/* Rendered at root level — no overflow:hidden or transform ancestors */}
+      {transitioning && <CaveTransition />}
     </>
   )
 }

@@ -5,7 +5,6 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import gsap from 'gsap'
 import Card from '@/components/ui/Card'
-import CaveTransition from '@/components/CaveTransition'
 import { CONTRACT_ADDRESS } from '@/lib/constants'
 
 const SESSION_KEY = 'dhd_about_seen'
@@ -139,9 +138,12 @@ function ContractBar() {
   )
 }
 
-export default function AboutSection() {
+interface AboutSectionProps {
+  onEnterCave: () => void
+}
+
+export default function AboutSection({ onEnterCave }: AboutSectionProps) {
   const [skipAnims, setSkipAnims] = useState(true)
-  const [transitioning, setTransitioning] = useState(false)
   const ctaBtnRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
@@ -362,7 +364,6 @@ export default function AboutSection() {
               <button
                 ref={ctaBtnRef}
                 onClick={() => {
-                  if (transitioning) return
                   // Button pulse first, then trigger overlay
                   gsap.timeline().to(ctaBtnRef.current, {
                     scale: 1.05,
@@ -373,7 +374,7 @@ export default function AboutSection() {
                     scale: 1.0,
                     duration: 0.15,
                     ease: 'power2.in',
-                    onComplete: () => setTransitioning(true),
+                    onComplete: onEnterCave,
                   })
                 }}
                 className="cave-cta-btn"
@@ -399,9 +400,6 @@ export default function AboutSection() {
           </div>
         </div>
       </div>
-
-      {/* Cave transition overlay */}
-      {transitioning && <CaveTransition />}
 
       {/* Bottom blue glow */}
       <div style={{
