@@ -205,65 +205,12 @@ export default function TokenomicsPage() {
             sub="999,911,104 DHD"
             accent="gold"
           />
-        </motion.div>
-      </section>
-
-      {/* ── Supply Breakdown ── */}
-      <section style={{ padding: '0 24px 64px', maxWidth: '1100px', margin: '0 auto' }}>
-        <motion.div {...fadeUp(0.15)}>
-          <h2 style={{
-            margin: '0 0 32px',
-            fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 3vw, 28px)',
-            fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase',
-            color: 'var(--text-primary)',
-          }}>
-            Supply Distribution
-          </h2>
-        </motion.div>
-
-        <motion.div {...fadeUp(0.2)} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {[
-            { label: 'Circulating Supply', pct: 85, color: 'var(--accent-cyan)', desc: '849,911,104 DHD — in circulation' },
-            { label: 'Burn Wallet #1 (5%)', pct: 5, color: 'var(--accent-gold)', desc: '50,000,000 DHD — funded & ready to burn at $250K MCAP' },
-            { label: 'Burn Wallet #2 (10%)', pct: 10, color: 'var(--accent-gold)', desc: '100,000,000 DHD — funded & ready to burn at $10M MCAP' },
-          ].map((row, i) => (
-            <motion.div key={row.label} {...fadeUp(0.2 + i * 0.05)}>
-              <Card style={{ padding: '20px 24px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                  <span style={{
-                    fontFamily: 'var(--font-display)', fontSize: '11px',
-                    fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
-                    color: 'var(--text-primary)',
-                  }}>{row.label}</span>
-                  <span style={{
-                    fontFamily: 'var(--font-display)', fontSize: '14px',
-                    fontWeight: 900, color: row.color,
-                  }}>{row.pct}%</span>
-                </div>
-                <div style={{
-                  width: '100%', height: '8px',
-                  background: 'var(--bg-elevated)', borderRadius: '4px', overflow: 'hidden',
-                }}>
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${row.pct}%` }}
-                    transition={{ duration: 1, delay: 0.3 + i * 0.1, ease: 'easeOut' as const }}
-                    viewport={{ once: true }}
-                    style={{
-                      height: '100%', borderRadius: '4px',
-                      background: row.color,
-                      boxShadow: `0 0 10px ${row.color}88`,
-                    }}
-                  />
-                </div>
-                <p style={{
-                  margin: '8px 0 0',
-                  fontFamily: 'var(--font-body)', fontSize: '12px',
-                  color: 'var(--text-secondary)',
-                }}>{row.desc}</p>
-              </Card>
-            </motion.div>
-          ))}
+          <StatCard
+            label="Circulating Supply"
+            value="849,911,104 DHD"
+            sub="70% of total supply in circulation"
+            accent="cyan"
+          />
         </motion.div>
       </section>
 
