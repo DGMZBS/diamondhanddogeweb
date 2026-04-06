@@ -172,7 +172,7 @@ function DexScreenerCard() {
       <CardHeader icon="📊" title="DHD on DEX Screener" subtitle="Live price, volume, and trading activity." accentColor="var(--accent-cyan)" />
       <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--border-subtle)', background: '#0d1117' }}>
         <iframe
-          src={`${LINKS.chartEmbed}&tab=chart`}
+          src="https://dexscreener.com/solana/3UG4RvNMV9idmR9FpaEXz6ov9A9DkczDGuxMbGyFWFH2?embed=1&theme=dark&trades=1&info=0"
           title="DHD Live Chart"
           style={{ display: 'block', width: '100%', height: '420px', border: 'none' }}
           allow="clipboard-write"
