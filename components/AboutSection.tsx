@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import Card from '@/components/ui/Card'
-import Button from '@/components/ui/Button'
 
 const SESSION_KEY = 'dhd_about_seen'
 
@@ -237,10 +236,32 @@ export default function AboutSection() {
           </div>
 
           {/* CTA */}
-          <motion.div {...fadeUp(0.45)} className="about-cta">
-            <Button variant="primary" onClick={() => router.push('/cave')}>
-              Explore the Cave
-            </Button>
+          <motion.div
+            {...fadeUp(0.45)}
+            className="about-cta"
+            style={{ marginTop: '8px' }}
+          >
+            <button
+              onClick={() => router.push('/cave')}
+              className="cave-cta-btn"
+            >
+              <span className="cave-cta-shimmer" />
+              <span className="cave-cta-content">
+                <span className="cave-cta-icon">🔦</span>
+                <span className="cave-cta-text">Explore the Cave</span>
+                <span className="cave-cta-arrow">→</span>
+              </span>
+            </button>
+
+            <p style={{
+              marginTop: '10px',
+              fontFamily: 'var(--font-body)',
+              fontSize: '12px',
+              color: 'var(--text-secondary)',
+              letterSpacing: '0.04em',
+            }}>
+              Enter the DHD cave world
+            </p>
           </motion.div>
         </div>
       </div>
@@ -262,6 +283,89 @@ export default function AboutSection() {
           0%, 100% { transform: translateY(0px); }
           50%       { transform: translateY(-12px); }
         }
+
+        @keyframes cavePulse {
+          0%, 100% { box-shadow: 0 0 24px rgba(255,184,0,0.5), 0 0 48px rgba(255,184,0,0.2), inset 0 1px 0 rgba(255,255,255,0.15); }
+          50%       { box-shadow: 0 0 40px rgba(255,184,0,0.85), 0 0 80px rgba(255,184,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15); }
+        }
+
+        @keyframes shimmerSweep {
+          0%   { transform: translateX(-100%) skewX(-15deg); }
+          100% { transform: translateX(300%) skewX(-15deg); }
+        }
+
+        @keyframes arrowBounce {
+          0%, 100% { transform: translateX(0); }
+          50%       { transform: translateX(5px); }
+        }
+
+        .cave-cta-btn {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+          border: none;
+          border-radius: 12px;
+          cursor: pointer;
+          overflow: hidden;
+          background: linear-gradient(135deg, #FFB800 0%, #FF8C00 50%, #FFB800 100%);
+          background-size: 200% 200%;
+          animation: cavePulse 2.4s ease-in-out infinite;
+          transition: transform 0.18s ease, filter 0.18s ease;
+          font-family: var(--font-display);
+          outline: none;
+          -webkit-tap-highlight-color: transparent;
+        }
+
+        .cave-cta-btn:hover {
+          transform: translateY(-3px) scale(1.03);
+          filter: brightness(1.12);
+          animation-play-state: paused;
+          box-shadow: 0 0 56px rgba(255,184,0,0.9), 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        .cave-cta-btn:active {
+          transform: translateY(0) scale(0.98);
+        }
+
+        .cave-cta-shimmer {
+          position: absolute;
+          top: 0; left: 0;
+          width: 40%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
+          animation: shimmerSweep 2.8s ease-in-out infinite;
+          pointer-events: none;
+        }
+
+        .cave-cta-content {
+          position: relative;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 18px 36px;
+          color: #1A0A00;
+          font-size: 15px;
+          font-weight: 900;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          text-shadow: 0 1px 0 rgba(255,255,255,0.25);
+          white-space: nowrap;
+        }
+
+        .cave-cta-icon {
+          font-size: 20px;
+          line-height: 1;
+          filter: drop-shadow(0 0 4px rgba(0,0,0,0.4));
+        }
+
+        .cave-cta-arrow {
+          font-size: 18px;
+          animation: arrowBounce 1.4s ease-in-out infinite;
+          display: inline-block;
+        }
+
         @media (max-width: 767px) {
           .about-section {
             padding: 80px 20px !important;
@@ -288,11 +392,16 @@ export default function AboutSection() {
           .about-cta {
             width: 100% !important;
             display: flex !important;
-            justify-content: center !important;
+            flex-direction: column !important;
+            align-items: center !important;
           }
-          .about-cta button, .about-cta span {
+          .cave-cta-btn {
             width: 100% !important;
-            box-sizing: border-box !important;
+          }
+          .cave-cta-content {
+            padding: 16px 24px !important;
+            font-size: 13px !important;
+            justify-content: center !important;
           }
         }
       `}</style>
