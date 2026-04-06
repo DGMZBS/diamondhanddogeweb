@@ -58,49 +58,32 @@ function ContractBar() {
   }
 
   return (
-    <div
+    <button
+      onClick={handleCopy}
+      aria-label="Copy contract address"
       className="contract-bar"
       style={{
-        position: 'sticky',
-        top: '72px',
-        zIndex: 30,
-        width: '100%',
-        background: 'rgba(0,0,0,0.5)',
-        borderBottom: '1px solid var(--border-subtle)',
-        backdropFilter: 'blur(8px)',
-        display: 'flex',
+        display: 'inline-flex',
         alignItems: 'center',
-        justifyContent: 'center',
-        padding: '0 24px',
-        height: '40px',
-        gap: '16px',
+        gap: '8px',
+        padding: '5px 12px',
+        background: copied ? 'rgba(0,212,255,0.08)' : 'rgba(255,184,0,0.07)',
+        border: `1px solid ${copied ? 'var(--border-active)' : 'rgba(255,184,0,0.25)'}`,
+        borderRadius: '8px',
+        cursor: 'pointer',
+        transition: 'background 0.2s, border-color 0.2s',
       }}
     >
-      {/* Label */}
-      <span style={{
-        fontFamily: 'var(--font-display)',
-        fontSize: '9px',
-        fontWeight: 700,
-        letterSpacing: '0.15em',
-        textTransform: 'uppercase',
-        color: 'var(--text-secondary)',
-        whiteSpace: 'nowrap',
-        flexShrink: 0,
-      }}>
-        Contract Address
-      </span>
-
-      {/* Address — full on desktop, truncated on mobile via CSS classes */}
+      {/* Address */}
       <span
         className="contract-addr-full"
         style={{
           fontFamily: 'monospace',
-          fontSize: '12px',
-          color: 'var(--accent-gold)',
+          fontSize: '11px',
+          color: copied ? 'var(--accent-cyan)' : 'var(--accent-gold)',
           letterSpacing: '0.04em',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
+          transition: 'color 0.2s',
         }}
       >
         {CONTRACT_ADDRESS}
@@ -110,40 +93,30 @@ function ContractBar() {
         style={{
           display: 'none',
           fontFamily: 'monospace',
-          fontSize: '12px',
-          color: 'var(--accent-gold)',
+          fontSize: '11px',
+          color: copied ? 'var(--accent-cyan)' : 'var(--accent-gold)',
           letterSpacing: '0.04em',
           whiteSpace: 'nowrap',
+          transition: 'color 0.2s',
         }}
       >
         {SHORT_ADDRESS}
       </span>
 
-      {/* Copy button */}
-      <button
-        onClick={handleCopy}
-        aria-label="Copy contract address"
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '4px',
-          padding: '4px 10px',
-          height: '26px',
-          background: copied ? 'rgba(0,212,255,0.12)' : 'rgba(255,184,0,0.1)',
-          border: `1px solid ${copied ? 'var(--border-active)' : 'rgba(255,184,0,0.3)'}`,
-          borderRadius: '6px',
-          cursor: 'pointer',
-          fontFamily: 'var(--font-display)',
-          fontSize: '9px',
-          fontWeight: 700,
-          letterSpacing: '0.1em',
-          textTransform: 'uppercase',
-          color: copied ? 'var(--accent-cyan)' : 'var(--accent-gold)',
-          whiteSpace: 'nowrap',
-          flexShrink: 0,
-          transition: 'background 0.2s, border-color 0.2s, color 0.2s',
-        }}
-      >
+      {/* Copy icon / Copied badge */}
+      <span style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '3px',
+        fontFamily: 'var(--font-display)',
+        fontSize: '9px',
+        fontWeight: 700,
+        letterSpacing: '0.1em',
+        textTransform: 'uppercase',
+        color: copied ? 'var(--accent-cyan)' : 'var(--text-secondary)',
+        flexShrink: 0,
+        transition: 'color 0.2s',
+      }}>
         {copied ? (
           <>
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
@@ -160,8 +133,8 @@ function ContractBar() {
             Copy
           </>
         )}
-      </button>
-    </div>
+      </span>
+    </button>
   )
 }
 
@@ -198,9 +171,6 @@ export default function AboutSection() {
         overflow: 'hidden',
       }}
     >
-      {/* ── Sticky contract address bar ── */}
-      <ContractBar />
-
       {/* ── Main content ── */}
       <div className="about-content-wrapper" style={{
         flex: 1,
@@ -263,16 +233,21 @@ export default function AboutSection() {
             }}
           >
             <motion.div {...fadeUp(0)} style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%' }}>
-              <span style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '11px',
-                fontWeight: 700,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                color: 'var(--accent-cyan)',
-              }}>
-                💎 ON SOLANA
-              </span>
+              {/* "ON SOLANA" label + contract address inline */}
+              <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+                <span style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '11px',
+                  fontWeight: 700,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  color: 'var(--accent-cyan)',
+                  whiteSpace: 'nowrap',
+                }}>
+                  💎 ON SOLANA
+                </span>
+                <ContractBar />
+              </div>
 
               <h1 style={{
                 margin: 0,
@@ -548,11 +523,6 @@ export default function AboutSection() {
           /* Mobile: show short address, hide full */
           .contract-addr-full { display: none !important; }
           .contract-addr-short { display: inline !important; }
-          /* Tighten bar on mobile */
-          .contract-bar {
-            gap: 8px !important;
-            padding: 0 12px !important;
-          }
         }
       `}</style>
     </section>
