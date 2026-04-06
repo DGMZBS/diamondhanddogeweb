@@ -91,33 +91,50 @@ const phases: Phase[] = [
   },
 ]
 
-const STATUS_CONFIG: Record<PhaseStatus, { label: string; color: string; glow: string; bg: string; icon: string }> = {
+const STATUS_CONFIG: Record<PhaseStatus, { label: string; color: string; glow: string; bg: string; borderColor: string }> = {
   complete: {
     label: 'Completed',
-    color: '#00AAFF',
-    glow: 'rgba(0,170,255,0.35)',
-    bg: 'rgba(0,170,255,0.08)',
-    icon: '✓',
+    color: 'var(--accent-green)',
+    glow: 'rgba(0,255,136,0.3)',
+    bg: 'rgba(0,255,136,0.04)',
+    borderColor: 'var(--accent-green)',
   },
   active: {
     label: 'In Progress',
-    color: '#FFB800',
-    glow: 'rgba(255,184,0,0.4)',
-    bg: 'rgba(255,184,0,0.08)',
-    icon: '◉',
+    color: 'var(--accent-gold)',
+    glow: 'rgba(255,184,0,0.35)',
+    bg: 'rgba(255,184,0,0.06)',
+    borderColor: 'var(--accent-gold)',
   },
   locked: {
     label: 'Upcoming',
     color: 'var(--text-secondary)',
-    glow: 'rgba(136,146,176,0.1)',
-    bg: 'rgba(136,146,176,0.04)',
-    icon: '🔒',
+    glow: 'rgba(136,146,176,0.08)',
+    bg: 'rgba(136,146,176,0.02)',
+    borderColor: 'var(--border-subtle)',
   },
+}
+
+// ── Section Divider ──────────────────────────────────────────────────
+function SectionDivider() {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', margin: '48px 0' }}>
+      <div style={{ flex: 1, borderTop: '1px solid var(--border-subtle)' }} />
+      <span style={{ fontSize: '14px', opacity: 0.6 }}>💎</span>
+      <div style={{ flex: 1, borderTop: '1px solid var(--border-subtle)' }} />
+    </div>
+  )
 }
 
 export default function RoadmapPage() {
   return (
     <main style={{ minHeight: '100vh', background: 'var(--bg-primary)', paddingTop: '72px', overflow: 'hidden' }}>
+
+      {/* ── Cave atmosphere layers ── */}
+      <div style={{ position: 'fixed', bottom: 0, left: 0, width: '300px', height: '300px', background: 'radial-gradient(ellipse at bottom left, rgba(0,255,136,0.08) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+      <div style={{ position: 'fixed', bottom: 0, right: 0, width: '300px', height: '300px', background: 'radial-gradient(ellipse at bottom right, rgba(0,255,136,0.08) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+      <div style={{ position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)', width: '400px', height: '200px', background: 'radial-gradient(ellipse at top, rgba(255,180,50,0.06) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+      <div style={{ position: 'fixed', inset: 0, backgroundImage: 'linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px)', backgroundSize: '40px 40px', pointerEvents: 'none', zIndex: 0 }} />
 
       {/* ── Hero ── */}
       <section style={{
@@ -125,12 +142,8 @@ export default function RoadmapPage() {
         padding: '80px 24px 72px',
         textAlign: 'center',
         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px',
+        zIndex: 1,
       }}>
-        <div style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: 'linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px)',
-          backgroundSize: '60px 60px', pointerEvents: 'none',
-        }} />
         <div style={{
           position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
           width: '900px', height: '500px',
@@ -139,16 +152,17 @@ export default function RoadmapPage() {
         }} />
 
         <motion.div {...fadeUp(0)} style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
-          <Link href="/#cave" style={{
+          <Link href="/cave" style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
-            fontFamily: 'var(--font-display)', fontSize: '10px',
+            fontFamily: 'var(--font-display)', fontSize: '11px',
             letterSpacing: '0.18em', textTransform: 'uppercase',
-            color: 'var(--text-secondary)', textDecoration: 'none',
-            transition: 'color 0.2s',
+            color: 'var(--accent-gold)', textDecoration: 'none',
+            transition: 'filter 0.2s',
+            filter: 'drop-shadow(0 0 6px rgba(255,184,0,0.3))',
           }}
-          onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent-cyan)')}
-          onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}>
-            ← Back to Cave
+          onMouseEnter={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 12px rgba(255,184,0,0.7))')}
+          onMouseLeave={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 6px rgba(255,184,0,0.3))')}>
+            💎 ← BACK TO CAVE
           </Link>
 
           <span style={{
@@ -161,9 +175,11 @@ export default function RoadmapPage() {
           <h1 style={{
             margin: 0,
             fontFamily: 'var(--font-display)', fontWeight: 900,
-            fontSize: 'clamp(40px, 7vw, 80px)',
-            background: 'linear-gradient(135deg, #00D4FF 0%, #88EEFF 50%, #0099CC 100%)',
+            fontSize: 'clamp(48px, 8vw, 80px)',
+            letterSpacing: '0.05em',
+            background: 'linear-gradient(180deg, #FFFFFF 0%, rgba(240,244,255,0.7) 100%)',
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            filter: 'drop-shadow(0 0 30px rgba(0,212,255,0.3))',
             lineHeight: 1.05,
           }}>
             ROADMAP
@@ -194,36 +210,45 @@ export default function RoadmapPage() {
       </section>
 
       {/* ── Timeline ── */}
-      <section style={{ padding: '0 24px 100px', maxWidth: '860px', margin: '0 auto', position: 'relative' }}>
+      <section style={{ padding: '0 24px 100px', maxWidth: '860px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
 
-        {/* Vertical line */}
+        {/* Vertical line — glowing gradient */}
         <div style={{
           position: 'absolute',
           left: '50px',
           top: 0, bottom: 0,
           width: '2px',
-          background: 'linear-gradient(180deg, var(--accent-cyan), rgba(0,212,255,0.1) 80%, transparent)',
+          background: 'linear-gradient(180deg, var(--accent-green) 0%, var(--accent-cyan) 40%, var(--border-subtle) 70%)',
         }} />
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
           {phases.map((phase, i) => {
             const cfg = STATUS_CONFIG[phase.status]
+            const isLocked = phase.status === 'locked'
+            const isActive = phase.status === 'active'
+            const isComplete = phase.status === 'complete'
+
             return (
-              <motion.div key={phase.number} {...fadeUp(i * 0.1)} style={{ display: 'flex', gap: '32px', alignItems: 'flex-start' }}>
+              <motion.div key={phase.number} {...fadeUp(i * 0.1)} style={{ display: 'flex', gap: '32px', alignItems: 'flex-start', opacity: isLocked ? 0.55 : 1 }}>
 
                 {/* Node */}
                 <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '28px' }}>
-                  <div style={{
+                  <div className={isActive ? 'node-pulse' : ''} style={{
                     width: '44px', height: '44px', borderRadius: '50%',
-                    background: cfg.bg,
+                    background: isComplete
+                      ? 'var(--accent-green)'
+                      : isActive
+                      ? 'var(--accent-gold)'
+                      : 'var(--bg-elevated)',
                     border: `2px solid ${cfg.color}`,
-                    boxShadow: `0 0 20px ${cfg.glow}, 0 0 40px ${cfg.glow}`,
+                    boxShadow: isLocked ? 'none' : `0 0 20px ${cfg.glow}, 0 0 40px ${cfg.glow}`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontFamily: 'var(--font-display)', fontSize: '14px',
-                    fontWeight: 900, color: cfg.color,
+                    fontFamily: 'var(--font-display)', fontSize: isLocked ? '16px' : '14px',
+                    fontWeight: 900,
+                    color: isComplete ? '#05081A' : isActive ? '#05081A' : 'var(--text-secondary)',
                     position: 'relative', zIndex: 1,
                   }}>
-                    {phase.status === 'complete' ? '✓' : phase.number}
+                    {isComplete ? '✓' : isLocked ? '🔒' : phase.number}
                   </div>
                 </div>
 
@@ -231,25 +256,35 @@ export default function RoadmapPage() {
                 <div style={{
                   flex: 1,
                   background: cfg.bg,
-                  border: `1px solid ${phase.status === 'active' ? cfg.color : 'var(--border-subtle)'}`,
+                  border: `1px solid ${isActive ? cfg.color : 'var(--border-subtle)'}`,
+                  borderLeft: isComplete
+                    ? `3px solid var(--accent-green)`
+                    : isActive
+                    ? `3px solid var(--accent-gold)`
+                    : '1px solid var(--border-subtle)',
                   borderRadius: '16px',
                   padding: '28px',
                   position: 'relative',
                   overflow: 'hidden',
-                  boxShadow: phase.status === 'active' ? `0 0 40px ${cfg.glow}` : 'none',
+                  boxShadow: isComplete
+                    ? '-4px 0 20px rgba(0,255,136,0.2)'
+                    : isActive
+                    ? `0 0 40px ${cfg.glow}`
+                    : 'none',
                   transition: 'box-shadow 0.3s ease',
                 }}>
-                  {phase.status === 'active' && (
-                    <div style={{
+                  {/* IN PROGRESS badge */}
+                  {isActive && (
+                    <div className="current-badge" style={{
                       position: 'absolute', top: 0, right: 0,
                       padding: '4px 14px',
-                      background: cfg.color,
+                      background: 'var(--accent-gold)',
                       borderRadius: '0 16px 0 8px',
                       fontFamily: 'var(--font-display)', fontSize: '9px',
                       fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase',
                       color: '#05081A',
                     }}>
-                      Current
+                      ● CURRENT
                     </div>
                   )}
 
@@ -284,7 +319,7 @@ export default function RoadmapPage() {
                         <span style={{ color: cfg.color, flexShrink: 0, marginTop: '2px', fontSize: '12px' }}>◆</span>
                         <span style={{
                           fontFamily: 'var(--font-body)', fontSize: '14px',
-                          lineHeight: 1.6, color: phase.status === 'locked' ? 'var(--text-secondary)' : 'var(--text-primary)',
+                          lineHeight: 1.6, color: isLocked ? 'var(--text-secondary)' : 'var(--text-primary)',
                         }}>{item}</span>
                       </li>
                     ))}
@@ -307,7 +342,25 @@ export default function RoadmapPage() {
             )
           })}
         </div>
+
+        <SectionDivider />
       </section>
+
+      <style>{`
+        /* Active phase node pulsing ring */
+        @keyframes nodeRing {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(255,184,0,0.5), 0 0 20px rgba(255,184,0,0.35); }
+          50% { box-shadow: 0 0 0 10px rgba(255,184,0,0), 0 0 40px rgba(255,184,0,0.5); }
+        }
+        .node-pulse { animation: nodeRing 2s ease-in-out infinite; }
+
+        /* CURRENT badge pulse */
+        @keyframes badgePulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.75; }
+        }
+        .current-badge { animation: badgePulse 2s ease-in-out infinite; }
+      `}</style>
     </main>
   )
 }

@@ -51,9 +51,86 @@ const visionCards = [
   },
 ]
 
+// ── Section Divider ──────────────────────────────────────────────────
+function SectionDivider() {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', margin: '48px 0' }}>
+      <div style={{ flex: 1, borderTop: '1px solid var(--border-subtle)' }} />
+      <span style={{ fontSize: '14px', opacity: 0.6 }}>💎</span>
+      <div style={{ flex: 1, borderTop: '1px solid var(--border-subtle)' }} />
+    </div>
+  )
+}
+
+// ── Animated SOL → DHD → TOKEN flow diagram ──────────────────────────
+function FlowDiagram() {
+  const boxes = [
+    { label: 'SOL', color: '#9945FF', glow: 'rgba(153,69,255,0.4)' },
+    { label: 'DHD', color: 'var(--accent-gold)', glow: 'rgba(255,184,0,0.4)' },
+    { label: 'TOKEN', color: 'var(--accent-cyan)', glow: 'rgba(0,212,255,0.4)' },
+  ]
+
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      gap: '0', padding: '24px 0 8px', flexWrap: 'nowrap',
+    }}>
+      {boxes.map((box, i) => (
+        <div key={box.label} style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{
+            padding: '10px 20px',
+            background: `${box.color}18`,
+            border: `2px solid ${box.color}`,
+            borderRadius: '10px',
+            fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 900,
+            letterSpacing: '0.1em',
+            color: box.color,
+            boxShadow: `0 0 16px ${box.glow}`,
+            textShadow: `0 0 10px ${box.glow}`,
+            minWidth: '64px', textAlign: 'center',
+          }}>
+            {box.label}
+          </div>
+          {i < boxes.length - 1 && (
+            <div className="flow-arrow" style={{
+              width: '48px', height: '2px',
+              background: `linear-gradient(90deg, ${box.color}, ${boxes[i + 1].color})`,
+              position: 'relative',
+              overflow: 'hidden',
+              flexShrink: 0,
+            }}>
+              {/* Moving dash overlay */}
+              <div className="flow-dash" style={{
+                position: 'absolute', inset: 0,
+                backgroundImage: `linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.5) 50%, transparent 100%)`,
+                backgroundSize: '32px 100%',
+              }} />
+              {/* Arrow tip */}
+              <div style={{
+                position: 'absolute', right: '-5px', top: '50%',
+                transform: 'translateY(-50%)',
+                width: 0, height: 0,
+                borderTop: '5px solid transparent',
+                borderBottom: '5px solid transparent',
+                borderLeft: `6px solid ${boxes[i + 1].color}`,
+              }} />
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export default function VisionPage() {
   return (
     <main style={{ minHeight: '100vh', background: 'var(--bg-primary)', paddingTop: '72px', overflow: 'hidden' }}>
+
+      {/* ── Cave atmosphere layers ── */}
+      <div style={{ position: 'fixed', bottom: 0, left: 0, width: '300px', height: '300px', background: 'radial-gradient(ellipse at bottom left, rgba(0,255,136,0.08) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+      <div style={{ position: 'fixed', bottom: 0, right: 0, width: '300px', height: '300px', background: 'radial-gradient(ellipse at bottom right, rgba(0,255,136,0.08) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+      <div style={{ position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)', width: '400px', height: '200px', background: 'radial-gradient(ellipse at top, rgba(255,180,50,0.06) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+      <div style={{ position: 'fixed', inset: 0, backgroundImage: 'linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px)', backgroundSize: '40px 40px', pointerEvents: 'none', zIndex: 0 }} />
 
       {/* ── Hero ── */}
       <section style={{
@@ -61,12 +138,8 @@ export default function VisionPage() {
         padding: '80px 24px 72px',
         textAlign: 'center',
         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px',
+        zIndex: 1,
       }}>
-        <div style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: 'linear-gradient(rgba(170,102,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(170,102,255,0.04) 1px, transparent 1px)',
-          backgroundSize: '60px 60px', pointerEvents: 'none',
-        }} />
         <div style={{
           position: 'absolute', top: '-100px', left: '50%', transform: 'translateX(-50%)',
           width: '1000px', height: '600px',
@@ -77,13 +150,15 @@ export default function VisionPage() {
         <motion.div {...fadeUp(0)} style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
           <Link href="/cave" style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
-            fontFamily: 'var(--font-display)', fontSize: '10px',
+            fontFamily: 'var(--font-display)', fontSize: '11px',
             letterSpacing: '0.18em', textTransform: 'uppercase',
-            color: 'var(--text-secondary)', textDecoration: 'none', transition: 'color 0.2s',
+            color: 'var(--accent-gold)', textDecoration: 'none',
+            transition: 'filter 0.2s',
+            filter: 'drop-shadow(0 0 6px rgba(255,184,0,0.3))',
           }}
-          onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent-cyan)')}
-          onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}>
-            ← Back to Cave
+          onMouseEnter={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 12px rgba(255,184,0,0.7))')}
+          onMouseLeave={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 6px rgba(255,184,0,0.3))')}>
+            💎 ← BACK TO CAVE
           </Link>
 
           <span style={{
@@ -96,9 +171,11 @@ export default function VisionPage() {
           <h1 style={{
             margin: 0,
             fontFamily: 'var(--font-display)', fontWeight: 900,
-            fontSize: 'clamp(40px, 7vw, 80px)',
-            background: 'linear-gradient(135deg, #AA66FF 0%, #DD99FF 40%, #7733CC 100%)',
+            fontSize: 'clamp(48px, 8vw, 80px)',
+            letterSpacing: '0.05em',
+            background: 'linear-gradient(180deg, #FFFFFF 0%, rgba(240,244,255,0.7) 100%)',
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            filter: 'drop-shadow(0 0 30px rgba(0,212,255,0.3))',
             lineHeight: 1.05,
           }}>
             VISION
@@ -122,7 +199,7 @@ export default function VisionPage() {
       </section>
 
       {/* ── CARD 1: DHD Tools — Dual Growth Engine (full-width) ── */}
-      <section style={{ padding: '0 24px 40px', maxWidth: '1200px', margin: '0 auto' }}>
+      <section style={{ padding: '0 24px 40px', maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <motion.div {...fadeUp(0.1)}>
           <div style={{
             background: 'var(--bg-secondary)',
@@ -134,34 +211,27 @@ export default function VisionPage() {
             boxShadow: '0 0 40px rgba(255,184,0,0.15)',
           }}>
             {/* Corner glow */}
-            <div style={{
-              position: 'absolute', top: 0, left: 0, width: '400px', height: '400px',
-              background: 'radial-gradient(circle at top left, rgba(255,184,0,0.08), transparent 70%)',
-              pointerEvents: 'none',
-            }} />
-            <div style={{
-              position: 'absolute', bottom: 0, right: 0, width: '300px', height: '300px',
-              background: 'radial-gradient(circle at bottom right, rgba(255,184,0,0.05), transparent 70%)',
-              pointerEvents: 'none',
-            }} />
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '400px', height: '400px', background: 'radial-gradient(circle at top left, rgba(255,184,0,0.08), transparent 70%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', bottom: 0, right: 0, width: '300px', height: '300px', background: 'radial-gradient(circle at bottom right, rgba(255,184,0,0.05), transparent 70%)', pointerEvents: 'none' }} />
 
-            {/* EXCLUSIVE badge — top right */}
-            <div style={{
+            {/* EXCLUSIVE badge — shimmer */}
+            <div className="badge-shimmer" style={{
               position: 'absolute', top: '24px', right: '24px',
-              padding: '5px 14px',
+              padding: '6px 12px',
               background: 'var(--accent-gold)',
               borderRadius: '20px',
-              fontFamily: 'var(--font-display)', fontSize: '9px',
+              fontFamily: 'var(--font-display)', fontSize: '11px',
               fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase',
               color: '#05081A',
               boxShadow: '0 0 16px rgba(255,184,0,0.5)',
+              overflow: 'hidden',
             }}>
               🔥 Exclusive Innovation
             </div>
 
             {/* Header */}
             <div style={{ position: 'relative', zIndex: 1, marginBottom: '32px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '18px', marginBottom: '12px', flexWrap: 'wrap', paddingRight: '160px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '18px', marginBottom: '12px', flexWrap: 'wrap', paddingRight: '180px' }}>
                 <span style={{ fontSize: '52px', lineHeight: 1, filter: 'drop-shadow(0 0 20px rgba(255,184,0,0.6))' }}>🛠️</span>
                 <div>
                   <h2 style={{
@@ -172,19 +242,12 @@ export default function VisionPage() {
                     textShadow: '0 0 30px rgba(255,184,0,0.4)',
                     lineHeight: 1.1,
                   }}>DHD Tools — Dual Growth Engine</h2>
-                  <p style={{
-                    margin: '8px 0 0',
-                    fontFamily: 'var(--font-body)', fontSize: '16px',
-                    color: 'var(--text-secondary)', lineHeight: 1.5,
-                  }}>
+                  <p style={{ margin: '8px 0 0', fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
                     Fuel your token while strengthening the DHD ecosystem.
                   </p>
                 </div>
               </div>
-              <p style={{
-                margin: 0, fontFamily: 'var(--font-body)', fontSize: '15px',
-                lineHeight: 1.8, color: 'var(--text-secondary)', maxWidth: '860px',
-              }}>
+              <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '15px', lineHeight: 1.8, color: 'var(--text-secondary)', maxWidth: '860px' }}>
                 DHD Tools introduces a unique system where projects can deploy volume and market-making strategies through DHD itself, creating aligned growth between your token and the DHD community.
               </p>
             </div>
@@ -193,18 +256,8 @@ export default function VisionPage() {
             <div className="dhd-tools-blocks">
 
               {/* Block 1 — Core Infrastructure */}
-              <div style={{
-                background: 'var(--bg-elevated)',
-                border: '1px solid rgba(255,184,0,0.2)',
-                borderRadius: '16px',
-                padding: '28px',
-              }}>
-                <h3 style={{
-                  margin: '0 0 16px',
-                  fontFamily: 'var(--font-display)', fontSize: '13px',
-                  fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase',
-                  color: 'var(--accent-gold)',
-                }}>⚙️ Core Infrastructure</h3>
+              <div style={{ background: 'var(--bg-elevated)', border: '1px solid rgba(255,184,0,0.2)', borderRadius: '16px', padding: '28px' }}>
+                <h3 style={{ margin: '0 0 16px', fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--accent-gold)' }}>⚙️ Core Infrastructure</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   {[
                     { title: 'DHD Volume Engine', desc: 'Automated volume system powered through DHD for consistent activity' },
@@ -212,10 +265,7 @@ export default function VisionPage() {
                     { title: 'Auto Buy Pressure System', desc: 'SOL → DHD → Token conversion creating constant demand for DHD' },
                   ].map(item => (
                     <div key={item.title} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                      <span style={{
-                        width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0, marginTop: '7px',
-                        background: 'var(--accent-gold)', boxShadow: '0 0 8px rgba(255,184,0,0.6)',
-                      }} />
+                      <span style={{ width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0, marginTop: '7px', background: 'var(--accent-gold)', boxShadow: '0 0 8px rgba(255,184,0,0.6)' }} />
                       <div>
                         <span style={{ fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '0.04em' }}>{item.title}</span>
                         <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--text-secondary)' }}> — {item.desc}</span>
@@ -226,18 +276,8 @@ export default function VisionPage() {
               </div>
 
               {/* Block 2 — Smart Execution Tools */}
-              <div style={{
-                background: 'var(--bg-elevated)',
-                border: '1px solid rgba(255,184,0,0.2)',
-                borderRadius: '16px',
-                padding: '28px',
-              }}>
-                <h3 style={{
-                  margin: '0 0 16px',
-                  fontFamily: 'var(--font-display)', fontSize: '13px',
-                  fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase',
-                  color: 'var(--accent-gold)',
-                }}>🔹 Smart Execution Tools</h3>
+              <div style={{ background: 'var(--bg-elevated)', border: '1px solid rgba(255,184,0,0.2)', borderRadius: '16px', padding: '28px' }}>
+                <h3 style={{ margin: '0 0 16px', fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--accent-gold)' }}>🔹 Smart Execution Tools</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   {[
                     { title: 'Swap Router (DHD Bridge)', desc: 'Converts SOL into DHD, then into target tokens seamlessly' },
@@ -245,10 +285,7 @@ export default function VisionPage() {
                     { title: 'Multi-Wallet Distribution System', desc: 'Spreads activity across wallets for organic-looking volume' },
                   ].map(item => (
                     <div key={item.title} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                      <span style={{
-                        width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0, marginTop: '7px',
-                        background: 'var(--accent-gold)', boxShadow: '0 0 8px rgba(255,184,0,0.6)',
-                      }} />
+                      <span style={{ width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0, marginTop: '7px', background: 'var(--accent-gold)', boxShadow: '0 0 8px rgba(255,184,0,0.6)' }} />
                       <div>
                         <span style={{ fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '0.04em' }}>{item.title}</span>
                         <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--text-secondary)' }}> — {item.desc}</span>
@@ -258,20 +295,14 @@ export default function VisionPage() {
                 </div>
               </div>
 
-              {/* Block 3 — How It Works */}
-              <div style={{
-                background: 'var(--bg-elevated)',
-                border: '1px solid rgba(255,184,0,0.2)',
-                borderRadius: '16px',
-                padding: '28px',
-              }}>
-                <h3 style={{
-                  margin: '0 0 20px',
-                  fontFamily: 'var(--font-display)', fontSize: '13px',
-                  fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase',
-                  color: 'var(--accent-gold)',
-                }}>🔹 How It Works</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+              {/* Block 3 — How It Works (with flow diagram) */}
+              <div style={{ background: 'var(--bg-elevated)', border: '1px solid rgba(255,184,0,0.2)', borderRadius: '16px', padding: '28px' }}>
+                <h3 style={{ margin: '0 0 16px', fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--accent-gold)' }}>🔹 How It Works</h3>
+
+                {/* Animated flow diagram */}
+                <FlowDiagram />
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0', marginTop: '20px' }}>
                   {[
                     { n: '1', title: 'SOL → DHD Conversion Layer', desc: 'Users deposit SOL, which is automatically used to buy DHD from the open market' },
                     { n: '2', title: 'DHD → Target Token Execution', desc: 'The acquired DHD is strategically converted into your token, initiating volume and trading activity' },
@@ -281,23 +312,16 @@ export default function VisionPage() {
                       <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
                         <div style={{
                           width: '32px', height: '32px', borderRadius: '50%', flexShrink: 0,
-                          background: 'rgba(255,184,0,0.15)',
-                          border: '1px solid rgba(255,184,0,0.4)',
+                          background: 'rgba(255,184,0,0.15)', border: '1px solid rgba(255,184,0,0.4)',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 900,
-                          color: 'var(--accent-gold)',
+                          fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 900, color: 'var(--accent-gold)',
                         }}>{step.n}</div>
                         <div style={{ paddingTop: '4px' }}>
                           <p style={{ margin: '0 0 2px', fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '0.04em' }}>{step.title}</p>
                           <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{step.desc}</p>
                         </div>
                       </div>
-                      {i < 2 && (
-                        <div style={{
-                          marginLeft: '16px', width: '0', height: '16px',
-                          borderLeft: '2px dashed rgba(255,184,0,0.3)',
-                        }} />
-                      )}
+                      {i < 2 && <div style={{ marginLeft: '16px', width: '0', height: '16px', borderLeft: '2px dashed rgba(255,184,0,0.3)' }} />}
                     </div>
                   ))}
                 </div>
@@ -305,19 +329,8 @@ export default function VisionPage() {
             </div>
 
             {/* Why This Is Powerful */}
-            <div style={{
-              marginTop: '28px',
-              padding: '24px 28px',
-              background: 'rgba(0,212,255,0.04)',
-              border: '1px solid rgba(0,212,255,0.25)',
-              borderRadius: '14px',
-            }}>
-              <h3 style={{
-                margin: '0 0 16px',
-                fontFamily: 'var(--font-display)', fontSize: '12px',
-                fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase',
-                color: 'var(--accent-cyan)',
-              }}>Why This Is Powerful</h3>
+            <div style={{ marginTop: '28px', padding: '24px 28px', background: 'rgba(0,212,255,0.04)', border: '1px solid rgba(0,212,255,0.25)', borderRadius: '14px' }}>
+              <h3 style={{ margin: '0 0 16px', fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--accent-cyan)' }}>Why This Is Powerful</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {[
                   { icon: '🔥', text: 'Constant Buy Pressure on DHD — Every project using the tools contributes to ongoing demand for DHD' },
@@ -333,19 +346,8 @@ export default function VisionPage() {
             </div>
 
             {/* Built with Integrity */}
-            <div style={{
-              marginTop: '16px',
-              padding: '24px 28px',
-              background: 'rgba(255,184,0,0.04)',
-              border: '1px solid rgba(255,184,0,0.25)',
-              borderRadius: '14px',
-            }}>
-              <h3 style={{
-                margin: '0 0 16px',
-                fontFamily: 'var(--font-display)', fontSize: '12px',
-                fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase',
-                color: 'var(--accent-gold)',
-              }}>Built with Integrity</h3>
+            <div style={{ marginTop: '16px', padding: '24px 28px', background: 'rgba(255,184,0,0.04)', border: '1px solid rgba(255,184,0,0.25)', borderRadius: '14px' }}>
+              <h3 style={{ margin: '0 0 16px', fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--accent-gold)' }}>Built with Integrity</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {[
                   'Only verified, long-term projects can access these tools',
@@ -353,10 +355,7 @@ export default function VisionPage() {
                   'Focus on real volume behavior and market stability',
                 ].map(item => (
                   <div key={item} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                    <span style={{
-                      width: '5px', height: '5px', borderRadius: '50%', flexShrink: 0,
-                      background: 'var(--accent-gold)', boxShadow: '0 0 6px rgba(255,184,0,0.5)',
-                    }} />
+                    <span style={{ width: '5px', height: '5px', borderRadius: '50%', flexShrink: 0, background: 'var(--accent-gold)', boxShadow: '0 0 6px rgba(255,184,0,0.5)' }} />
                     <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--text-secondary)' }}>{item}</p>
                   </div>
                 ))}
@@ -364,19 +363,10 @@ export default function VisionPage() {
             </div>
 
             {/* Vision quote */}
-            <div style={{
-              marginTop: '28px',
-              padding: '24px 32px',
-              borderLeft: '3px solid var(--accent-gold)',
-              background: 'rgba(255,184,0,0.03)',
-            }}>
+            <div style={{ marginTop: '28px', padding: '24px 32px', borderLeft: '3px solid var(--accent-gold)', background: 'rgba(255,184,0,0.03)' }}>
               <p style={{
-                margin: 0,
-                fontFamily: 'var(--font-display)', fontSize: 'clamp(14px, 1.8vw, 17px)',
-                fontWeight: 600, fontStyle: 'italic',
-                color: 'var(--accent-gold)',
-                lineHeight: 1.7,
-                letterSpacing: '0.02em',
+                margin: 0, fontFamily: 'var(--font-display)', fontSize: 'clamp(14px, 1.8vw, 17px)',
+                fontWeight: 600, fontStyle: 'italic', color: 'var(--accent-gold)', lineHeight: 1.7, letterSpacing: '0.02em',
               }}>
                 &ldquo;A system where every new project strengthens DHD. Every transaction contributes to ecosystem growth. DHD becomes the core liquidity and execution layer for emerging tokens.&rdquo;
               </p>
@@ -385,8 +375,12 @@ export default function VisionPage() {
         </motion.div>
       </section>
 
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 1 }}>
+        <SectionDivider />
+      </div>
+
       {/* ── CARD 2: DHD App (full-width) ── */}
-      <section style={{ padding: '0 24px 40px', maxWidth: '1200px', margin: '0 auto' }}>
+      <section style={{ padding: '0 24px 40px', maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <motion.div {...fadeUp(0.1)}>
           <div style={{
             background: 'var(--bg-secondary)',
@@ -397,58 +391,36 @@ export default function VisionPage() {
             overflow: 'hidden',
             boxShadow: '0 0 40px rgba(0,212,255,0.1)',
           }}>
-            {/* Corner glows */}
-            <div style={{
-              position: 'absolute', top: 0, left: 0, width: '400px', height: '400px',
-              background: 'radial-gradient(circle at top left, rgba(0,212,255,0.06), transparent 70%)',
-              pointerEvents: 'none',
-            }} />
-            <div style={{
-              position: 'absolute', bottom: 0, right: 0, width: '300px', height: '300px',
-              background: 'radial-gradient(circle at bottom right, rgba(0,212,255,0.04), transparent 70%)',
-              pointerEvents: 'none',
-            }} />
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '400px', height: '400px', background: 'radial-gradient(circle at top left, rgba(0,212,255,0.06), transparent 70%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', bottom: 0, right: 0, width: '300px', height: '300px', background: 'radial-gradient(circle at bottom right, rgba(0,212,255,0.04), transparent 70%)', pointerEvents: 'none' }} />
 
-            {/* EXCLUSIVE badge — top right */}
-            <div style={{
+            {/* EXCLUSIVE badge — shimmer */}
+            <div className="badge-shimmer badge-shimmer-cyan" style={{
               position: 'absolute', top: '24px', right: '24px',
-              padding: '5px 14px',
+              padding: '6px 12px',
               background: 'var(--accent-cyan)',
               borderRadius: '20px',
-              fontFamily: 'var(--font-display)', fontSize: '9px',
+              fontFamily: 'var(--font-display)', fontSize: '11px',
               fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase',
               color: '#05081A',
               boxShadow: '0 0 16px rgba(0,212,255,0.4)',
+              overflow: 'hidden',
             }}>
               💎 Exclusive Innovation
             </div>
 
             {/* Header */}
             <div style={{ position: 'relative', zIndex: 1, marginBottom: '32px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '18px', marginBottom: '12px', flexWrap: 'wrap', paddingRight: '160px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '18px', marginBottom: '12px', flexWrap: 'wrap', paddingRight: '180px' }}>
                 <span style={{ fontSize: '52px', lineHeight: 1, filter: 'drop-shadow(0 0 20px rgba(0,212,255,0.5))' }}>📱</span>
                 <div>
-                  <h2 style={{
-                    margin: 0,
-                    fontFamily: 'var(--font-display)', fontWeight: 900,
-                    fontSize: 'clamp(22px, 3.5vw, 36px)',
-                    color: 'var(--accent-cyan)',
-                    textShadow: '0 0 30px rgba(0,212,255,0.3)',
-                    lineHeight: 1.1,
-                  }}>The DHD App</h2>
-                  <p style={{
-                    margin: '8px 0 0',
-                    fontFamily: 'var(--font-body)', fontSize: '16px',
-                    color: 'var(--text-secondary)', lineHeight: 1.5,
-                  }}>
+                  <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(22px, 3.5vw, 36px)', color: 'var(--accent-cyan)', textShadow: '0 0 30px rgba(0,212,255,0.3)', lineHeight: 1.1 }}>The DHD App</h2>
+                  <p style={{ margin: '8px 0 0', fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
                     DHD-powered investing, swapping, and discovery — all in one place.
                   </p>
                 </div>
               </div>
-              <p style={{
-                margin: 0, fontFamily: 'var(--font-body)', fontSize: '15px',
-                lineHeight: 1.8, color: 'var(--text-secondary)', maxWidth: '860px',
-              }}>
+              <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '15px', lineHeight: 1.8, color: 'var(--text-secondary)', maxWidth: '860px' }}>
                 The DHD App transforms Diamond Hand Doge from a meme coin into a functional financial layer. Users can seamlessly use DHD to access, discover, and invest in other verified meme coins — all within one platform.
               </p>
             </div>
@@ -466,33 +438,16 @@ export default function VisionPage() {
                   key={card.title}
                   className={i === 4 ? 'dhd-app-card dhd-app-card-last' : 'dhd-app-card'}
                   style={{
-                    background: 'var(--bg-elevated)',
-                    border: '1px solid var(--border-subtle)',
-                    borderRadius: '12px',
-                    padding: '20px',
-                    transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
-                    cursor: 'default',
+                    background: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)',
+                    borderRadius: '12px', padding: '20px',
+                    transition: 'border-color 0.2s ease, box-shadow 0.2s ease', cursor: 'default',
                   }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.borderColor = 'var(--border-active)'
-                    e.currentTarget.style.boxShadow = '0 0 20px rgba(0,212,255,0.1)'
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.borderColor = 'var(--border-subtle)'
-                    e.currentTarget.style.boxShadow = 'none'
-                  }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-active)'; e.currentTarget.style.boxShadow = '0 0 20px rgba(0,212,255,0.1)' }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-subtle)'; e.currentTarget.style.boxShadow = 'none' }}
                 >
                   <div style={{ fontSize: '32px', marginBottom: '12px', lineHeight: 1 }}>{card.icon}</div>
-                  <h3 style={{
-                    margin: '0 0 8px',
-                    fontFamily: 'var(--font-display)', fontSize: '14px',
-                    fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '0.04em',
-                  }}>{card.title}</h3>
-                  <p style={{
-                    margin: 0,
-                    fontFamily: 'var(--font-body)', fontSize: '14px',
-                    color: 'var(--text-secondary)', lineHeight: 1.6,
-                  }}>{card.desc}</p>
+                  <h3 style={{ margin: '0 0 8px', fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '0.04em' }}>{card.title}</h3>
+                  <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>{card.desc}</p>
                 </div>
               ))}
             </div>
@@ -500,8 +455,12 @@ export default function VisionPage() {
         </motion.div>
       </section>
 
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 1 }}>
+        <SectionDivider />
+      </div>
+
       {/* ── Existing vision cards (3–6) in 2-col grid ── */}
-      <section style={{ padding: '0 24px 80px', maxWidth: '1200px', margin: '0 auto' }}>
+      <section style={{ padding: '0 24px 80px', maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <div className="vision-cards-grid">
           {visionCards.map((card, i) => (
             <motion.div key={card.title} {...fadeUp(i * 0.1)}>
@@ -516,59 +475,21 @@ export default function VisionPage() {
                 transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
                 cursor: 'default',
               }}
-              onMouseEnter={e => {
-                e.currentTarget.style.borderColor = `${card.accent}66`
-                e.currentTarget.style.boxShadow = `0 0 60px ${card.glow}`
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.borderColor = `${card.accent}22`
-                e.currentTarget.style.boxShadow = 'none'
-              }}>
-                <div style={{
-                  position: 'absolute', top: 0, left: 0, width: '200px', height: '200px',
-                  background: `radial-gradient(circle at top left, ${card.glow}, transparent 70%)`,
-                  pointerEvents: 'none',
-                }} />
-
-                <span style={{
-                  display: 'inline-block',
-                  padding: '4px 12px',
-                  background: `${card.accent}18`,
-                  border: `1px solid ${card.accent}44`,
-                  borderRadius: '20px',
-                  fontFamily: 'var(--font-display)', fontSize: '9px',
-                  fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase',
-                  color: card.accent,
-                  marginBottom: '20px',
-                }}>
+              onMouseEnter={e => { e.currentTarget.style.borderColor = `${card.accent}66`; e.currentTarget.style.boxShadow = `0 0 60px ${card.glow}` }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = `${card.accent}22`; e.currentTarget.style.boxShadow = 'none' }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, width: '200px', height: '200px', background: `radial-gradient(circle at top left, ${card.glow}, transparent 70%)`, pointerEvents: 'none' }} />
+                <span style={{ display: 'inline-block', padding: '4px 12px', background: `${card.accent}18`, border: `1px solid ${card.accent}44`, borderRadius: '20px', fontFamily: 'var(--font-display)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: card.accent, marginBottom: '20px' }}>
                   {card.tag}
                 </span>
-
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
-                  <span style={{
-                    fontSize: '44px', lineHeight: 1,
-                    filter: `drop-shadow(0 0 16px ${card.accent})`,
-                  }}>{card.icon}</span>
-                  <h3 style={{
-                    margin: 0,
-                    fontFamily: 'var(--font-display)', fontSize: 'clamp(18px, 2.5vw, 24px)',
-                    fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.2,
-                  }}>{card.title}</h3>
+                  <span style={{ fontSize: '44px', lineHeight: 1, filter: `drop-shadow(0 0 16px ${card.accent})` }}>{card.icon}</span>
+                  <h3 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 'clamp(18px, 2.5vw, 24px)', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.2 }}>{card.title}</h3>
                 </div>
-
-                <p style={{
-                  margin: '0 0 24px',
-                  fontFamily: 'var(--font-body)', fontSize: '15px',
-                  lineHeight: 1.8, color: 'var(--text-secondary)',
-                }}>{card.body}</p>
-
+                <p style={{ margin: '0 0 24px', fontFamily: 'var(--font-body)', fontSize: '15px', lineHeight: 1.8, color: 'var(--text-secondary)' }}>{card.body}</p>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {card.items.map(item => (
                     <li key={item} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <span style={{
-                        width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0,
-                        background: card.accent, boxShadow: `0 0 8px ${card.accent}`,
-                      }} />
+                      <span style={{ width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0, background: card.accent, boxShadow: `0 0 8px ${card.accent}` }} />
                       <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--text-primary)' }}>{item}</span>
                     </li>
                   ))}
@@ -580,33 +501,17 @@ export default function VisionPage() {
       </section>
 
       {/* ── Community CTA ── */}
-      <section style={{ padding: '0 24px 80px', maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}>
+      <section style={{ padding: '0 24px 80px', maxWidth: '700px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
         <motion.div {...fadeUp(0.1)} style={{
-          padding: '48px 40px',
-          background: 'var(--bg-secondary)',
-          border: '1px solid rgba(41,182,246,0.3)',
-          borderRadius: '20px',
+          padding: '48px 40px', background: 'var(--bg-secondary)',
+          border: '1px solid rgba(41,182,246,0.3)', borderRadius: '20px',
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px',
-          boxShadow: '0 0 60px rgba(41,182,246,0.08)',
-          position: 'relative', overflow: 'hidden',
+          boxShadow: '0 0 60px rgba(41,182,246,0.08)', position: 'relative', overflow: 'hidden',
         }}>
-          <div style={{
-            position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
-            width: '400px', height: '300px',
-            background: 'radial-gradient(ellipse, rgba(41,182,246,0.06), transparent 70%)',
-            pointerEvents: 'none',
-          }} />
+          <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '400px', height: '300px', background: 'radial-gradient(ellipse, rgba(41,182,246,0.06), transparent 70%)', pointerEvents: 'none' }} />
           <span style={{ fontSize: '40px' }}>✈️</span>
-          <h2 style={{
-            margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900,
-            fontSize: 'clamp(22px, 3.5vw, 32px)', color: 'var(--text-primary)',
-          }}>
-            Join the Community
-          </h2>
-          <p style={{
-            margin: 0, fontFamily: 'var(--font-body)', fontSize: '15px',
-            lineHeight: 1.7, color: 'var(--text-secondary)', maxWidth: '440px',
-          }}>
+          <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(22px, 3.5vw, 32px)', color: 'var(--text-primary)' }}>Join the Community</h2>
+          <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '15px', lineHeight: 1.7, color: 'var(--text-secondary)', maxWidth: '440px' }}>
             The DHD Telegram is where the community lives. Get live updates, be first to know about exchange listings, and connect with diamond hands worldwide.
           </p>
           <a
@@ -619,8 +524,7 @@ export default function VisionPage() {
               fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em',
               textTransform: 'uppercase', color: '#05081A',
               textDecoration: 'none', boxShadow: '0 0 28px rgba(41,182,246,0.4)',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              position: 'relative', zIndex: 1,
+              transition: 'transform 0.2s, box-shadow 0.2s', position: 'relative', zIndex: 1,
             }}
             onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 0 48px rgba(41,182,246,0.65)' }}
             onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 0 28px rgba(41,182,246,0.4)' }}
@@ -631,74 +535,28 @@ export default function VisionPage() {
       </section>
 
       {/* ── Tagline Banner ── */}
-      <section style={{
-        position: 'relative',
-        padding: '80px 24px 100px',
-        textAlign: 'center',
-        overflow: 'hidden',
-      }}>
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(180deg, transparent, rgba(170,102,255,0.04), transparent)',
-          pointerEvents: 'none',
-        }} />
-
+      <section style={{ position: 'relative', padding: '80px 24px 100px', textAlign: 'center', overflow: 'hidden', zIndex: 1 }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent, rgba(170,102,255,0.04), transparent)', pointerEvents: 'none' }} />
         <motion.div {...fadeUp(0)} style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px' }}>
-          <h2 style={{
-            margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900,
-            fontSize: 'clamp(28px, 5vw, 56px)',
-            color: 'var(--text-primary)',
-            textShadow: '0 0 40px rgba(170,102,255,0.3)',
-            lineHeight: 1.1,
-          }}>
+          <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(28px, 5vw, 56px)', color: 'var(--text-primary)', textShadow: '0 0 40px rgba(170,102,255,0.3)', lineHeight: 1.1 }}>
             Hold Strong. Mine Deep.<br />
-            <span style={{
-              background: 'linear-gradient(135deg, #FFB800, #FFE066)',
-              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-            }}>Win Big.</span>
+            <span style={{ background: 'linear-gradient(135deg, #FFB800, #FFE066)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Win Big.</span>
           </h2>
-
-          <p style={{
-            margin: 0, fontFamily: 'var(--font-body)', fontSize: '16px',
-            lineHeight: 1.7, color: 'var(--text-secondary)', maxWidth: '480px',
-          }}>
+          <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '16px', lineHeight: 1.7, color: 'var(--text-secondary)', maxWidth: '480px' }}>
             This isn&apos;t just a coin — it&apos;s a movement. Built by the community, for the community.
             Every holder matters. Every diamond hand counts.
           </p>
-
           <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
-            <a
-              href={LINKS.raydium}
-              target="_blank" rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex', alignItems: 'center', padding: '14px 36px',
-                background: 'linear-gradient(135deg, #AA66FF, #7733CC)',
-                borderRadius: '8px', fontFamily: 'var(--font-display)',
-                fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em',
-                textTransform: 'uppercase', color: '#fff',
-                textDecoration: 'none', boxShadow: '0 0 28px rgba(170,102,255,0.4)',
-                transition: 'transform 0.2s, box-shadow 0.2s',
-              }}
+            <a href={LINKS.raydium} target="_blank" rel="noopener noreferrer"
+              style={{ display: 'inline-flex', alignItems: 'center', padding: '14px 36px', background: 'linear-gradient(135deg, #AA66FF, #7733CC)', borderRadius: '8px', fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#fff', textDecoration: 'none', boxShadow: '0 0 28px rgba(170,102,255,0.4)', transition: 'transform 0.2s, box-shadow 0.2s' }}
               onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 0 48px rgba(170,102,255,0.65)' }}
-              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 0 28px rgba(170,102,255,0.4)' }}
-            >
+              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 0 28px rgba(170,102,255,0.4)' }}>
               Join the Movement
             </a>
-            <a
-              href={LINKS.telegram}
-              target="_blank" rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex', alignItems: 'center', padding: '14px 36px',
-                background: 'transparent',
-                border: '1px solid rgba(170,102,255,0.5)',
-                borderRadius: '8px', fontFamily: 'var(--font-display)',
-                fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em',
-                textTransform: 'uppercase', color: '#AA66FF',
-                textDecoration: 'none', transition: 'background 0.2s',
-              }}
+            <a href={LINKS.telegram} target="_blank" rel="noopener noreferrer"
+              style={{ display: 'inline-flex', alignItems: 'center', padding: '14px 36px', background: 'transparent', border: '1px solid rgba(170,102,255,0.5)', borderRadius: '8px', fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#AA66FF', textDecoration: 'none', transition: 'background 0.2s' }}
               onMouseEnter={e => (e.currentTarget.style.background = 'rgba(170,102,255,0.08)')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-            >
+              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
               Join Telegram
             </a>
           </div>
@@ -729,26 +587,35 @@ export default function VisionPage() {
           gap: 24px;
         }
         @media (max-width: 900px) {
-          .dhd-tools-blocks {
-            grid-template-columns: 1fr;
-          }
-          .dhd-app-card-last {
-            grid-column: auto;
-            max-width: 100%;
-          }
+          .dhd-tools-blocks { grid-template-columns: 1fr; }
+          .dhd-app-card-last { grid-column: auto; max-width: 100%; }
         }
         @media (max-width: 767px) {
-          .dhd-app-grid {
-            grid-template-columns: 1fr;
-          }
-          .dhd-app-card-last {
-            grid-column: auto;
-            max-width: 100%;
-          }
-          .vision-cards-grid {
-            grid-template-columns: 1fr;
-          }
+          .dhd-app-grid { grid-template-columns: 1fr; }
+          .dhd-app-card-last { grid-column: auto; max-width: 100%; }
+          .vision-cards-grid { grid-template-columns: 1fr; }
         }
+
+        /* Badge shimmer — shine sweeps left to right */
+        @keyframes badgeShine {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+        .badge-shimmer::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+          background-size: 200% 100%;
+          animation: badgeShine 2s linear infinite;
+        }
+
+        /* Flow diagram animations */
+        @keyframes flowDash {
+          0% { background-position: -32px 0; }
+          100% { background-position: 32px 0; }
+        }
+        .flow-dash { animation: flowDash 0.8s linear infinite; }
       `}</style>
     </main>
   )

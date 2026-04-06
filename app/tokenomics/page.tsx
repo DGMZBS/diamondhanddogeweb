@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import Card from '@/components/ui/Card'
 import { BURN_WALLETS, DEXSCREENER_API, LINKS } from '@/lib/constants'
 
 interface DexPair {
@@ -21,43 +20,89 @@ const fadeUp = (delay = 0) => ({
   viewport: { once: true },
 })
 
-function StatCard({ label, value, sub, accent = 'cyan' }: {
-  label: string; value: string; sub?: string; accent?: 'cyan' | 'gold' | 'green'
+// ── Section Divider ──────────────────────────────────────────────────
+function SectionDivider() {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: '16px',
+      margin: '48px 0',
+    }}>
+      <div style={{ flex: 1, borderTop: '1px solid var(--border-subtle)' }} />
+      <span style={{ fontSize: '14px', opacity: 0.6 }}>💎</span>
+      <div style={{ flex: 1, borderTop: '1px solid var(--border-subtle)' }} />
+    </div>
+  )
+}
+
+// ── Stat Card ────────────────────────────────────────────────────────
+function StatCard({ label, value, sub, accent = 'cyan', isPrice = false }: {
+  label: string; value: string; sub?: string; accent?: 'cyan' | 'gold' | 'green'; isPrice?: boolean
 }) {
   const colors = {
     cyan: { main: 'var(--accent-cyan)', glow: 'rgba(0,212,255,0.2)' },
     gold: { main: 'var(--accent-gold)', glow: 'rgba(255,184,0,0.2)' },
-    green: { main: '#00AAFF', glow: 'rgba(0,170,255,0.2)' },
+    green: { main: 'var(--accent-green)', glow: 'rgba(0,255,136,0.2)' },
   }
   const c = colors[accent]
   return (
-    <Card style={{
+    <div style={{
+      background: 'var(--bg-secondary)',
+      border: '1px solid var(--border-subtle)',
+      borderRadius: '16px',
       padding: '28px 24px',
       display: 'flex',
       flexDirection: 'column',
       gap: '8px',
       position: 'relative',
       overflow: 'hidden',
-    }}>
+      boxShadow: '0 0 24px rgba(0,212,255,0.06)',
+      transition: 'border-color 0.3s, box-shadow 0.3s',
+    }}
+    onMouseEnter={e => {
+      e.currentTarget.style.borderColor = 'rgba(0,212,255,0.4)'
+      e.currentTarget.style.boxShadow = '0 0 40px rgba(0,212,255,0.15)'
+    }}
+    onMouseLeave={e => {
+      e.currentTarget.style.borderColor = 'var(--border-subtle)'
+      e.currentTarget.style.boxShadow = '0 0 24px rgba(0,212,255,0.06)'
+    }}
+    >
       <div style={{
         position: 'absolute', inset: 0,
         background: `radial-gradient(ellipse at top left, ${c.glow}, transparent 70%)`,
         pointerEvents: 'none',
       }} />
-      <span style={{
-        fontFamily: 'var(--font-display)',
-        fontSize: '10px',
-        letterSpacing: '0.18em',
-        textTransform: 'uppercase',
-        color: 'var(--text-secondary)',
-      }}>{label}</span>
-      <span style={{
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', position: 'relative' }}>
+        <span style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: '10px',
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          color: 'var(--text-secondary)',
+        }}>{label}</span>
+        {isPrice && (
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+            <span className="live-dot" style={{
+              width: '6px', height: '6px', borderRadius: '50%',
+              background: 'var(--accent-green)',
+              flexShrink: 0,
+            }} />
+            <span style={{
+              fontFamily: 'var(--font-display)', fontSize: '8px',
+              letterSpacing: '0.1em', textTransform: 'uppercase',
+              color: 'var(--accent-green)',
+            }}>LIVE</span>
+          </span>
+        )}
+      </div>
+      <span className={isPrice ? 'price-shimmer' : ''} style={{
         fontFamily: 'var(--font-display)',
         fontSize: 'clamp(22px, 3vw, 32px)',
         fontWeight: 900,
-        color: c.main,
-        textShadow: `0 0 20px ${c.glow}`,
+        color: isPrice ? undefined : c.main,
+        textShadow: isPrice ? undefined : `0 0 20px ${c.glow}`,
         lineHeight: 1,
+        position: 'relative',
       }}>{value}</span>
       {sub && (
         <span style={{
@@ -66,7 +111,7 @@ function StatCard({ label, value, sub, accent = 'cyan' }: {
           color: 'var(--text-secondary)',
         }}>{sub}</span>
       )}
-    </Card>
+    </div>
   )
 }
 
@@ -90,11 +135,16 @@ export default function TokenomicsPage() {
       : `${prefix}${n.toFixed(2)}`
 
   const priceChange = pair?.priceChange?.h24 ?? 0
-  const changeColor = priceChange >= 0 ? '#00AAFF' : '#FF4466'
   const changePrefix = priceChange >= 0 ? '+' : ''
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--bg-primary)', paddingTop: '72px', overflow: 'hidden' }}>
+
+      {/* ── Cave atmosphere layers ── */}
+      <div style={{ position: 'fixed', bottom: 0, left: 0, width: '300px', height: '300px', background: 'radial-gradient(ellipse at bottom left, rgba(0,255,136,0.08) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+      <div style={{ position: 'fixed', bottom: 0, right: 0, width: '300px', height: '300px', background: 'radial-gradient(ellipse at bottom right, rgba(0,255,136,0.08) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+      <div style={{ position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)', width: '400px', height: '200px', background: 'radial-gradient(ellipse at top, rgba(255,180,50,0.06) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+      <div style={{ position: 'fixed', inset: 0, backgroundImage: 'linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px)', backgroundSize: '40px 40px', pointerEvents: 'none', zIndex: 0 }} />
 
       {/* ── Hero ── */}
       <section style={{
@@ -105,14 +155,8 @@ export default function TokenomicsPage() {
         flexDirection: 'column',
         alignItems: 'center',
         gap: '20px',
+        zIndex: 1,
       }}>
-        {/* Grid background */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: 'linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px)',
-          backgroundSize: '60px 60px',
-          pointerEvents: 'none',
-        }} />
         {/* Radial spotlight */}
         <div style={{
           position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
@@ -122,16 +166,24 @@ export default function TokenomicsPage() {
         }} />
 
         <motion.div {...fadeUp(0)} style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
+          {/* Back to Cave button */}
           <Link href="/#cave" style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
-            fontFamily: 'var(--font-display)', fontSize: '10px',
+            fontFamily: 'var(--font-display)', fontSize: '11px',
             letterSpacing: '0.18em', textTransform: 'uppercase',
-            color: 'var(--text-secondary)', textDecoration: 'none',
-            transition: 'color 0.2s',
+            color: 'var(--accent-gold)', textDecoration: 'none',
+            transition: 'color 0.2s, filter 0.2s',
+            filter: 'drop-shadow(0 0 6px rgba(255,184,0,0.3))',
           }}
-          onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent-cyan)')}
-          onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}>
-            ← Back to Cave
+          onMouseEnter={e => {
+            e.currentTarget.style.color = 'var(--accent-gold)'
+            e.currentTarget.style.filter = 'drop-shadow(0 0 12px rgba(255,184,0,0.7))'
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.color = 'var(--accent-gold)'
+            e.currentTarget.style.filter = 'drop-shadow(0 0 6px rgba(255,184,0,0.3))'
+          }}>
+            💎 ← BACK TO CAVE
           </Link>
 
           <span style={{
@@ -144,10 +196,11 @@ export default function TokenomicsPage() {
           <h1 style={{
             margin: 0,
             fontFamily: 'var(--font-display)', fontWeight: 900,
-            fontSize: 'clamp(40px, 7vw, 80px)',
-            background: 'linear-gradient(135deg, #FFB800 0%, #FFE066 50%, #CC8800 100%)',
+            fontSize: 'clamp(48px, 8vw, 80px)',
+            letterSpacing: '0.05em',
+            background: 'linear-gradient(180deg, #FFFFFF 0%, rgba(240,244,255,0.7) 100%)',
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-            textShadow: 'none',
+            filter: 'drop-shadow(0 0 30px rgba(0,212,255,0.3))',
             lineHeight: 1.05,
           }}>
             TOKENOMICS
@@ -163,17 +216,14 @@ export default function TokenomicsPage() {
       </section>
 
       {/* ── Live Stats Grid ── */}
-      <section style={{ padding: '0 24px 64px', maxWidth: '1100px', margin: '0 auto' }}>
-        <motion.div {...fadeUp(0.1)} style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '16px',
-        }}>
+      <section style={{ padding: '0 24px 64px', maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+        <motion.div {...fadeUp(0.1)} className="stats-grid">
           <StatCard
             label="Price (USD)"
             value={loading ? '—' : `$${parseFloat(pair?.priceUsd ?? '0').toFixed(7)}`}
             sub="Live from DEX Screener"
             accent="gold"
+            isPrice
           />
           <StatCard
             label="Market Cap / FDV"
@@ -208,14 +258,18 @@ export default function TokenomicsPage() {
           <StatCard
             label="Circulating Supply"
             value="849,911,104 DHD"
-            sub="70% of total supply in circulation"
+            sub="70% of total supply"
             accent="cyan"
           />
         </motion.div>
       </section>
 
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 1 }}>
+        <SectionDivider />
+      </div>
+
       {/* ── Burn Wallets ── */}
-      <section style={{ padding: '0 24px 80px', maxWidth: '1100px', margin: '0 auto' }}>
+      <section style={{ padding: '0 24px 80px', maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <motion.div {...fadeUp(0.1)}>
           <h2 style={{
             margin: '0 0 8px',
@@ -263,7 +317,13 @@ export default function TokenomicsPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {BURN_WALLETS.map((w, i) => (
             <motion.div key={w.address} {...fadeUp(0.15 + i * 0.08)}>
-              <Card style={{ padding: '24px 28px', border: '1px solid rgba(255,184,0,0.25)' }}>
+              <div style={{
+                background: 'linear-gradient(var(--bg-secondary), var(--bg-secondary)) padding-box, linear-gradient(180deg, #FF6600, #FFB800) border-box',
+                border: '1px solid transparent',
+                borderLeftWidth: '3px',
+                borderRadius: '16px',
+                padding: '24px 28px',
+              }}>
                 <div style={{
                   display: 'flex', flexWrap: 'wrap',
                   alignItems: 'center', justifyContent: 'space-between',
@@ -284,10 +344,11 @@ export default function TokenomicsPage() {
                         letterSpacing: '0.12em', textTransform: 'uppercase',
                         color: 'var(--accent-gold)',
                       }}>{w.percent} of supply</span>
+                      {/* READY TO BURN badge — fire gradient */}
                       <span style={{
                         padding: '2px 10px',
-                        background: 'rgba(255,184,0,0.15)',
-                        border: '1px solid rgba(255,184,0,0.5)',
+                        background: 'linear-gradient(135deg, rgba(255,100,0,0.2), rgba(255,184,0,0.2))',
+                        border: '1px solid rgba(255,184,0,0.6)',
                         borderRadius: '20px',
                         fontFamily: 'var(--font-display)', fontSize: '9px',
                         letterSpacing: '0.12em', textTransform: 'uppercase',
@@ -308,7 +369,7 @@ export default function TokenomicsPage() {
                         viewport={{ once: true }}
                         style={{
                           height: '100%', borderRadius: '3px',
-                          background: 'linear-gradient(90deg, #FFB800, #FFE066)',
+                          background: 'linear-gradient(90deg, #FF6600, #FFB800, #FFE066)',
                           boxShadow: '0 0 10px rgba(255,184,0,0.5)',
                         }}
                       />
@@ -346,14 +407,18 @@ export default function TokenomicsPage() {
                     View on Solscan ↗
                   </a>
                 </div>
-              </Card>
+              </div>
             </motion.div>
           ))}
         </div>
       </section>
 
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 1 }}>
+        <SectionDivider />
+      </div>
+
       {/* ── Buy CTA ── */}
-      <section style={{ padding: '0 24px 100px', textAlign: 'center' }}>
+      <section style={{ padding: '0 24px 100px', textAlign: 'center', position: 'relative', zIndex: 1 }}>
         <motion.div {...fadeUp(0.1)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
           <h2 style={{
             margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900,
@@ -397,6 +462,42 @@ export default function TokenomicsPage() {
           </div>
         </motion.div>
       </section>
+
+      <style>{`
+        /* Stats grid: 4-col desktop / 2-col mobile */
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
+        }
+        @media (max-width: 900px) {
+          .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 480px) {
+          .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* LIVE dot pulse */
+        @keyframes livePulse {
+          0%, 100% { opacity: 1; box-shadow: 0 0 4px var(--accent-green); }
+          50% { opacity: 0.4; box-shadow: 0 0 10px var(--accent-green); }
+        }
+        .live-dot { animation: livePulse 1s ease-in-out infinite; }
+
+        /* Price shimmer — animate gradient background position */
+        @keyframes priceShimmer {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .price-shimmer {
+          background: linear-gradient(90deg, var(--accent-gold), var(--accent-cyan), var(--accent-gold));
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: priceShimmer 3s ease infinite;
+        }
+      `}</style>
     </main>
   )
 }

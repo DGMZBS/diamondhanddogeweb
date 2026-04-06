@@ -1,9 +1,9 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { LINKS } from '@/lib/constants'
-import Card from '@/components/ui/Card'
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 32 },
@@ -12,13 +12,29 @@ const fadeUp = (delay = 0) => ({
   viewport: { once: true },
 })
 
-// ── Shared primitives ────────────────────────────────────────────────
-function SocialCard({ children, glowColor = 'rgba(0,212,255,0.06)' }: {
+// ── Section Divider ──────────────────────────────────────────────────
+function SectionDivider() {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', margin: '48px 0' }}>
+      <div style={{ flex: 1, borderTop: '1px solid var(--border-subtle)' }} />
+      <span style={{ fontSize: '14px', opacity: 0.6 }}>💎</span>
+      <div style={{ flex: 1, borderTop: '1px solid var(--border-subtle)' }} />
+    </div>
+  )
+}
+
+// ── Shared card shell with accent left border ────────────────────────
+function SocialCard({ children, glowColor = 'rgba(0,212,255,0.06)', accentBorder }: {
   children: React.ReactNode
   glowColor?: string
+  accentBorder: string
 }) {
   return (
-    <Card style={{
+    <div style={{
+      background: 'linear-gradient(var(--bg-secondary), var(--bg-secondary)) padding-box, linear-gradient(180deg, ' + accentBorder + ', ' + accentBorder + '88) border-box',
+      border: '1px solid transparent',
+      borderLeftWidth: '3px',
+      borderRadius: '16px',
       padding: '32px',
       display: 'flex',
       flexDirection: 'column',
@@ -26,14 +42,19 @@ function SocialCard({ children, glowColor = 'rgba(0,212,255,0.06)' }: {
       height: '100%',
       position: 'relative',
       overflow: 'hidden',
-    }}>
+      boxShadow: `inset 3px 0 20px ${accentBorder}18`,
+      transition: 'box-shadow 0.3s ease',
+    }}
+    onMouseEnter={e => (e.currentTarget.style.boxShadow = `inset 3px 0 30px ${accentBorder}30, 0 0 30px ${accentBorder}12`)}
+    onMouseLeave={e => (e.currentTarget.style.boxShadow = `inset 3px 0 20px ${accentBorder}18`)}
+    >
       <div style={{
         position: 'absolute', inset: 0,
         background: `radial-gradient(ellipse at top left, ${glowColor}, transparent 60%)`,
         pointerEvents: 'none',
       }} />
       {children}
-    </Card>
+    </div>
   )
 }
 
@@ -95,12 +116,8 @@ function StatPill({ label }: { label: string }) {
       border: '1px solid var(--border-subtle)',
       borderRadius: '20px',
       fontFamily: 'var(--font-display)',
-      fontSize: '9px',
-      fontWeight: 600,
-      letterSpacing: '0.1em',
-      textTransform: 'uppercase',
-      color: 'var(--text-secondary)',
-      whiteSpace: 'nowrap',
+      fontSize: '9px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase',
+      color: 'var(--text-secondary)', whiteSpace: 'nowrap',
     }}>{label}</span>
   )
 }
@@ -108,78 +125,92 @@ function StatPill({ label }: { label: string }) {
 // ── Cards ────────────────────────────────────────────────────────────
 function TwitterCard() {
   return (
-    <SocialCard glowColor="rgba(255,255,255,0.04)">
-      <CardHeader icon="𝕏" title="Diamond Hand Doge on X" subtitle="Follow @dogehanddiamond for real-time updates, memes, and milestones." accentColor="var(--text-primary)" />
+    <SocialCard glowColor="rgba(29,161,242,0.05)" accentBorder="#1DA1F2">
+      <CardHeader icon="𝕏" title="Diamond Hand Doge on X" subtitle="Follow @dogehanddiamond for real-time updates, memes, and milestones." accentColor="#1DA1F2" />
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
         {['💎 Price Updates', '🔥 Burn Alerts', '🚀 Milestones', '😂 Memes'].map(l => <StatPill key={l} label={l} />)}
       </div>
       <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.7, flex: 1 }}>
         Stay up to date with every DHD milestone, burn event, and community update. Our X account is the fastest way to know what&apos;s happening in the DHD ecosystem.
       </p>
-      <CtaButton href={LINKS.twitter} label="Follow on X →" color="var(--text-primary)" />
+      <CtaButton href={LINKS.twitter} label="Follow on X →" color="#1DA1F2" />
     </SocialCard>
   )
 }
 
 function TelegramCard() {
   return (
-    <SocialCard glowColor="rgba(41,182,246,0.06)">
-      <CardHeader icon="✈️" title="DHD Telegram Community" subtitle="Join the conversation. Live updates, community calls, and more." accentColor="#29B6F6" />
+    <SocialCard glowColor="rgba(0,136,204,0.06)" accentBorder="#0088CC">
+      <CardHeader icon="✈️" title="DHD Telegram Community" subtitle="Join the conversation. Live updates, community calls, and more." accentColor="#0088CC" />
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
         {['📢 Announcements', '💬 Community Chat', '🚀 Launch Updates'].map(l => <StatPill key={l} label={l} />)}
       </div>
       <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.7, flex: 1 }}>
         The official DHD Telegram is where the community lives. Get live price alerts, join discussions, and be the first to hear about new partnerships and exchange listings.
       </p>
-      <CtaButton href={LINKS.telegram} label="Join on Telegram →" color="#29B6F6" />
+      <CtaButton href={LINKS.telegram} label="Join on Telegram →" color="#0088CC" />
     </SocialCard>
   )
 }
 
 function RaydiumCard() {
   return (
-    <SocialCard glowColor="rgba(255,184,0,0.05)">
-      <CardHeader icon="⚡" title="Trade DHD on Raydium" subtitle="Buy and sell DHD directly on Raydium DEX." accentColor="var(--accent-gold)" />
+    <SocialCard glowColor="rgba(153,69,255,0.05)" accentBorder="#9945FF">
+      <CardHeader icon="⚡" title="Trade DHD on Raydium" subtitle="Buy and sell DHD directly on Raydium DEX." accentColor="#9945FF" />
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
         {['◎ Solana Network', '💸 Low Fees', '⚡ Instant Settlement'].map(l => <StatPill key={l} label={l} />)}
       </div>
       <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.7, flex: 1 }}>
         The fastest way to buy DHD. Connect your Phantom or Solflare wallet and swap SOL for DHD in seconds — no sign-up required.
       </p>
-      <CtaButton href={LINKS.raydium} label="Trade on Raydium →" color="var(--accent-gold)" filled />
+      <CtaButton href={LINKS.raydium} label="Trade on Raydium →" color="#9945FF" filled />
     </SocialCard>
   )
 }
 
 function DexToolsCard() {
   return (
-    <SocialCard glowColor="rgba(0,255,136,0.04)">
-      <CardHeader icon="🔧" title="DHD on DEX Tools" subtitle="Advanced charts and token analytics." accentColor="var(--accent-green)" />
+    <SocialCard glowColor="rgba(255,184,0,0.04)" accentBorder="var(--accent-gold)">
+      <CardHeader icon="🔧" title="DHD on DEX Tools" subtitle="Advanced charts and token analytics." accentColor="var(--accent-gold)" />
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
         {['📈 Price Charts', '👥 Holder Data', '🔍 On-Chain Analytics'].map(l => <StatPill key={l} label={l} />)}
       </div>
       <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.7, flex: 1 }}>
         Track DHD&apos;s price action, holder distribution, and on-chain analytics. DEX Tools gives you the full picture on every trade.
       </p>
-      <CtaButton href={LINKS.dextools} label="Open DEX Tools →" color="var(--accent-green)" />
+      <CtaButton href={LINKS.dextools} label="Open DEX Tools →" color="var(--accent-gold)" />
     </SocialCard>
   )
 }
 
 function DexScreenerCard() {
+  const [iframeLoaded, setIframeLoaded] = useState(false)
+
   return (
-    <SocialCard glowColor="rgba(0,212,255,0.04)">
-      <CardHeader icon="📊" title="DHD on DEX Screener" subtitle="Live price, volume, and trading activity." accentColor="var(--accent-cyan)" />
-      <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--border-subtle)', background: '#0d1117' }}>
+    <SocialCard glowColor="rgba(0,212,255,0.04)" accentBorder="var(--accent-green)">
+      <CardHeader icon="📊" title="DHD on DEX Screener" subtitle="Live price, volume, and trading activity." accentColor="var(--accent-green)" />
+      <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--border-subtle)', background: '#0d1117', position: 'relative' }}>
+        {/* Loading skeleton */}
+        {!iframeLoaded && (
+          <div className="iframe-skeleton" style={{
+            position: 'absolute', inset: 0, zIndex: 1,
+            background: 'var(--bg-elevated)',
+            borderRadius: '12px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: '10px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-secondary)', opacity: 0.5 }}>Loading chart...</span>
+          </div>
+        )}
         <iframe
           src="https://dexscreener.com/solana/3UG4RvNMV9idmR9FpaEXz6ov9A9DkczDGuxMbGyFWFH2?embed=1&theme=dark&trades=1&info=0"
           title="DHD Live Chart"
           style={{ display: 'block', width: '100%', height: '420px', border: 'none' }}
           allow="clipboard-write"
           loading="lazy"
+          onLoad={() => setIframeLoaded(true)}
         />
       </div>
-      <CtaButton href={LINKS.dexscreener} label="View Full Chart →" />
+      <CtaButton href={LINKS.dexscreener} label="View Full Chart →" color="var(--accent-green)" />
     </SocialCard>
   )
 }
@@ -189,26 +220,45 @@ export default function SocialsPage() {
   return (
     <main style={{ minHeight: '100vh', background: 'var(--bg-primary)', paddingTop: '72px', overflow: 'hidden' }}>
 
+      {/* ── Cave atmosphere layers ── */}
+      <div style={{ position: 'fixed', bottom: 0, left: 0, width: '300px', height: '300px', background: 'radial-gradient(ellipse at bottom left, rgba(0,255,136,0.08) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+      <div style={{ position: 'fixed', bottom: 0, right: 0, width: '300px', height: '300px', background: 'radial-gradient(ellipse at bottom right, rgba(0,255,136,0.08) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+      <div style={{ position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)', width: '400px', height: '200px', background: 'radial-gradient(ellipse at top, rgba(255,180,50,0.06) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+      <div style={{ position: 'fixed', inset: 0, backgroundImage: 'linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px)', backgroundSize: '40px 40px', pointerEvents: 'none', zIndex: 0 }} />
+
       {/* Hero */}
       <section style={{
         position: 'relative', padding: '80px 24px 60px',
         textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px',
+        zIndex: 1,
       }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px)', backgroundSize: '60px 60px', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '800px', height: '500px', background: 'radial-gradient(ellipse, rgba(0,212,255,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
         <motion.div {...fadeUp(0)} style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
-          <Link href="/cave"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: 'var(--font-display)', fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--text-secondary)', textDecoration: 'none', transition: 'color 0.2s' }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent-cyan)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
-          >
-            ← Back to Cave
+          <Link href="/cave" style={{
+            display: 'inline-flex', alignItems: 'center', gap: '6px',
+            fontFamily: 'var(--font-display)', fontSize: '11px',
+            letterSpacing: '0.18em', textTransform: 'uppercase',
+            color: 'var(--accent-gold)', textDecoration: 'none',
+            transition: 'filter 0.2s',
+            filter: 'drop-shadow(0 0 6px rgba(255,184,0,0.3))',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 12px rgba(255,184,0,0.7))')}
+          onMouseLeave={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 6px rgba(255,184,0,0.3))')}>
+            💎 ← BACK TO CAVE
           </Link>
           <span style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--accent-cyan)' }}>
             🌐 Find Us Everywhere
           </span>
-          <h1 style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(40px, 7vw, 80px)', background: 'linear-gradient(135deg, #00D4FF 0%, #88EEFF 50%, #0099CC 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', lineHeight: 1.05 }}>
+          <h1 style={{
+            margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900,
+            fontSize: 'clamp(48px, 8vw, 80px)',
+            letterSpacing: '0.05em',
+            background: 'linear-gradient(180deg, #FFFFFF 0%, rgba(240,244,255,0.7) 100%)',
+            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            filter: 'drop-shadow(0 0 30px rgba(0,212,255,0.3))',
+            lineHeight: 1.05,
+          }}>
             COMMUNITY
           </h1>
           <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '18px', lineHeight: 1.7, color: 'var(--text-secondary)', maxWidth: '480px' }}>
@@ -218,7 +268,7 @@ export default function SocialsPage() {
       </section>
 
       {/* Cards */}
-      <section style={{ padding: '0 24px 100px', maxWidth: '1100px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <section style={{ padding: '0 24px 100px', maxWidth: '1100px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px', position: 'relative', zIndex: 1 }}>
 
         {/* Row 1: X + Telegram */}
         <div className="socials-row">
@@ -226,8 +276,12 @@ export default function SocialsPage() {
           <motion.div {...fadeUp(0.1)} style={{ flex: 1, minWidth: 0 }}><TelegramCard /></motion.div>
         </div>
 
+        <SectionDivider />
+
         {/* Row 2: DEX Screener full-width */}
         <motion.div {...fadeUp(0.15)}><DexScreenerCard /></motion.div>
+
+        <SectionDivider />
 
         {/* Row 3: Raydium + DEX Tools */}
         <div className="socials-row">
@@ -239,6 +293,13 @@ export default function SocialsPage() {
       <style>{`
         .socials-row { display: flex; flex-direction: row; gap: 24px; align-items: stretch; }
         @media (max-width: 767px) { .socials-row { flex-direction: column; } }
+
+        /* Pulsing skeleton animation */
+        @keyframes skeletonPulse {
+          0%, 100% { opacity: 0.6; }
+          50% { opacity: 0.3; }
+        }
+        .iframe-skeleton { animation: skeletonPulse 1.5s ease-in-out infinite; }
       `}</style>
     </main>
   )
