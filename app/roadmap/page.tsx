@@ -42,11 +42,11 @@ const phases: Phase[] = [
     trigger: 'In Progress',
     title: 'Visibility',
     items: [
-      'Jupiter Listing — Expanding our reach and liquidity.',
-      'Coin Tracking Platforms — CoinGecko & CoinMarketCap so we can track our progress and get recognized by more investors.',
-      'Wallet Integration — Phantom & Solflare, increasing accessibility and exposure for Diamond Hand Doge holders.',
-      'Marketing Push — Influencer outreach, Twitter Spaces, and paid promotion.',
-      'Community Growth — Hit 1,000 holders and grow the Telegram community.',
+      'Jupiter Listing — Expand reach and improve liquidity by integrating with Jupiter, making trading more accessible',
+      'Coin Tracking Platforms — Apply for listings on CoinGecko and CoinMarketCap to increase credibility, transparency, and investor awareness',
+      'Wallet Integration — Enhance accessibility through Phantom Wallet, allowing seamless storage and trading for users',
+      'Marketing Push — Launch targeted campaigns across X, Telegram, and crypto communities to drive consistent volume and attract new holders',
+      'Community Growth — Strengthen and expand the DHD community through engagement, partnerships, and incentives for long-term holders',
     ],
   },
   {
