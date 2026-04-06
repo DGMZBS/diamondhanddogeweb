@@ -1,16 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 
 const SESSION_KEY = 'dhd_about_seen'
-
-interface AboutSectionProps {
-  onEnterCave: () => void
-}
 
 const cards = [
   {
@@ -38,7 +35,8 @@ const pills = [
   { icon: '🚀', label: 'Community Goal: Elon Notices DHD' },
 ]
 
-export default function AboutSection({ onEnterCave }: AboutSectionProps) {
+export default function AboutSection() {
+  const router = useRouter()
   const [skipAnims, setSkipAnims] = useState(true)
 
   useEffect(() => {
@@ -240,7 +238,7 @@ export default function AboutSection({ onEnterCave }: AboutSectionProps) {
 
           {/* CTA */}
           <motion.div {...fadeUp(0.45)} className="about-cta">
-            <Button variant="primary" onClick={onEnterCave}>
+            <Button variant="primary" onClick={() => router.push('/cave')}>
               Explore the Cave
             </Button>
           </motion.div>
