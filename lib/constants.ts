@@ -19,7 +19,7 @@ export const BURN_WALLETS = [
   {
     address: 'GXpjQVSHQZ9vGDCuaMqcqf67LXLMFQD3Pe6B2yH1LMJp',
     label: '🔥 First Burn',
-    trigger: '$1M MCAP',
+    trigger: '$250K MCAP',
     percent: '5%',
     solscan: 'https://solscan.io/account/GXpjQVSHQZ9vGDCuaMqcqf67LXLMFQD3Pe6B2yH1LMJp',
   },

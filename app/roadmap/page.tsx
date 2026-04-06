@@ -39,18 +39,20 @@ const phases: Phase[] = [
   {
     number: 2,
     status: 'active',
-    trigger: '$250K MCAP',
+    trigger: 'In Progress',
     title: 'Visibility',
     items: [
-      'Introduction to list on Jupiter — Expanding our reach and liquidity.',
-      'CoinGecko & CoinMarketCap — So we can track our progress and get recognized by more investors.',
-      'Phantom — Increasing accessibility and exposure for Diamond Hand Doge holders.',
+      'Jupiter Listing — Expanding our reach and liquidity.',
+      'Coin Tracking Platforms — CoinGecko & CoinMarketCap so we can track our progress and get recognized by more investors.',
+      'Wallet Integration — Phantom & Solflare, increasing accessibility and exposure for Diamond Hand Doge holders.',
+      'Marketing Push — Influencer outreach, Twitter Spaces, and paid promotion.',
+      'Community Growth — Hit 1,000 holders and grow the Telegram community.',
     ],
   },
   {
     number: 3,
     status: 'locked',
-    trigger: '$1M MCAP',
+    trigger: '$250K MCAP',
     title: 'First Burn',
     items: [
       '🔥 5% Token Burn — executed from verified on-chain wallet',
@@ -59,18 +61,20 @@ const phases: Phase[] = [
       'XT.com listing',
       'LBank listing',
     ],
-    note: 'Once we hit the $1 million market cap, we\'re taking things to the next level! At this stage, we\'ll start getting listed on some smaller, but powerful centralized exchanges.',
+    note: 'Once we hit $250K market cap, we execute the first burn and begin listing on centralized exchanges — giving Diamond Hand Doge the credibility and reach it deserves.',
   },
   {
     number: 4,
     status: 'locked',
-    trigger: '$5M–$10M MCAP',
-    title: 'Major Exchanges',
+    trigger: '$1M–$10M MCAP',
+    title: 'Growth',
     items: [
       'Gate.io listing',
       'KuCoin listing',
+      'Expanded partnerships and integrations',
+      'Community governance initiatives',
     ],
-    note: 'This is where things get serious. These are major stepping stones that will give Diamond Hand Doge the credibility and reach it deserves.',
+    note: 'This is where things get serious. Major exchange listings that will take Diamond Hand Doge to the next level.',
   },
   {
     number: 5,
@@ -80,9 +84,10 @@ const phases: Phase[] = [
     items: [
       '🔥 Second Burn — 10% of tokens at $10M MCAP',
       '🔥 Third Burn — 15% of tokens at $100M MCAP',
-      '🎯 Ultimate Goal: Binance Listing',
+      '🎯 Binance Listing',
+      '🎯 Coinbase Listing',
     ],
-    note: 'Once we break past the $10 million market cap, we will set our sights on the BIGGEST goal of all: getting listed on Binance.',
+    note: 'Once we break past $10M market cap, we set our sights on the biggest goal of all: Binance and Coinbase listings.',
   },
 ]
 

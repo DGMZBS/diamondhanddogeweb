@@ -13,22 +13,22 @@ const fadeUp = (delay = 0) => ({
 
 const visionCards = [
   {
-    icon: '🏦',
+    icon: '🏗️',
     accent: '#00D4FF',
     glow: 'rgba(0,212,255,0.25)',
-    tag: 'Phase 1 Vision',
-    title: 'DHD Banking System',
-    body: 'A community-first financial layer built on Solana. Peer-to-peer transfers, yield on held DHD, and a digital wallet experience that rewards diamond hands — not banks.',
-    items: ['P2P DHD transfers', 'Holder yield mechanics', 'Non-custodial wallet integration'],
+    tag: 'Phase 1 — Foundation ✅',
+    title: 'Community First',
+    body: 'We built from the ground up — verified team, on-chain burn wallets, and a growing community before any exchange listing. Diamond Hand Doge is credible because we did the work first.',
+    items: ['Team KYC verified', 'Socials live (X + Telegram)', 'DEX Tools & Screener updated', 'Burn wallets funded & on-chain'],
   },
   {
-    icon: '📈',
+    icon: '📡',
     accent: '#FFB800',
     glow: 'rgba(255,184,0,0.25)',
-    tag: 'Phase 2 Vision',
-    title: 'DHD Investment Platform',
-    body: 'Tools built for the community to grow together. Track holdings, set milestones, and access exclusive opportunities — all denominated in DHD.',
-    items: ['Portfolio tracking dashboard', 'Milestone-based holder tiers', 'Community-voted investment pools'],
+    tag: 'Phase 2 — Visibility ⏳',
+    title: 'Growth & Exposure',
+    body: 'Now we scale. Jupiter listing, CoinGecko & CoinMarketCap tracking, Phantom wallet integration, and a full marketing push to get DHD in front of the right eyes.',
+    items: ['Jupiter DEX listing', 'CoinGecko & CoinMarketCap', 'Phantom & Solflare integration', 'Influencer & community marketing push'],
   },
   {
     icon: '🎮',
@@ -205,6 +205,58 @@ export default function VisionPage() {
             </motion.div>
           ))}
         </div>
+      </section>
+
+      {/* ── Community CTA ── */}
+      <section style={{ padding: '0 24px 80px', maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}>
+        <motion.div {...fadeUp(0.1)} style={{
+          padding: '48px 40px',
+          background: 'var(--bg-secondary)',
+          border: '1px solid rgba(41,182,246,0.3)',
+          borderRadius: '20px',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px',
+          boxShadow: '0 0 60px rgba(41,182,246,0.08)',
+          position: 'relative', overflow: 'hidden',
+        }}>
+          <div style={{
+            position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
+            width: '400px', height: '300px',
+            background: 'radial-gradient(ellipse, rgba(41,182,246,0.06), transparent 70%)',
+            pointerEvents: 'none',
+          }} />
+          <span style={{ fontSize: '40px' }}>✈️</span>
+          <h2 style={{
+            margin: 0,
+            fontFamily: 'var(--font-display)', fontWeight: 900,
+            fontSize: 'clamp(22px, 3.5vw, 32px)', color: 'var(--text-primary)',
+          }}>
+            Join the Community
+          </h2>
+          <p style={{
+            margin: 0, fontFamily: 'var(--font-body)', fontSize: '15px',
+            lineHeight: 1.7, color: 'var(--text-secondary)', maxWidth: '440px',
+          }}>
+            The DHD Telegram is where the community lives. Get live updates, be first to know about exchange listings, and connect with diamond hands worldwide.
+          </p>
+          <a
+            href={LINKS.telegram}
+            target="_blank" rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex', alignItems: 'center', padding: '14px 40px',
+              background: 'linear-gradient(135deg, #29B6F6, #0288D1)',
+              borderRadius: '8px', fontFamily: 'var(--font-display)',
+              fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em',
+              textTransform: 'uppercase', color: '#05081A',
+              textDecoration: 'none', boxShadow: '0 0 28px rgba(41,182,246,0.4)',
+              transition: 'transform 0.2s, box-shadow 0.2s',
+              position: 'relative', zIndex: 1,
+            }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 0 48px rgba(41,182,246,0.65)' }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 0 28px rgba(41,182,246,0.4)' }}
+          >
+            Join Telegram →
+          </a>
+        </motion.div>
       </section>
 
       {/* ── Tagline Banner ── */}

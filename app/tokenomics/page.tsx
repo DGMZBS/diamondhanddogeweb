@@ -224,9 +224,8 @@ export default function TokenomicsPage() {
         <motion.div {...fadeUp(0.2)} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {[
             { label: 'Circulating Supply', pct: 85, color: 'var(--accent-cyan)', desc: '849,911,104 DHD — in circulation' },
-            { label: 'Burn Wallet #1 (5%)', pct: 5, color: '#FF7A00', desc: '50,000,000 DHD — locked until $1M MCAP' },
-            { label: 'Burn Wallet #2 (10%)', pct: 10, color: '#FF4444', desc: '100,000,000 DHD — locked until $10M MCAP' },
-            { label: 'Burn Wallet #3 (15%)', pct: 0, color: '#AA2222', desc: '0 DHD — not yet funded (triggers at $100M MCAP)' },
+            { label: 'Burn Wallet #1 (5%)', pct: 5, color: 'var(--accent-gold)', desc: '50,000,000 DHD — funded & ready to burn at $250K MCAP' },
+            { label: 'Burn Wallet #2 (10%)', pct: 10, color: 'var(--accent-gold)', desc: '100,000,000 DHD — funded & ready to burn at $10M MCAP' },
           ].map((row, i) => (
             <motion.div key={row.label} {...fadeUp(0.2 + i * 0.05)}>
               <Card style={{ padding: '20px 24px' }}>
@@ -280,25 +279,51 @@ export default function TokenomicsPage() {
             🔥 Burn Wallets
           </h2>
           <p style={{
-            margin: '0 0 32px',
+            margin: '0 0 24px',
             fontFamily: 'var(--font-body)', fontSize: '15px',
             color: 'var(--text-secondary)',
           }}>
             Every burn is triggered by on-chain milestones and verified publicly on Solscan.
           </p>
+
+          {/* ALL FUNDED callout banner */}
+          <motion.div {...fadeUp(0.12)} style={{
+            marginBottom: '32px',
+            padding: '16px 24px',
+            background: 'linear-gradient(135deg, rgba(255,184,0,0.12), rgba(255,184,0,0.04))',
+            border: '1px solid rgba(255,184,0,0.5)',
+            borderRadius: '12px',
+            display: 'flex', alignItems: 'center', gap: '12px',
+            boxShadow: '0 0 32px rgba(255,184,0,0.12)',
+          }}>
+            <span style={{ fontSize: '22px' }}>🔥</span>
+            <div>
+              <p style={{
+                margin: 0,
+                fontFamily: 'var(--font-display)', fontSize: '13px',
+                fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase',
+                color: 'var(--accent-gold)',
+              }}>ALL BURN WALLETS FUNDED</p>
+              <p style={{
+                margin: '2px 0 0',
+                fontFamily: 'var(--font-body)', fontSize: '13px',
+                color: 'var(--text-secondary)',
+              }}>All burn wallets are 100% funded and ready to execute. Burns trigger at on-chain MCAP milestones.</p>
+            </div>
+          </motion.div>
         </motion.div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {BURN_WALLETS.map((w, i) => (
             <motion.div key={w.address} {...fadeUp(0.15 + i * 0.08)}>
-              <Card style={{ padding: '24px 28px' }}>
+              <Card style={{ padding: '24px 28px', border: '1px solid rgba(255,184,0,0.25)' }}>
                 <div style={{
                   display: 'flex', flexWrap: 'wrap',
                   alignItems: 'center', justifyContent: 'space-between',
                   gap: '16px',
                 }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                       <span style={{
                         fontFamily: 'var(--font-display)', fontSize: '13px',
                         fontWeight: 700, color: 'var(--accent-gold)',
@@ -312,10 +337,39 @@ export default function TokenomicsPage() {
                         letterSpacing: '0.12em', textTransform: 'uppercase',
                         color: 'var(--accent-gold)',
                       }}>{w.percent} of supply</span>
+                      <span style={{
+                        padding: '2px 10px',
+                        background: 'rgba(255,184,0,0.15)',
+                        border: '1px solid rgba(255,184,0,0.5)',
+                        borderRadius: '20px',
+                        fontFamily: 'var(--font-display)', fontSize: '9px',
+                        letterSpacing: '0.12em', textTransform: 'uppercase',
+                        color: '#FFD700',
+                        boxShadow: '0 0 8px rgba(255,184,0,0.3)',
+                      }}>✓ Ready to Burn</span>
+                    </div>
+                    {/* 100% funded progress bar */}
+                    <div style={{
+                      width: '100%', height: '6px',
+                      background: 'var(--bg-elevated)', borderRadius: '3px', overflow: 'hidden',
+                      margin: '4px 0',
+                    }}>
+                      <motion.div
+                        initial={{ width: 0 }}
+                        whileInView={{ width: '100%' }}
+                        transition={{ duration: 1, delay: 0.2 + i * 0.1, ease: 'easeOut' as const }}
+                        viewport={{ once: true }}
+                        style={{
+                          height: '100%', borderRadius: '3px',
+                          background: 'linear-gradient(90deg, #FFB800, #FFE066)',
+                          boxShadow: '0 0 10px rgba(255,184,0,0.5)',
+                        }}
+                      />
                     </div>
                     <span style={{
-                      fontFamily: 'monospace', fontSize: '12px',
+                      fontFamily: 'monospace', fontSize: '11px',
                       color: 'var(--text-secondary)',
+                      overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                     }}>{w.address}</span>
                     <span style={{
                       fontFamily: 'var(--font-body)', fontSize: '12px',
@@ -337,6 +391,7 @@ export default function TokenomicsPage() {
                       color: 'var(--accent-cyan)', textDecoration: 'none',
                       transition: 'background 0.2s ease',
                       whiteSpace: 'nowrap',
+                      flexShrink: 0,
                     }}
                     onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0,212,255,0.15)')}
                     onMouseLeave={e => (e.currentTarget.style.background = 'rgba(0,212,255,0.08)')}
