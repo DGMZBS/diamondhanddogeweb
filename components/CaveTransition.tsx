@@ -1,154 +1,110 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { useRouter } from 'next/navigation'
-import gsap from 'gsap'
 
-const SPARKLE_COUNT = 7
+// Total animation duration in ms — keep in sync with CSS below
+const NAV_DELAY = 900
 
 function CaveTransitionInner() {
-  const router = useRouter()
-  const overlayRef = useRef<HTMLDivElement>(null)
-  const jagsRef = useRef<HTMLDivElement>(null)
-  const sparkleRefs = useRef<(HTMLDivElement | null)[]>([])
-
   useEffect(() => {
-    const overlay = overlayRef.current
-    const jags = jagsRef.current
-    if (!overlay || !jags) return
-
-    const tl = gsap.timeline()
-
-    // Rocky cliff slides up from below — translate from 100vh to 0
-    tl.fromTo(
-      [overlay, jags],
-      { y: '100%' },
-      { y: '0%', duration: 0.7, ease: 'power2.in' }
-    )
-
-    // Sparkles burst upward from the jagged top edge
-    sparkleRefs.current.forEach((el, i) => {
-      if (!el) return
-      tl.fromTo(
-        el,
-        { opacity: 0, scale: 0, x: 0, y: 0 },
-        {
-          opacity: 1,
-          scale: 1.4,
-          x: gsap.utils.random(-80, 80),
-          y: gsap.utils.random(-100, -50),
-          duration: 0.22,
-          ease: 'power2.out',
-        },
-        0.25 + i * 0.05
-      )
-      tl.to(
-        el,
-        { opacity: 0, scale: 0, duration: 0.28, ease: 'power1.in' },
-        0.47 + i * 0.05
-      )
-    })
-
-    // Navigate once fully covered
-    tl.call(() => router.push('/cave'), undefined, 0.72)
-
-    return () => { tl.kill() }
-  }, [router])
-
-  // Distribute sparkles evenly across the top of the overlay
-  const sparklePositions = Array.from({ length: SPARKLE_COUNT }, (_, i) => ({
-    left: `${8 + i * (84 / (SPARKLE_COUNT - 1))}%`,
-    top: '0px',
-  }))
+    const t = setTimeout(() => {
+      window.location.href = '/cave'
+    }, NAV_DELAY)
+    return () => clearTimeout(t)
+  }, [])
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 9999, pointerEvents: 'none' }}>
-      {/* Main dark cave overlay */}
-      <div
-        ref={overlayRef}
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: '#05081A',
-          zIndex: 1,
-        }}
-      />
+      {/* Dark cave overlay — slides up from below */}
+      <div className="ct-overlay" />
 
-      {/* Jagged rocky top edge — SVG silhouette that sits on top of the overlay */}
-      <div
-        ref={jagsRef}
-        style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          top: '-60px',  // bleeds above overlay so it's visible as the cliff rises
-          height: '60px',
-          zIndex: 2,
-          overflow: 'hidden',
-        }}
-      >
+      {/* SVG jagged rocky peaks — ride up with the overlay */}
+      <div className="ct-jags">
         <svg
-          viewBox="0 0 1440 60"
+          viewBox="0 0 1440 64"
           preserveAspectRatio="none"
           style={{ width: '100%', height: '100%', display: 'block' }}
         >
-          {/* Rocky jagged peaks */}
           <path
-            d="M0,60 L0,40 L80,15 L160,38 L240,8 L320,32 L400,5 L480,28 L560,12 L640,35 L720,0 L800,30 L880,10 L960,38 L1040,6 L1120,28 L1200,18 L1280,42 L1360,12 L1440,35 L1440,60 Z"
+            d="M0,64 L0,42 L80,16 L160,40 L240,10 L320,34 L400,6 L480,30 L560,14 L640,36 L720,2 L800,32 L880,12 L960,40 L1040,8 L1120,30 L1200,20 L1280,44 L1360,14 L1440,36 L1440,64 Z"
             fill="#05081A"
           />
-          {/* Green crystal glow along top edge */}
           <path
-            d="M0,40 L80,15 L160,38 L240,8 L320,32 L400,5 L480,28 L560,12 L640,35 L720,0 L800,30 L880,10 L960,38 L1040,6 L1120,28 L1200,18 L1280,42 L1360,12 L1440,35"
+            d="M0,42 L80,16 L160,40 L240,10 L320,34 L400,6 L480,30 L560,14 L640,36 L720,2 L800,32 L880,12 L960,40 L1040,8 L1120,30 L1200,20 L1280,44 L1360,14 L1440,36"
             fill="none"
-            stroke="rgba(0,255,136,0.6)"
-            strokeWidth="2"
-            filter="url(#glow)"
+            stroke="rgba(0,255,136,0.7)"
+            strokeWidth="2.5"
+            filter="url(#ctGlow)"
           />
           <defs>
-            <filter id="glow" x="-20%" y="-100%" width="140%" height="300%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
+            <filter id="ctGlow" x="-10%" y="-100%" width="120%" height="400%">
+              <feGaussianBlur stdDeviation="3" result="b" />
+              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
             </filter>
           </defs>
         </svg>
       </div>
 
-      {/* Crystal sparkles — positioned along the jagged top */}
-      {sparklePositions.map((pos, i) => (
+      {/* Crystal sparkles that burst from the rocky edge */}
+      {[8, 21, 34, 47, 60, 73, 86].map((left, i) => (
         <div
           key={i}
-          ref={el => { sparkleRefs.current[i] = el }}
+          className="ct-sparkle"
           style={{
-            position: 'absolute',
-            left: pos.left,
-            top: pos.top,
-            width: '8px',
-            height: '8px',
-            borderRadius: '50%',
-            background: 'var(--accent-green)',
-            boxShadow: '0 0 10px var(--accent-green), 0 0 20px rgba(0,255,136,0.5)',
-            zIndex: 3,
-            pointerEvents: 'none',
+            left: `${left}%`,
+            animationDelay: `${0.28 + i * 0.05}s`,
           }}
         />
       ))}
+
+      <style>{`
+        @keyframes ct-rise {
+          from { transform: translateY(100%); }
+          to   { transform: translateY(0%); }
+        }
+
+        @keyframes ct-sparkle {
+          0%   { opacity: 0; transform: translateY(0)   scale(0); }
+          40%  { opacity: 1; transform: translateY(-80px) scale(1.3); }
+          100% { opacity: 0; transform: translateY(-130px) scale(0); }
+        }
+
+        .ct-overlay {
+          position: absolute;
+          inset: 0;
+          background: #05081A;
+          animation: ct-rise 0.75s cubic-bezier(0.4, 0, 1, 1) forwards;
+        }
+
+        .ct-jags {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 100%;   /* sits just above the overlay */
+          height: 64px;
+          animation: ct-rise 0.75s cubic-bezier(0.4, 0, 1, 1) forwards;
+        }
+
+        .ct-sparkle {
+          position: absolute;
+          bottom: 0;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #00FF88;
+          box-shadow: 0 0 10px #00FF88, 0 0 22px rgba(0,255,136,0.5);
+          animation: ct-sparkle 0.55s ease-out forwards;
+          opacity: 0;
+        }
+      `}</style>
     </div>
   )
 }
 
 export default function CaveTransition() {
   const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
+  useEffect(() => { setMounted(true) }, [])
   if (!mounted) return null
-
   return createPortal(<CaveTransitionInner />, document.body)
 }

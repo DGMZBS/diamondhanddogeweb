@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import gsap from 'gsap'
 import Card from '@/components/ui/Card'
 import { CONTRACT_ADDRESS } from '@/lib/constants'
 
@@ -144,7 +143,7 @@ interface AboutSectionProps {
 
 export default function AboutSection({ onEnterCave }: AboutSectionProps) {
   const [skipAnims, setSkipAnims] = useState(true)
-  const ctaBtnRef = useRef<HTMLButtonElement>(null)
+  const ctaBtnRef = useRef<HTMLButtonElement>(null)  // kept for potential future use
 
   useEffect(() => {
     const seen = sessionStorage.getItem(SESSION_KEY)
@@ -363,20 +362,7 @@ export default function AboutSection({ onEnterCave }: AboutSectionProps) {
             >
               <button
                 ref={ctaBtnRef}
-                onClick={() => {
-                  // Button pulse first, then trigger overlay
-                  gsap.timeline().to(ctaBtnRef.current, {
-                    scale: 1.05,
-                    boxShadow: '0 0 80px rgba(255,184,0,1)',
-                    duration: 0.15,
-                    ease: 'power2.out',
-                  }).to(ctaBtnRef.current, {
-                    scale: 1.0,
-                    duration: 0.15,
-                    ease: 'power2.in',
-                    onComplete: onEnterCave,
-                  })
-                }}
+                onClick={onEnterCave}
                 className="cave-cta-btn"
               >
                 <span className="cave-cta-shimmer" />
