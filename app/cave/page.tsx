@@ -2,10 +2,13 @@
 
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { useIsMobile } from '@/hooks/useIsMobile'
 import CaveWorld from '@/components/CaveWorld'
+import MobileCave from '@/components/MobileCave'
 
 export default function CavePage() {
   const wrapRef = useRef<HTMLDivElement>(null)
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     if (!wrapRef.current) return
@@ -14,7 +17,7 @@ export default function CavePage() {
 
   return (
     <div ref={wrapRef} style={{ opacity: 0 }}>
-      <CaveWorld />
+      {isMobile ? <MobileCave /> : <CaveWorld />}
     </div>
   )
 }

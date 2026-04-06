@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useIsMobile } from '@/hooks/useIsMobile'
 
 interface ArtifactPanelProps {
   isOpen: boolean
@@ -9,11 +10,14 @@ interface ArtifactPanelProps {
   title: string
   soundEnabled?: boolean
   wide?: boolean
+  mobileSlideUp?: boolean
   children: React.ReactNode
 }
 
-export default function ArtifactPanel({ isOpen, onClose, title, soundEnabled, wide = false, children }: ArtifactPanelProps) {
+export default function ArtifactPanel({ isOpen, onClose, title, soundEnabled, wide = false, mobileSlideUp = false, children }: ArtifactPanelProps) {
   const echoRef = useRef<HTMLAudioElement>(null)
+  const isMobile = useIsMobile()
+  const useSlideUp = mobileSlideUp && isMobile
 
   useEffect(() => {
     if (isOpen && soundEnabled) {
@@ -56,6 +60,7 @@ export default function ArtifactPanel({ isOpen, onClose, title, soundEnabled, wi
             {/* Panel — stopPropagation so clicks inside don't close it */}
             <motion.div
               onClick={e => e.stopPropagation()}
+              className={mobileSlideUp ? 'ap-slide-up' : ''}
               style={{
                 position: 'fixed',
                 zIndex: 1020,
@@ -72,10 +77,10 @@ export default function ArtifactPanel({ isOpen, onClose, title, soundEnabled, wi
                 boxShadow: '0 0 60px rgba(0,212,255,0.12), 0 24px 80px rgba(0,0,0,0.6)',
                 padding: 'clamp(24px, 4vw, 48px)',
               }}
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              initial={useSlideUp ? { y: '100%' } : { opacity: 0, scale: 0.96 }}
+              animate={useSlideUp ? { y: 0 } : { opacity: 1, scale: 1 }}
+              exit={useSlideUp ? { y: '100%' } : { opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             >
               {/* Header — sticky so the ✕ button is always reachable */}
               <div style={{
@@ -142,6 +147,22 @@ export default function ArtifactPanel({ isOpen, onClose, title, soundEnabled, wi
           </>
         )}
       </AnimatePresence>
+      <style>{`
+        @media (max-width: 767px) {
+          .ap-slide-up {
+            top: auto !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            translate: none !important;
+            transform: none !important;
+            width: 100vw !important;
+            max-width: 100vw !important;
+            max-height: 88vh !important;
+            border-radius: 20px 20px 0 0 !important;
+          }
+        }
+      `}</style>
     </>
   )
 }
