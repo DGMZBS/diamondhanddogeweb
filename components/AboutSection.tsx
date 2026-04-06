@@ -8,6 +8,10 @@ import Button from '@/components/ui/Button'
 
 const SESSION_KEY = 'dhd_about_seen'
 
+interface AboutSectionProps {
+  onEnterCave: () => void
+}
+
 const cards = [
   {
     icon: '💎',
@@ -34,7 +38,7 @@ const pills = [
   { icon: '🚀', label: 'Community Goal: Elon Notices DHD' },
 ]
 
-export default function AboutSection() {
+export default function AboutSection({ onEnterCave }: AboutSectionProps) {
   const [skipAnims, setSkipAnims] = useState(true)
 
   useEffect(() => {
@@ -45,9 +49,6 @@ export default function AboutSection() {
     }
   }, [])
 
-  const scrollToCave = () => {
-    document.getElementById('cave')?.scrollIntoView({ behavior: 'smooth' })
-  }
 
   const fadeUp = (delay = 0) => ({
     initial: skipAnims ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 },
@@ -59,6 +60,7 @@ export default function AboutSection() {
   return (
     <section
       id="about"
+      className="about-section"
       style={{
         position: 'relative',
         minHeight: '100vh',
@@ -237,19 +239,10 @@ export default function AboutSection() {
           </div>
 
           {/* CTA */}
-          <motion.div {...fadeUp(0.45)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '16px' }}>
-            <Button variant="secondary" onClick={scrollToCave}>
-              Explore the Cave ↓
+          <motion.div {...fadeUp(0.45)} className="about-cta">
+            <Button variant="primary" onClick={onEnterCave}>
+              Explore the Cave
             </Button>
-            <span style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '20px',
-              color: 'var(--text-secondary)',
-              display: 'inline-block',
-              animation: 'bounce-chevron 1.8s ease-in-out infinite',
-            }}>
-              ∨
-            </span>
           </motion.div>
         </div>
       </div>
@@ -267,15 +260,15 @@ export default function AboutSection() {
       }} />
 
       <style>{`
-        @keyframes bounce-chevron {
-          0%, 100% { transform: translateY(0px); }
-          50%       { transform: translateY(10px); }
-        }
         @keyframes dogeFloat {
           0%, 100% { transform: translateY(0px); }
           50%       { transform: translateY(-12px); }
         }
         @media (max-width: 767px) {
+          .about-section {
+            padding: 80px 20px !important;
+            gap: 32px !important;
+          }
           .about-columns {
             flex-direction: column !important;
             gap: 32px !important;
@@ -285,7 +278,7 @@ export default function AboutSection() {
             width: 100% !important;
           }
           .about-image-col img {
-            max-width: 250px !important;
+            max-width: 220px !important;
             margin: 0 auto !important;
           }
           .about-content-col {
@@ -293,6 +286,15 @@ export default function AboutSection() {
             width: 100% !important;
             align-items: center !important;
             text-align: center !important;
+          }
+          .about-cta {
+            width: 100% !important;
+            display: flex !important;
+            justify-content: center !important;
+          }
+          .about-cta button, .about-cta span {
+            width: 100% !important;
+            box-sizing: border-box !important;
           }
         }
       `}</style>
