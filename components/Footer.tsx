@@ -2,16 +2,17 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { LINKS, CONTRACT_ADDRESS } from '@/lib/constants'
 import CopyButton from '@/components/ui/CopyButton'
 
 const NAV_LINKS = [
-  { label: 'About', href: '#about' },
-  { label: 'How to Buy', href: '#how-to-buy' },
-  { label: 'Tokenomics', href: '#tokenomics' },
-  { label: 'Roadmap', href: '#roadmap' },
-  { label: 'Vision', href: '#vision' },
-  { label: 'Chart', href: '#chart' },
+  { label: 'About', href: '/' },
+  { label: 'How to Buy', href: '/cave' },
+  { label: 'Tokenomics', href: '/tokenomics' },
+  { label: 'Roadmap', href: '/roadmap' },
+  { label: 'Vision', href: '/vision' },
+  { label: 'Socials', href: '/socials' },
 ]
 
 const PLATFORMS = [
@@ -29,9 +30,9 @@ const COMMUNITY = [
 const shortAddress = `${CONTRACT_ADDRESS.slice(0, 6)}...${CONTRACT_ADDRESS.slice(-4)}`
 
 export default function Footer() {
+  const router = useRouter()
   const handleNavClick = (href: string) => {
-    const el = document.getElementById(href.replace('#', ''))
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
+    router.push(href)
   }
 
   return (

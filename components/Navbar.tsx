@@ -53,6 +53,11 @@ export default function Navbar() {
       action: () => { setMenuOpen(false); router.push('/vision') },
       isActive: pathname === '/vision',
     },
+    {
+      label: 'Socials',
+      action: () => { setMenuOpen(false); router.push('/socials') },
+      isActive: pathname === '/socials',
+    },
   ]
 
   return (
