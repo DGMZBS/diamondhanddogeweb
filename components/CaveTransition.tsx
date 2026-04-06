@@ -8,6 +8,8 @@ const NAV_DELAY = 900
 
 function CaveTransitionInner() {
   useEffect(() => {
+    // Instantly scroll to top so the footer is out of view before the animation starts
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
     const t = setTimeout(() => {
       window.location.href = '/cave'
     }, NAV_DELAY)
