@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import Card from '@/components/ui/Card'
+import { CONTRACT_ADDRESS } from '@/lib/constants'
 
 const SESSION_KEY = 'dhd_about_seen'
 
@@ -34,6 +35,136 @@ const pills = [
   { icon: '🚀', label: 'Community Goal: Elon Notices DHD' },
 ]
 
+// Truncate: first 6 chars + ... + last 4 chars
+const SHORT_ADDRESS = `${CONTRACT_ADDRESS.slice(0, 6)}...${CONTRACT_ADDRESS.slice(-4)}`
+
+function ContractBar() {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTRACT_ADDRESS)
+    } catch {
+      const el = document.createElement('textarea')
+      el.value = CONTRACT_ADDRESS
+      el.style.cssText = 'position:fixed;opacity:0'
+      document.body.appendChild(el)
+      el.focus(); el.select()
+      document.execCommand('copy')
+      document.body.removeChild(el)
+    }
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <div
+      className="contract-bar"
+      style={{
+        position: 'sticky',
+        top: '72px',
+        zIndex: 30,
+        width: '100%',
+        background: 'rgba(0,0,0,0.5)',
+        borderBottom: '1px solid var(--border-subtle)',
+        backdropFilter: 'blur(8px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '0 24px',
+        height: '40px',
+        gap: '16px',
+      }}
+    >
+      {/* Label */}
+      <span style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: '9px',
+        fontWeight: 700,
+        letterSpacing: '0.15em',
+        textTransform: 'uppercase',
+        color: 'var(--text-secondary)',
+        whiteSpace: 'nowrap',
+        flexShrink: 0,
+      }}>
+        Contract Address
+      </span>
+
+      {/* Address — full on desktop, truncated on mobile via CSS classes */}
+      <span
+        className="contract-addr-full"
+        style={{
+          fontFamily: 'monospace',
+          fontSize: '12px',
+          color: 'var(--accent-gold)',
+          letterSpacing: '0.04em',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {CONTRACT_ADDRESS}
+      </span>
+      <span
+        className="contract-addr-short"
+        style={{
+          display: 'none',
+          fontFamily: 'monospace',
+          fontSize: '12px',
+          color: 'var(--accent-gold)',
+          letterSpacing: '0.04em',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {SHORT_ADDRESS}
+      </span>
+
+      {/* Copy button */}
+      <button
+        onClick={handleCopy}
+        aria-label="Copy contract address"
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '4px',
+          padding: '4px 10px',
+          height: '26px',
+          background: copied ? 'rgba(0,212,255,0.12)' : 'rgba(255,184,0,0.1)',
+          border: `1px solid ${copied ? 'var(--border-active)' : 'rgba(255,184,0,0.3)'}`,
+          borderRadius: '6px',
+          cursor: 'pointer',
+          fontFamily: 'var(--font-display)',
+          fontSize: '9px',
+          fontWeight: 700,
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase',
+          color: copied ? 'var(--accent-cyan)' : 'var(--accent-gold)',
+          whiteSpace: 'nowrap',
+          flexShrink: 0,
+          transition: 'background 0.2s, border-color 0.2s, color 0.2s',
+        }}
+      >
+        {copied ? (
+          <>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            Copied!
+          </>
+        ) : (
+          <>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+            Copy
+          </>
+        )}
+      </button>
+    </div>
+  )
+}
+
 export default function AboutSection() {
   const router = useRouter()
   const [skipAnims, setSkipAnims] = useState(true)
@@ -45,7 +176,6 @@ export default function AboutSection() {
       sessionStorage.setItem(SESSION_KEY, '1')
     }
   }, [])
-
 
   const fadeUp = (delay = 0) => ({
     initial: skipAnims ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 },
@@ -64,205 +194,217 @@ export default function AboutSection() {
         background: 'var(--bg-primary)',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
-        padding: '96px 48px',
-        gap: '48px',
         overflow: 'hidden',
       }}
     >
-      {/* ── Two-column layout ── */}
-      <div className="about-columns" style={{
+      {/* ── Sticky contract address bar ── */}
+      <ContractBar />
+
+      {/* ── Main content ── */}
+      <div className="about-content-wrapper" style={{
+        flex: 1,
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
+        justifyContent: 'center',
         alignItems: 'center',
-        gap: '56px',
         width: '100%',
-        maxWidth: '1200px',
+        padding: '80px 48px 96px',
+        gap: '48px',
       }}>
+        {/* ── Two-column layout ── */}
+        <div className="about-columns" style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: '56px',
+          width: '100%',
+          maxWidth: '1200px',
+        }}>
 
-        {/* Left column — Doge hero image */}
-        <motion.div
-          {...fadeUp(0)}
-          className="about-image-col"
-          style={{
-            flex: '0 0 40%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Image
-            src="/images/doge-hero.png"
-            width={500}
-            height={750}
-            alt="Diamond Hand Doge"
+          {/* Left column — Doge hero image */}
+          <motion.div
+            {...fadeUp(0)}
+            className="about-image-col"
             style={{
-              width: '100%',
-              maxWidth: '500px',
-              height: 'auto',
-              display: 'block',
-              filter: 'drop-shadow(0 0 20px rgba(0,212,255,0.4))',
-              animation: 'dogeFloat 4s ease-in-out infinite',
+              flex: '0 0 40%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
-          />
-        </motion.div>
+          >
+            <Image
+              src="/images/doge-hero.png"
+              width={500}
+              height={750}
+              alt="Diamond Hand Doge"
+              style={{
+                width: '100%',
+                maxWidth: '500px',
+                height: 'auto',
+                display: 'block',
+                filter: 'drop-shadow(0 0 20px rgba(0,212,255,0.4))',
+                animation: 'dogeFloat 4s ease-in-out infinite',
+              }}
+            />
+          </motion.div>
 
-        {/* Right column — all text content */}
-        <div
-          className="about-content-col"
-          style={{
-            flex: '0 0 60%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            gap: '24px',
-            textAlign: 'left',
-          }}
-        >
-          <motion.div {...fadeUp(0)} style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%' }}>
-            <span style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '11px',
-              fontWeight: 700,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: 'var(--accent-cyan)',
-            }}>
-              💎 ON SOLANA
-            </span>
+          {/* Right column — all text content */}
+          <div
+            className="about-content-col"
+            style={{
+              flex: '0 0 60%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              gap: '24px',
+              textAlign: 'left',
+            }}
+          >
+            <motion.div {...fadeUp(0)} style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%' }}>
+              <span style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '11px',
+                fontWeight: 700,
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                color: 'var(--accent-cyan)',
+              }}>
+                💎 ON SOLANA
+              </span>
 
-            <h1 style={{
-              margin: 0,
-              fontFamily: 'var(--font-display)',
-              fontWeight: 900,
-              fontSize: 'clamp(28px, 4vw, 52px)',
-              color: 'var(--text-primary)',
-              textShadow: '0 0 30px rgba(0,212,255,0.4)',
-              lineHeight: 1.15,
-            }}>
-              What is Diamond Hand Doge?
-            </h1>
+              <h1 style={{
+                margin: 0,
+                fontFamily: 'var(--font-display)',
+                fontWeight: 900,
+                fontSize: 'clamp(28px, 4vw, 52px)',
+                color: 'var(--text-primary)',
+                textShadow: '0 0 30px rgba(0,212,255,0.4)',
+                lineHeight: 1.15,
+              }}>
+                What is Diamond Hand Doge?
+              </h1>
 
-            <p style={{
-              margin: 0,
-              fontFamily: 'var(--font-body)',
-              fontSize: '18px',
-              lineHeight: 1.7,
-              color: 'var(--text-secondary)',
-              maxWidth: '560px',
-            }}>
-              Diamond Hand Doge (DHD) is the ultimate meme coin for holders with true diamond hands.
-              Backed by a strong community and big dreams, DHD is all about holding tight and aiming
-              for the moon. Easy to use, fun to own, and built for long-term growth — this isn&apos;t
-              just a coin, it&apos;s a movement.
-            </p>
+              <p style={{
+                margin: 0,
+                fontFamily: 'var(--font-body)',
+                fontSize: '18px',
+                lineHeight: 1.7,
+                color: 'var(--text-secondary)',
+                maxWidth: '560px',
+              }}>
+                Diamond Hand Doge (DHD) is the ultimate meme coin for holders with true diamond hands.
+                Backed by a strong community and big dreams, DHD is all about holding tight and aiming
+                for the moon. Easy to use, fun to own, and built for long-term growth — this isn&apos;t
+                just a coin, it&apos;s a movement.
+              </p>
 
-            {/* Fact pills */}
+              {/* Fact pills */}
+              <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '8px',
+              }}>
+                {pills.map(p => (
+                  <span
+                    key={p.label}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '6px 14px',
+                      background: 'var(--bg-secondary)',
+                      border: '1px solid var(--border-subtle)',
+                      borderRadius: '8px',
+                      fontFamily: 'var(--font-display)',
+                      fontSize: '10px',
+                      fontWeight: 600,
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      color: 'var(--text-secondary)',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {p.icon} {p.label}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Cards */}
             <div style={{
               display: 'flex',
               flexWrap: 'wrap',
-              gap: '8px',
+              gap: '16px',
+              width: '100%',
             }}>
-              {pills.map(p => (
-                <span
-                  key={p.label}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    padding: '6px 14px',
-                    background: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-subtle)',
-                    borderRadius: '8px',
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '10px',
-                    fontWeight: 600,
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    color: 'var(--text-secondary)',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {p.icon} {p.label}
-                </span>
+              {cards.map((card, i) => (
+                <motion.div key={card.title} {...fadeUp(i * 0.15)} style={{ flex: '1 1 220px' }}>
+                  <Card style={{
+                    height: '100%',
+                    padding: '24px 20px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    gap: '12px',
+                    textAlign: 'left',
+                  }}>
+                    <span style={{ fontSize: '30px', lineHeight: 1 }}>{card.icon}</span>
+                    <h3 style={{
+                      margin: 0,
+                      fontFamily: 'var(--font-display)',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      color: 'var(--text-primary)',
+                    }}>
+                      {card.title}
+                    </h3>
+                    <p style={{
+                      margin: 0,
+                      fontFamily: 'var(--font-body)',
+                      fontSize: '13px',
+                      lineHeight: 1.7,
+                      color: 'var(--text-secondary)',
+                    }}>
+                      {card.body}
+                    </p>
+                  </Card>
+                </motion.div>
               ))}
             </div>
-          </motion.div>
 
-          {/* Cards */}
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '16px',
-            width: '100%',
-          }}>
-            {cards.map((card, i) => (
-              <motion.div key={card.title} {...fadeUp(i * 0.15)} style={{ flex: '1 1 220px' }}>
-                <Card style={{
-                  height: '100%',
-                  padding: '24px 20px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  gap: '12px',
-                  textAlign: 'left',
-                }}>
-                  <span style={{ fontSize: '30px', lineHeight: 1 }}>{card.icon}</span>
-                  <h3 style={{
-                    margin: 0,
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '12px',
-                    fontWeight: 700,
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    color: 'var(--text-primary)',
-                  }}>
-                    {card.title}
-                  </h3>
-                  <p style={{
-                    margin: 0,
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '13px',
-                    lineHeight: 1.7,
-                    color: 'var(--text-secondary)',
-                  }}>
-                    {card.body}
-                  </p>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* CTA */}
-          <motion.div
-            {...fadeUp(0.45)}
-            className="about-cta"
-            style={{ marginTop: '8px' }}
-          >
-            <button
-              onClick={() => router.push('/cave')}
-              className="cave-cta-btn"
+            {/* CTA */}
+            <motion.div
+              {...fadeUp(0.45)}
+              className="about-cta"
+              style={{ marginTop: '8px' }}
             >
-              <span className="cave-cta-shimmer" />
-              <span className="cave-cta-content">
-                <span className="cave-cta-icon">🔦</span>
-                <span className="cave-cta-text">Explore the Cave</span>
-                <span className="cave-cta-arrow">→</span>
-              </span>
-            </button>
+              <button
+                onClick={() => router.push('/cave')}
+                className="cave-cta-btn"
+              >
+                <span className="cave-cta-shimmer" />
+                <span className="cave-cta-content">
+                  <span className="cave-cta-icon">🔦</span>
+                  <span className="cave-cta-text">Explore the Cave</span>
+                  <span className="cave-cta-arrow">→</span>
+                </span>
+              </button>
 
-            <p style={{
-              marginTop: '10px',
-              fontFamily: 'var(--font-body)',
-              fontSize: '12px',
-              color: 'var(--text-secondary)',
-              letterSpacing: '0.04em',
-            }}>
-              Enter the DHD cave world
-            </p>
-          </motion.div>
+              <p style={{
+                marginTop: '10px',
+                fontFamily: 'var(--font-body)',
+                fontSize: '12px',
+                color: 'var(--text-secondary)',
+                letterSpacing: '0.04em',
+              }}>
+                Enter the DHD cave world
+              </p>
+            </motion.div>
+          </div>
         </div>
       </div>
 
@@ -367,8 +509,8 @@ export default function AboutSection() {
         }
 
         @media (max-width: 767px) {
-          .about-section {
-            padding: 80px 20px !important;
+          .about-content-wrapper {
+            padding: 40px 20px 80px !important;
             gap: 32px !important;
           }
           .about-columns {
@@ -402,6 +544,14 @@ export default function AboutSection() {
             padding: 16px 24px !important;
             font-size: 13px !important;
             justify-content: center !important;
+          }
+          /* Mobile: show short address, hide full */
+          .contract-addr-full { display: none !important; }
+          .contract-addr-short { display: inline !important; }
+          /* Tighten bar on mobile */
+          .contract-bar {
+            gap: 8px !important;
+            padding: 0 12px !important;
           }
         }
       `}</style>
