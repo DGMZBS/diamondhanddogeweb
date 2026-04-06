@@ -1,17 +1,17 @@
 import type { Metadata } from 'next'
-import { Orbitron, Sora } from 'next/font/google'
+import { Rajdhani, Inter } from 'next/font/google'
 import '../styles/globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
-const orbitron = Orbitron({
+const rajdhani = Rajdhani({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-orbitron',
   display: 'swap',
 })
 
-const sora = Sora({
+const inter = Inter({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
   variable: '--font-sora',
@@ -44,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${orbitron.variable} ${sora.variable}`}>
+    <html lang="en" className={`${rajdhani.variable} ${inter.variable}`}>
       <body>
         <Navbar />
         {children}
