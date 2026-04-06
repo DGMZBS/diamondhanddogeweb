@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import gsap from 'gsap'
 import Card from '@/components/ui/Card'
+import CaveTransition from '@/components/CaveTransition'
 import { CONTRACT_ADDRESS } from '@/lib/constants'
 
 const SESSION_KEY = 'dhd_about_seen'
@@ -139,8 +140,9 @@ function ContractBar() {
 }
 
 export default function AboutSection() {
-  const router = useRouter()
   const [skipAnims, setSkipAnims] = useState(true)
+  const [transitioning, setTransitioning] = useState(false)
+  const ctaBtnRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const seen = sessionStorage.getItem(SESSION_KEY)
@@ -358,7 +360,22 @@ export default function AboutSection() {
               style={{ marginTop: '8px' }}
             >
               <button
-                onClick={() => router.push('/cave')}
+                ref={ctaBtnRef}
+                onClick={() => {
+                  if (transitioning) return
+                  // Button pulse first, then trigger overlay
+                  gsap.timeline().to(ctaBtnRef.current, {
+                    scale: 1.05,
+                    boxShadow: '0 0 80px rgba(255,184,0,1)',
+                    duration: 0.15,
+                    ease: 'power2.out',
+                  }).to(ctaBtnRef.current, {
+                    scale: 1.0,
+                    duration: 0.15,
+                    ease: 'power2.in',
+                    onComplete: () => setTransitioning(true),
+                  })
+                }}
                 className="cave-cta-btn"
               >
                 <span className="cave-cta-shimmer" />
@@ -382,6 +399,9 @@ export default function AboutSection() {
           </div>
         </div>
       </div>
+
+      {/* Cave transition overlay */}
+      {transitioning && <CaveTransition />}
 
       {/* Bottom blue glow */}
       <div style={{
