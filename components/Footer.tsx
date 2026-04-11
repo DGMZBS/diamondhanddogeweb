@@ -22,7 +22,6 @@ const PLATFORMS = [
 ]
 
 const COMMUNITY = [
-  { label: 'Twitter / X', href: LINKS.twitter, icon: '𝕏' },
   { label: 'Telegram', href: LINKS.telegram, icon: '✈️' },
   { label: LINKS.email, href: `mailto:${LINKS.email}`, icon: '✉️' },
 ]

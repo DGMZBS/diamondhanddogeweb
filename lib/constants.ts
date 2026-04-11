@@ -7,7 +7,6 @@ export const LINKS = {
   raydium: 'https://raydium.io/swap/?inputMint=sol&outputMint=9GnXzTS4ik2CAfrkaoVZbdzZ98xQ2ehbHQVnnJp6pump',
   dexscreener: 'https://dexscreener.com/solana/3UG4RvNMV9idmR9FpaEXz6ov9A9DkczDGuxMbGyFWFH2',
   dextools: 'https://www.dextools.io/token/diamondhanddoge',
-  twitter: 'https://x.com/dogehanddiamond?s=21',
   telegram: 'https://t.me/diamondhanddoge',
   email: 'dogehanddiamond@gmail.com',
   chartEmbed: 'https://dexscreener.com/solana/3UG4RvNMV9idmR9FpaEXz6ov9A9DkczDGuxMbGyFWFH2?embed=1&theme=dark',

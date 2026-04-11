@@ -123,21 +123,6 @@ function StatPill({ label }: { label: string }) {
 }
 
 // ── Cards ────────────────────────────────────────────────────────────
-function TwitterCard() {
-  return (
-    <SocialCard glowColor="rgba(29,161,242,0.05)" accentBorder="#1DA1F2">
-      <CardHeader icon="𝕏" title="Diamond Hand Doge on X" subtitle="Follow @dogehanddiamond for real-time updates, memes, and milestones." accentColor="#1DA1F2" />
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-        {['💎 Price Updates', '🔥 Burn Alerts', '🚀 Milestones', '😂 Memes'].map(l => <StatPill key={l} label={l} />)}
-      </div>
-      <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.7, flex: 1 }}>
-        Stay up to date with every DHD milestone, burn event, and community update. Our X account is the fastest way to know what&apos;s happening in the DHD ecosystem.
-      </p>
-      <CtaButton href={LINKS.twitter} label="Follow on X →" color="#1DA1F2" />
-    </SocialCard>
-  )
-}
-
 function TelegramCard() {
   return (
     <SocialCard glowColor="rgba(0,136,204,0.06)" accentBorder="#0088CC">
@@ -270,11 +255,8 @@ export default function SocialsPage() {
       {/* Cards */}
       <section style={{ padding: '0 24px 100px', maxWidth: '1100px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px', position: 'relative', zIndex: 1 }}>
 
-        {/* Row 1: X + Telegram */}
-        <div className="socials-row">
-          <motion.div {...fadeUp(0)} style={{ flex: 1, minWidth: 0 }}><TwitterCard /></motion.div>
-          <motion.div {...fadeUp(0.1)} style={{ flex: 1, minWidth: 0 }}><TelegramCard /></motion.div>
-        </div>
+        {/* Row 1: Telegram full-width */}
+        <motion.div {...fadeUp(0)}><TelegramCard /></motion.div>
 
         <SectionDivider />
 

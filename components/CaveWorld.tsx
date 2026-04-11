@@ -397,7 +397,6 @@ export default function CaveWorld() {
         {/* Social links — 44px tap targets */}
         <div className="cave-socials" style={{ display: 'flex', gap: '4px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
           {[
-            { href: LINKS.twitter,     label: '𝕏 Twitter' },
             { href: LINKS.telegram,    label: '✈️ Telegram' },
             { href: LINKS.dexscreener, label: '📊 DEX Screener' },
             { href: LINKS.raydium,     label: '⚡ Raydium' },

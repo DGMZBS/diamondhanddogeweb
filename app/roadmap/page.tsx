@@ -33,7 +33,7 @@ const phases: Phase[] = [
       'Organic Community Growth',
       'DexTools Update',
       'Listing On Exchanges',
-      'Twitter Spaces',
+      'Community Spaces',
     ],
   },
   {
