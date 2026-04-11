@@ -1,2 +1,0 @@
-:HL["/diamondhanddogeweb/_next/static/chunks/10d1qm9mzd_u..css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"mWXYHAx6brA7Fly4-yfJp"}
