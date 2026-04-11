@@ -221,16 +221,20 @@ export default function SocialsPage() {
 
         <motion.div {...fadeUp(0)} style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
           <Link href="/cave" style={{
-            display: 'inline-flex', alignItems: 'center', gap: '6px',
-            fontFamily: 'var(--font-display)', fontSize: '11px',
-            letterSpacing: '0.18em', textTransform: 'uppercase',
+            display: 'inline-flex', alignItems: 'center', gap: '8px',
+            fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 700,
+            letterSpacing: '0.12em', textTransform: 'uppercase',
             color: 'var(--accent-gold)', textDecoration: 'none',
-            transition: 'filter 0.2s',
-            filter: 'drop-shadow(0 0 6px rgba(255,184,0,0.3))',
+            padding: '8px 18px',
+            background: 'rgba(255,184,0,0.08)',
+            border: '1px solid rgba(255,184,0,0.4)',
+            borderRadius: '20px',
+            transition: 'background 0.2s, border-color 0.2s, box-shadow 0.2s',
+            boxShadow: '0 0 12px rgba(255,184,0,0.15)',
           }}
-          onMouseEnter={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 12px rgba(255,184,0,0.7))')}
-          onMouseLeave={e => (e.currentTarget.style.filter = 'drop-shadow(0 0 6px rgba(255,184,0,0.3))')}>
-            💎 ← BACK TO CAVE
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,184,0,0.15)'; e.currentTarget.style.borderColor = 'rgba(255,184,0,0.7)'; e.currentTarget.style.boxShadow = '0 0 20px rgba(255,184,0,0.35)' }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,184,0,0.08)'; e.currentTarget.style.borderColor = 'rgba(255,184,0,0.4)'; e.currentTarget.style.boxShadow = '0 0 12px rgba(255,184,0,0.15)' }}>
+            ← Back to Cave
           </Link>
           <span style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--accent-cyan)' }}>
             🌐 Find Us Everywhere
