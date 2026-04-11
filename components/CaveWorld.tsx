@@ -99,14 +99,12 @@ export default function CaveWorld() {
     crystal5: 0.65, crystal6: 0.55,
   })
   const rafRef = useRef<number>(0)
-  const [soundEnabled, setSoundEnabled] = useState(true)
   const [activePanel, setActivePanel] = useState<string | null>(null)
 
   const SIGN_TO_PANEL: Record<string, string> = {
     'HOW TO BUY': 'howToBuy',
     'LIVE CHART': 'chart',
   }
-  const ambientRef = useRef<HTMLAudioElement>(null)
 
 
   // RAF draw loop
@@ -170,18 +168,6 @@ export default function CaveWorld() {
       gsap.killTweensOf(s)
     }
   }, [draw])
-
-  // Sound toggle
-  useEffect(() => {
-    const ambient = ambientRef.current
-    if (!ambient) return
-    if (soundEnabled) {
-      ambient.volume = 0.15
-      ambient.play().catch(() => {/* autoplay blocked — user must interact first */})
-    } else {
-      ambient.pause()
-    }
-  }, [soundEnabled])
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 1 }}>
@@ -321,14 +307,12 @@ export default function CaveWorld() {
       </div>
 
       {/* Artifact Panels */}
-      <ArtifactPanel isOpen={activePanel === 'howToBuy'} onClose={() => setActivePanel(null)} title="How to Buy" soundEnabled={soundEnabled}>
+      <ArtifactPanel isOpen={activePanel === 'howToBuy'} onClose={() => setActivePanel(null)} title="How to Buy">
         <HowToBuyPanel />
       </ArtifactPanel>
-      <ArtifactPanel isOpen={activePanel === 'chart'} onClose={() => setActivePanel(null)} title="Live DHD Chart" soundEnabled={soundEnabled} wide>
+      <ArtifactPanel isOpen={activePanel === 'chart'} onClose={() => setActivePanel(null)} title="Live DHD Chart" wide>
         <LiveChartPanel />
       </ArtifactPanel>
-
-      <audio ref={ambientRef} src="/sounds/cave-ambient.mp3" loop preload="auto" />
 
       {/* Always-visible cave info — center of screen */}
       <div className="cave-bottom-info" style={{
@@ -434,42 +418,6 @@ export default function CaveWorld() {
         </div>
       </div>
 
-      {/* Sound toggle — bottom-left */}
-      <button
-        className="cave-sound-btn"
-        onClick={() => setSoundEnabled(v => !v)}
-        aria-label={soundEnabled ? 'Mute sound' : 'Enable sound'}
-        style={{
-          position: 'absolute',
-          bottom: '24px',
-          left: '24px',
-          width: '44px',
-          height: '44px',
-          borderRadius: '50%',
-          background: 'var(--bg-elevated)',
-          border: '1px solid var(--border-subtle)',
-          color: 'var(--text-secondary)',
-          fontSize: '18px',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 20,
-          pointerEvents: 'all',
-          transition: 'border-color 0.2s ease, color 0.2s ease',
-        }}
-        onMouseEnter={e => {
-          e.currentTarget.style.borderColor = 'var(--border-active)'
-          e.currentTarget.style.color = 'var(--text-primary)'
-        }}
-        onMouseLeave={e => {
-          e.currentTarget.style.borderColor = 'var(--border-subtle)'
-          e.currentTarget.style.color = 'var(--text-secondary)'
-        }}
-      >
-        {soundEnabled ? '🔊' : '🔇'}
-      </button>
-
       <style>{`
         @keyframes dhdGlow {
           from { filter: drop-shadow(0 0 10px rgba(255,184,0,0.5)); }
@@ -564,13 +512,6 @@ export default function CaveWorld() {
             min-height: 36px !important;
           }
 
-          /* Sound toggle — bottom-left, same height as bottom info */
-          .cave-sound-btn {
-            width: 40px !important;
-            height: 40px !important;
-            bottom: 28px !important;
-            left: 12px !important;
-          }
         }
       `}</style>
     </div>

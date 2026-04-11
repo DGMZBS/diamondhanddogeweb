@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useIsMobile } from '@/hooks/useIsMobile'
 
@@ -8,22 +8,14 @@ interface ArtifactPanelProps {
   isOpen: boolean
   onClose: () => void
   title: string
-  soundEnabled?: boolean
   wide?: boolean
   mobileSlideUp?: boolean
-  children: React.ReactNode
+  children: ReactNode
 }
 
-export default function ArtifactPanel({ isOpen, onClose, title, soundEnabled, wide = false, mobileSlideUp = false, children }: ArtifactPanelProps) {
-  const echoRef = useRef<HTMLAudioElement>(null)
+export default function ArtifactPanel({ isOpen, onClose, title, wide = false, mobileSlideUp = false, children }: ArtifactPanelProps) {
   const isMobile = useIsMobile()
   const useSlideUp = mobileSlideUp && isMobile
-
-  useEffect(() => {
-    if (isOpen && soundEnabled) {
-      echoRef.current?.play().catch(() => {})
-    }
-  }, [isOpen, soundEnabled])
 
   // Trap scroll while panel is open
   useEffect(() => {
@@ -37,8 +29,6 @@ export default function ArtifactPanel({ isOpen, onClose, title, soundEnabled, wi
 
   return (
     <>
-      <audio ref={echoRef} src="/sounds/cave-echo.mp3" preload="none" />
-
       <AnimatePresence>
         {isOpen && (
           <>

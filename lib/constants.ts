@@ -38,5 +38,4 @@ export const BURN_WALLETS = [
   },
 ]
 
-export const SOLANA_RPC = 'https://api.mainnet-beta.solana.com'
 export const DEXSCREENER_API = 'https://api.dexscreener.com/latest/dex/pairs/solana/3UG4RvNMV9idmR9FpaEXz6ov9A9DkczDGuxMbGyFWFH2'
