@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
@@ -9,6 +9,8 @@ import { LINKS } from '@/lib/constants'
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [muted, setMuted] = useState(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
   const router = useRouter()
   const pathname = usePathname()
 
@@ -17,6 +19,32 @@ export default function Navbar() {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  // Audio: auto-play on mount, fallback to muted if browser blocks
+  useEffect(() => {
+    const audio = new Audio('/sounds/cave-ambient.mp3')
+    audio.loop = true
+    audio.volume = 0.15
+    audioRef.current = audio
+    audio.play().catch(() => {
+      // Autoplay blocked — show muted state so user can tap to start
+      setMuted(true)
+    })
+    return () => {
+      audio.pause()
+      audio.src = ''
+    }
+  }, [])
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+    if (muted) {
+      audio.pause()
+    } else {
+      audio.play().catch(() => {})
+    }
+  }, [muted])
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
@@ -176,6 +204,36 @@ export default function Navbar() {
           </a>
         </div>
 
+        {/* Mobile mute button — absolutely centered */}
+        <button
+          className="nav-mute-btn"
+          onClick={() => setMuted((v: boolean) => !v)}
+          aria-label={muted ? 'Unmute music' : 'Mute music'}
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            background: 'rgba(255,184,0,0.1)',
+            border: '1px solid rgba(255,184,0,0.35)',
+            borderRadius: '20px',
+            padding: '6px 14px',
+            cursor: 'pointer',
+            alignItems: 'center',
+            gap: '6px',
+            color: 'rgba(255,184,0,0.9)',
+            fontFamily: 'var(--font-display)',
+            fontSize: '9px',
+            fontWeight: 700,
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          <span style={{ fontSize: '14px', lineHeight: 1 }}>{muted ? '🔇' : '🔊'}</span>
+          <span>{muted ? 'Muted' : 'Music'}</span>
+        </button>
+
         {/* Mobile hamburger */}
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }} className="show-mobile">
           <button
@@ -260,9 +318,11 @@ export default function Navbar() {
       <style>{`
         .hidden-mobile { display: flex; }
         .show-mobile { display: none; }
+        .nav-mute-btn { display: none; }
         @media (max-width: 768px) {
           .hidden-mobile { display: none !important; }
           .show-mobile { display: flex !important; }
+          .nav-mute-btn { display: flex !important; }
         }
       `}</style>
     </>

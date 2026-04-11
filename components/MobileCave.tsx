@@ -150,13 +150,15 @@ export default function MobileCave() {
               overflow: 'hidden',
             }}
           >
-            <Image
-              src={card.src}
-              alt={card.label}
-              width={400}
-              height={250}
-              style={{ width: '100%', height: 'auto', display: 'block' }}
-            />
+            <div style={{ overflow: 'hidden', lineHeight: 0, aspectRatio: '16/9' }}>
+              <Image
+                src={card.src}
+                alt={card.label}
+                width={400}
+                height={250}
+                style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover', objectPosition: 'top center' }}
+              />
+            </div>
             <div style={{
               padding: '10px 0 8px',
               textAlign: 'center',
