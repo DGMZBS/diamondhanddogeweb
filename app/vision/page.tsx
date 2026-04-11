@@ -71,7 +71,7 @@ function FlowDiagram() {
   ]
 
   return (
-    <div style={{
+    <div className="flow-diagram-wrap" style={{
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       gap: '0', padding: '24px 0 8px', flexWrap: 'nowrap',
     }}>
@@ -566,13 +566,15 @@ export default function VisionPage() {
       <style>{`
         .dhd-tools-blocks {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: repeat(3, minmax(0, 1fr));
           gap: 16px;
           margin-bottom: 0;
         }
+        /* Prevent grid children from expanding beyond their column */
+        .dhd-tools-blocks > * { min-width: 0; overflow: hidden; }
         .dhd-app-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: 16px;
         }
         .dhd-app-card-last {
@@ -583,17 +585,17 @@ export default function VisionPage() {
         }
         .vision-cards-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: 24px;
         }
         @media (max-width: 900px) {
-          .dhd-tools-blocks { grid-template-columns: 1fr; }
+          .dhd-tools-blocks { grid-template-columns: minmax(0, 1fr); }
           .dhd-app-card-last { grid-column: auto; max-width: 100%; }
         }
         @media (max-width: 767px) {
-          .dhd-app-grid { grid-template-columns: 1fr; }
+          .dhd-app-grid { grid-template-columns: minmax(0, 1fr); }
           .dhd-app-card-last { grid-column: auto; max-width: 100%; }
-          .vision-cards-grid { grid-template-columns: 1fr; }
+          .vision-cards-grid { grid-template-columns: minmax(0, 1fr); }
 
           /* Mobile spacing fixes */
           .vision-hero { padding: 40px 20px 40px !important; }
@@ -601,12 +603,14 @@ export default function VisionPage() {
           .vision-big-card { padding: 20px !important; border-radius: 16px !important; }
           .card-header-row { padding-right: 0 !important; gap: 12px !important; }
           .card-header-row > span:first-child { font-size: 36px !important; }
-          .vision-inner-block { padding: 16px !important; }
+          .vision-inner-block { padding: 16px !important; overflow: hidden !important; }
           .vision-card-body { padding: 20px !important; }
           .vision-cta-box { padding: 32px 20px !important; }
           /* Fix flex text overflow in feature items */
-          .vision-inner-block > div > div { min-width: 0; }
+          .vision-inner-block > div > div { min-width: 0; overflow-wrap: break-word; }
           .vision-inner-block > div > div > div { min-width: 0; overflow-wrap: break-word; }
+          /* Scale down the flow diagram to fit mobile */
+          .flow-diagram-wrap { transform: scale(0.72); transform-origin: left center; width: 140% !important; }
         }
 
         /* Badge shimmer — shine sweeps left to right */
