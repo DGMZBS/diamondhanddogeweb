@@ -143,7 +143,7 @@ interface AboutSectionProps {
 
 export default function AboutSection({ onEnterCave }: AboutSectionProps) {
   const [skipAnims, setSkipAnims] = useState(true)
-  const [showFloating, setShowFloating] = useState(false)
+  const [showFloating, setShowFloating] = useState(true)
   const ctaBtnRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
