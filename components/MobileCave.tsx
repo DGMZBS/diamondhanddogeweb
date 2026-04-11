@@ -73,9 +73,9 @@ export default function MobileCave() {
       <div style={{ display: 'flex', gap: '24px', justifyContent: 'center', marginBottom: '40px' }}>
         {CRYSTALS.map(c => (
           c.panel === 'socials' ? (
-            <a
+            <Link
               key={c.label}
-              href="#mc-socials"
+              href="/socials"
               style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}
             >
               <CrystalButton icon={c.icon} delay={c.delay} accentColor={c.accentColor} glowColor={c.glowColor} crystalId={c.id} />
@@ -88,7 +88,7 @@ export default function MobileCave() {
                 color: c.accentColor,
                 textShadow: `0 0 10px ${c.glowColor}`,
               }}>{c.label}</span>
-            </a>
+            </Link>
           ) : (
             <button
               key={c.label}
