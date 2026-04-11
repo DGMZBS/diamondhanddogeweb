@@ -133,7 +133,7 @@ export default function VisionPage() {
       <div style={{ position: 'fixed', inset: 0, backgroundImage: 'linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px)', backgroundSize: '40px 40px', pointerEvents: 'none', zIndex: 0 }} />
 
       {/* ── Hero ── */}
-      <section style={{
+      <section className="vision-hero" style={{
         position: 'relative',
         padding: '80px 24px 72px',
         textAlign: 'center',
@@ -231,7 +231,7 @@ export default function VisionPage() {
 
             {/* Header */}
             <div style={{ position: 'relative', zIndex: 1, marginBottom: '32px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '18px', marginBottom: '12px', flexWrap: 'wrap', paddingRight: '180px' }}>
+              <div className="card-header-row" style={{ display: 'flex', alignItems: 'center', gap: '18px', marginBottom: '12px', flexWrap: 'wrap' }}>
                 <span style={{ fontSize: '52px', lineHeight: 1, filter: 'drop-shadow(0 0 20px rgba(255,184,0,0.6))' }}>🛠️</span>
                 <div>
                   <h2 style={{
@@ -256,7 +256,7 @@ export default function VisionPage() {
             <div className="dhd-tools-blocks">
 
               {/* Block 1 — Core Infrastructure */}
-              <div style={{ background: 'var(--bg-elevated)', border: '1px solid rgba(255,184,0,0.2)', borderRadius: '16px', padding: '28px' }}>
+              <div className="vision-inner-block" style={{ background: 'var(--bg-elevated)', border: '1px solid rgba(255,184,0,0.2)', borderRadius: '16px', padding: '28px' }}>
                 <h3 style={{ margin: '0 0 16px', fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--accent-gold)' }}>⚙️ Core Infrastructure</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   {[
@@ -276,7 +276,7 @@ export default function VisionPage() {
               </div>
 
               {/* Block 2 — Smart Execution Tools */}
-              <div style={{ background: 'var(--bg-elevated)', border: '1px solid rgba(255,184,0,0.2)', borderRadius: '16px', padding: '28px' }}>
+              <div className="vision-inner-block" style={{ background: 'var(--bg-elevated)', border: '1px solid rgba(255,184,0,0.2)', borderRadius: '16px', padding: '28px' }}>
                 <h3 style={{ margin: '0 0 16px', fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--accent-gold)' }}>🔹 Smart Execution Tools</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   {[
@@ -296,7 +296,7 @@ export default function VisionPage() {
               </div>
 
               {/* Block 3 — How It Works (with flow diagram) */}
-              <div style={{ background: 'var(--bg-elevated)', border: '1px solid rgba(255,184,0,0.2)', borderRadius: '16px', padding: '28px' }}>
+              <div className="vision-inner-block" style={{ background: 'var(--bg-elevated)', border: '1px solid rgba(255,184,0,0.2)', borderRadius: '16px', padding: '28px' }}>
                 <h3 style={{ margin: '0 0 16px', fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--accent-gold)' }}>🔹 How It Works</h3>
 
                 {/* Animated flow diagram */}
@@ -411,7 +411,7 @@ export default function VisionPage() {
 
             {/* Header */}
             <div style={{ position: 'relative', zIndex: 1, marginBottom: '32px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '18px', marginBottom: '12px', flexWrap: 'wrap', paddingRight: '180px' }}>
+              <div className="card-header-row" style={{ display: 'flex', alignItems: 'center', gap: '18px', marginBottom: '12px', flexWrap: 'wrap' }}>
                 <span style={{ fontSize: '52px', lineHeight: 1, filter: 'drop-shadow(0 0 20px rgba(0,212,255,0.5))' }}>📱</span>
                 <div>
                   <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(22px, 3.5vw, 36px)', color: 'var(--accent-cyan)', textShadow: '0 0 30px rgba(0,212,255,0.3)', lineHeight: 1.1 }}>The DHD App</h2>
@@ -464,7 +464,7 @@ export default function VisionPage() {
         <div className="vision-cards-grid">
           {visionCards.map((card, i) => (
             <motion.div key={card.title} {...fadeUp(i * 0.1)}>
-              <div style={{
+              <div className="vision-card-body" style={{
                 background: 'var(--bg-secondary)',
                 border: `1px solid ${card.accent}22`,
                 borderRadius: '20px',
@@ -502,7 +502,7 @@ export default function VisionPage() {
 
       {/* ── Community CTA ── */}
       <section style={{ padding: '0 24px 80px', maxWidth: '700px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
-        <motion.div {...fadeUp(0.1)} style={{
+        <motion.div {...fadeUp(0.1)} className="vision-cta-box" style={{
           padding: '48px 40px', background: 'var(--bg-secondary)',
           border: '1px solid rgba(41,182,246,0.3)', borderRadius: '20px',
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px',
@@ -594,6 +594,13 @@ export default function VisionPage() {
           .dhd-app-grid { grid-template-columns: 1fr; }
           .dhd-app-card-last { grid-column: auto; max-width: 100%; }
           .vision-cards-grid { grid-template-columns: 1fr; }
+
+          /* Mobile spacing fixes */
+          .vision-hero { padding: 40px 20px 48px !important; }
+          .card-header-row { padding-right: 0 !important; }
+          .vision-inner-block { padding: 20px !important; }
+          .vision-card-body { padding: 24px !important; }
+          .vision-cta-box { padding: 36px 24px !important; }
         }
 
         /* Badge shimmer — shine sweeps left to right */
