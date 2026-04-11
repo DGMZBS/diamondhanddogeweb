@@ -16,9 +16,9 @@ const NAV_CARDS = [
 ]
 
 const CRYSTALS = [
-  { icon: '💎', label: 'HOW TO BUY', panel: 'howToBuy', delay: '0s' },
-  { icon: '📊', label: 'LIVE CHART', panel: 'chart',    delay: '0.15s' },
-  { icon: '🌐', label: 'SOCIALS',    panel: 'socials',  delay: '0.3s' },
+  { id: 'htb',   icon: '💎', label: 'HOW TO BUY', panel: 'howToBuy', delay: '0s',   accentColor: '#00D4FF', glowColor: 'rgba(0,212,255,0.7)'  },
+  { id: 'chart', icon: '📊', label: 'LIVE CHART', panel: 'chart',    delay: '0.5s', accentColor: '#FFB800', glowColor: 'rgba(255,184,0,0.7)'  },
+  { id: 'soc',   icon: '🌐', label: 'SOCIALS',    panel: 'socials',  delay: '1s',   accentColor: '#00FF88', glowColor: 'rgba(0,255,136,0.7)'  },
 ]
 
 const SOCIALS = [
@@ -78,14 +78,15 @@ export default function MobileCave() {
               href="#mc-socials"
               style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}
             >
-              <CrystalButton icon={c.icon} delay={c.delay} />
+              <CrystalButton icon={c.icon} delay={c.delay} accentColor={c.accentColor} glowColor={c.glowColor} crystalId={c.id} />
               <span style={{
                 fontFamily: 'var(--font-display)',
                 fontSize: '9px',
                 fontWeight: 700,
-                letterSpacing: '0.1em',
+                letterSpacing: '0.12em',
                 textTransform: 'uppercase',
-                color: 'var(--text-primary)',
+                color: c.accentColor,
+                textShadow: `0 0 10px ${c.glowColor}`,
               }}>{c.label}</span>
             </a>
           ) : (
@@ -94,14 +95,15 @@ export default function MobileCave() {
               onClick={() => handleCrystal(c.panel)}
               style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}
             >
-              <CrystalButton icon={c.icon} delay={c.delay} />
+              <CrystalButton icon={c.icon} delay={c.delay} accentColor={c.accentColor} glowColor={c.glowColor} crystalId={c.id} />
               <span style={{
                 fontFamily: 'var(--font-display)',
                 fontSize: '9px',
                 fontWeight: 700,
-                letterSpacing: '0.1em',
+                letterSpacing: '0.12em',
                 textTransform: 'uppercase',
-                color: 'var(--text-primary)',
+                color: c.accentColor,
+                textShadow: `0 0 10px ${c.glowColor}`,
               }}>{c.label}</span>
             </button>
           )
@@ -243,36 +245,97 @@ export default function MobileCave() {
           from { filter: drop-shadow(0 0 8px rgba(255,184,0,0.4)); }
           to   { filter: drop-shadow(0 0 22px rgba(255,184,0,0.9)); }
         }
-        @keyframes mc-crystal-pulse {
-          0%, 100% { box-shadow: 0 0 16px rgba(0,212,255,0.4), inset 0 0 16px rgba(0,212,255,0.1); }
-          50%       { box-shadow: 0 0 28px rgba(0,212,255,0.75), inset 0 0 24px rgba(0,212,255,0.2); }
+        @keyframes mc-crystal-bob {
+          0%, 100% { transform: translateY(0px); }
+          50%       { transform: translateY(-6px); }
+        }
+        @keyframes mc-crystal-shimmer {
+          0%, 100% { opacity: 0.82; }
+          50%       { opacity: 1; }
         }
       `}</style>
     </div>
   )
 }
 
-function CrystalButton({ icon, delay }: { icon: string; delay: string }) {
+function CrystalButton({ icon, delay, accentColor, glowColor, crystalId }: {
+  icon: string
+  delay: string
+  accentColor: string
+  glowColor: string
+  crystalId: string
+}) {
+  const g = crystalId
+
   return (
-    <div
-      style={{
-        width: '100px',
-        height: '120px',
-        clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-        background: 'linear-gradient(180deg, rgba(0,212,255,0.35) 0%, rgba(0,100,150,0.65) 100%)',
-        border: '1px solid var(--accent-cyan)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+    <div style={{
+      position: 'relative',
+      width: '100px',
+      height: '116px',
+      cursor: 'pointer',
+      animation: `mc-crystal-bob 3.5s ease-in-out ${delay} infinite`,
+    }}>
+      <svg
+        viewBox="0 0 100 116"
+        width="100"
+        height="116"
+        style={{
+          display: 'block',
+          filter: `drop-shadow(0 0 10px ${glowColor}) drop-shadow(0 2px 22px ${glowColor})`,
+          animation: `mc-crystal-shimmer 2.5s ease-in-out ${delay} infinite`,
+        }}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id={`${g}-base`} x1="25%" y1="0%" x2="75%" y2="100%">
+            <stop offset="0%" stopColor={accentColor} stopOpacity="0.45" />
+            <stop offset="55%" stopColor="#04091c" stopOpacity="0.9" />
+            <stop offset="100%" stopColor={accentColor} stopOpacity="0.3" />
+          </linearGradient>
+          <linearGradient id={`${g}-top`} x1="10%" y1="0%" x2="90%" y2="100%">
+            <stop offset="0%" stopColor="white" stopOpacity="0.45" />
+            <stop offset="55%" stopColor="white" stopOpacity="0.05" />
+            <stop offset="100%" stopColor="white" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id={`${g}-right`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor={accentColor} stopOpacity="0" />
+            <stop offset="100%" stopColor={accentColor} stopOpacity="0.18" />
+          </linearGradient>
+        </defs>
+
+        {/* Deep base */}
+        <polygon points="50,2 97,27 97,89 50,114 3,89 3,27" fill="#04091c" />
+        {/* Colored gradient body */}
+        <polygon points="50,2 97,27 97,89 50,114 3,89 3,27" fill={`url(#${g}-base)`} />
+        {/* Upper facet highlight */}
+        <polygon points="50,2 97,27 97,58 3,58 3,27" fill={`url(#${g}-top)`} />
+        {/* Right-side accent facet */}
+        <polygon points="97,27 97,89 50,114 50,58 97,58" fill={`url(#${g}-right)`} />
+        {/* Inner bevel ring */}
+        <polygon points="50,10 91,31 91,85 50,106 10,85 10,31"
+          fill="none" stroke={accentColor} strokeWidth="0.6" strokeOpacity="0.3" />
+        {/* Outer border */}
+        <polygon points="50,2 97,27 97,89 50,114 3,89 3,27"
+          fill="none" stroke={accentColor} strokeWidth="1.5" strokeOpacity="0.9" />
+        {/* Specular highlight line */}
+        <line x1="26" y1="15" x2="74" y2="15" stroke="white" strokeWidth="1.2" strokeOpacity="0.55" strokeLinecap="round" />
+        {/* Bright corner catch-light */}
+        <circle cx="36" cy="21" r="2.5" fill="white" fillOpacity="0.45" />
+      </svg>
+
+      {/* Icon */}
+      <div style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -52%)',
         fontSize: '28px',
-        animation: `mc-crystal-pulse 2s ease-in-out ${delay} infinite`,
-        cursor: 'pointer',
-        transition: 'transform 0.15s ease, filter 0.15s ease',
-        minWidth: '100px',
-        minHeight: '120px',
-      }}
-    >
-      {icon}
+        lineHeight: 1,
+        pointerEvents: 'none',
+        filter: `drop-shadow(0 0 8px ${accentColor})`,
+      }}>
+        {icon}
+      </div>
     </div>
   )
 }
