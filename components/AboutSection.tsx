@@ -155,14 +155,16 @@ export default function AboutSection({ onEnterCave }: AboutSectionProps) {
   }, [])
 
   useEffect(() => {
-    const onScroll = () => {
-      if (!ctaBtnRef.current) return
+    // Show immediately, hide only when the actual CTA scrolls into view
+    const update = () => {
+      if (!ctaBtnRef.current) { setShowFloating(true); return }
       const rect = ctaBtnRef.current.getBoundingClientRect()
       const ctaVisible = rect.top < window.innerHeight && rect.bottom > 0
-      setShowFloating(window.scrollY > 220 && !ctaVisible)
+      setShowFloating(!ctaVisible)
     }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    return () => window.removeEventListener('scroll', update)
   }, [])
 
   const fadeUp = (delay = 0) => ({
