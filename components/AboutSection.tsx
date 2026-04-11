@@ -143,7 +143,8 @@ interface AboutSectionProps {
 
 export default function AboutSection({ onEnterCave }: AboutSectionProps) {
   const [skipAnims, setSkipAnims] = useState(true)
-  const ctaBtnRef = useRef<HTMLButtonElement>(null)  // kept for potential future use
+  const [showFloating, setShowFloating] = useState(false)
+  const ctaBtnRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const seen = sessionStorage.getItem(SESSION_KEY)
@@ -151,6 +152,17 @@ export default function AboutSection({ onEnterCave }: AboutSectionProps) {
       setSkipAnims(false)
       sessionStorage.setItem(SESSION_KEY, '1')
     }
+  }, [])
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (!ctaBtnRef.current) return
+      const rect = ctaBtnRef.current.getBoundingClientRect()
+      const ctaVisible = rect.top < window.innerHeight && rect.bottom > 0
+      setShowFloating(window.scrollY > 220 && !ctaVisible)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   const fadeUp = (delay = 0) => ({
@@ -399,6 +411,18 @@ export default function AboutSection({ onEnterCave }: AboutSectionProps) {
         pointerEvents: 'none',
       }} />
 
+      {/* Floating sticky CTA */}
+      <div className={`floating-cave-cta ${showFloating ? 'floating-cave-cta--visible' : ''}`}>
+        <button onClick={onEnterCave} className="cave-cta-btn floating-cave-cta__btn">
+          <span className="cave-cta-shimmer" />
+          <span className="cave-cta-content">
+            <span className="cave-cta-icon">🔦</span>
+            <span className="cave-cta-text">Explore the Cave</span>
+            <span className="cave-cta-arrow">→</span>
+          </span>
+        </button>
+      </div>
+
       <style>{`
         @keyframes dogeFloat {
           0%, 100% { transform: translateY(0px); }
@@ -485,6 +509,30 @@ export default function AboutSection({ onEnterCave }: AboutSectionProps) {
           font-size: 18px;
           animation: arrowBounce 1.4s ease-in-out infinite;
           display: inline-block;
+        }
+
+        /* Floating sticky CTA */
+        .floating-cave-cta {
+          position: fixed;
+          bottom: 24px;
+          left: 50%;
+          transform: translateX(-50%) translateY(100px);
+          z-index: 50;
+          opacity: 0;
+          pointer-events: none;
+          transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+        }
+        .floating-cave-cta--visible {
+          transform: translateX(-50%) translateY(0);
+          opacity: 1;
+          pointer-events: all;
+        }
+        .floating-cave-cta__btn {
+          box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 40px rgba(255,184,0,0.5) !important;
+        }
+        .floating-cave-cta .cave-cta-content {
+          padding: 14px 28px !important;
+          font-size: 13px !important;
         }
 
         @media (max-width: 767px) {
