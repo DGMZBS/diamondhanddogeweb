@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { LINKS, CONTRACT_ADDRESS } from '@/lib/constants'
 import CopyButton from '@/components/ui/CopyButton'
@@ -224,21 +223,6 @@ export default function Footer() {
           gap: '16px',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
-            <Link
-              href="/disclaimer"
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '12px',
-                color: 'var(--text-dim)',
-                textDecoration: 'none',
-                transition: 'color 0.2s ease',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-dim)')}
-            >
-              Disclaimer
-            </Link>
-            <span style={{ color: 'var(--border-subtle)', fontSize: '12px' }}>|</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{
                 fontFamily: 'monospace',
