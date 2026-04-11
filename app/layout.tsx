@@ -23,6 +23,13 @@ export const metadata: Metadata = {
   description:
     'Diamond Hand Doge (DHD) is the Solana meme coin that rewards true holders. Hold strong, earn big. Buy DHD on Raydium today.',
   keywords: ['DHD', 'Diamond Hand Doge', 'Solana meme coin', 'DHD coin', 'buy DHD', 'crypto'],
+  icons: {
+    icon: [
+      { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon.ico', sizes: '16x16 32x32 48x48' },
+    ],
+    apple: { url: '/apple-touch-icon.png', sizes: '180x180' },
+  },
   openGraph: {
     title: 'Diamond Hand Doge (DHD)',
     description: 'The Solana meme coin for those with diamond hands.',
