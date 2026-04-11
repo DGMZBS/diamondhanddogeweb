@@ -201,7 +201,7 @@ export default function VisionPage() {
       {/* ── CARD 1: DHD Tools — Dual Growth Engine (full-width) ── */}
       <section style={{ padding: '0 24px 40px', maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <motion.div {...fadeUp(0.1)}>
-          <div style={{
+          <div className="vision-big-card" style={{
             background: 'var(--bg-secondary)',
             border: '2px solid var(--accent-gold)',
             borderRadius: '24px',
@@ -215,7 +215,7 @@ export default function VisionPage() {
             <div style={{ position: 'absolute', bottom: 0, right: 0, width: '300px', height: '300px', background: 'radial-gradient(circle at bottom right, rgba(255,184,0,0.05), transparent 70%)', pointerEvents: 'none' }} />
 
             {/* EXCLUSIVE badge — shimmer */}
-            <div className="badge-shimmer" style={{
+            <div className="badge-shimmer vision-badge" style={{
               position: 'absolute', top: '24px', right: '24px',
               padding: '6px 12px',
               background: 'var(--accent-gold)',
@@ -382,7 +382,7 @@ export default function VisionPage() {
       {/* ── CARD 2: DHD App (full-width) ── */}
       <section style={{ padding: '0 24px 40px', maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <motion.div {...fadeUp(0.1)}>
-          <div style={{
+          <div className="vision-big-card" style={{
             background: 'var(--bg-secondary)',
             border: '2px solid var(--accent-cyan)',
             borderRadius: '24px',
@@ -395,7 +395,7 @@ export default function VisionPage() {
             <div style={{ position: 'absolute', bottom: 0, right: 0, width: '300px', height: '300px', background: 'radial-gradient(circle at bottom right, rgba(0,212,255,0.04), transparent 70%)', pointerEvents: 'none' }} />
 
             {/* EXCLUSIVE badge — shimmer */}
-            <div className="badge-shimmer badge-shimmer-cyan" style={{
+            <div className="badge-shimmer badge-shimmer-cyan vision-badge" style={{
               position: 'absolute', top: '24px', right: '24px',
               padding: '6px 12px',
               background: 'var(--accent-cyan)',
@@ -596,11 +596,17 @@ export default function VisionPage() {
           .vision-cards-grid { grid-template-columns: 1fr; }
 
           /* Mobile spacing fixes */
-          .vision-hero { padding: 40px 20px 48px !important; }
-          .card-header-row { padding-right: 0 !important; }
-          .vision-inner-block { padding: 20px !important; }
-          .vision-card-body { padding: 24px !important; }
-          .vision-cta-box { padding: 36px 24px !important; }
+          .vision-hero { padding: 40px 20px 40px !important; }
+          .vision-badge { display: none !important; }
+          .vision-big-card { padding: 20px !important; border-radius: 16px !important; }
+          .card-header-row { padding-right: 0 !important; gap: 12px !important; }
+          .card-header-row > span:first-child { font-size: 36px !important; }
+          .vision-inner-block { padding: 16px !important; }
+          .vision-card-body { padding: 20px !important; }
+          .vision-cta-box { padding: 32px 20px !important; }
+          /* Fix flex text overflow in feature items */
+          .vision-inner-block > div > div { min-width: 0; }
+          .vision-inner-block > div > div > div { min-width: 0; overflow-wrap: break-word; }
         }
 
         /* Badge shimmer — shine sweeps left to right */
