@@ -53,7 +53,7 @@ export default function MobileCave() {
       <div style={{ position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)', width: '300px', height: '150px', background: 'radial-gradient(ellipse, rgba(255,180,50,0.07), transparent)', pointerEvents: 'none' }} />
 
       {/* DHD Logo */}
-      <div className="mc-logo" style={{ marginBottom: '32px' }}>
+      <div className="mc-logo" style={{ marginBottom: '16px' }}>
         <Image
           src="/images/dhd-logo.jpg"
           width={90}
@@ -66,6 +66,25 @@ export default function MobileCave() {
             animation: 'mc-glow 3s ease-in-out infinite alternate',
           }}
         />
+      </div>
+
+      {/* Title */}
+      <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+        <h1 style={{
+          margin: 0,
+          fontFamily: 'var(--font-display)',
+          fontWeight: 900,
+          fontSize: 'clamp(22px, 6vw, 32px)',
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          lineHeight: 1.1,
+          background: 'linear-gradient(180deg, #FFFFFF 0%, rgba(255,184,0,0.85) 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          filter: 'drop-shadow(0 0 16px rgba(255,184,0,0.5))',
+        }}>
+          Diamond Hand Doge
+        </h1>
       </div>
 
       {/* Crystal buttons row */}
