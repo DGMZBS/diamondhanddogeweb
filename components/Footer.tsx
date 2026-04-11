@@ -193,6 +193,27 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Disclaimer */}
+        <div style={{
+          borderTop: '1px solid var(--border-subtle)',
+          paddingTop: '24px',
+          marginBottom: '24px',
+          textAlign: 'center',
+        }}>
+          <p style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: '13px',
+            color: 'var(--text-dim)',
+            lineHeight: 1.7,
+            maxWidth: '860px',
+            margin: '0 auto',
+          }}>
+            <strong style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>Disclaimer</strong>
+            <br />
+            The information provided on this website is for informational and educational purposes only and should not be considered as financial, investment, or legal advice. Diamond Hand Doge (DHD) is a cryptocurrency with inherent risks, and investments in digital assets are highly speculative.
+          </p>
+        </div>
+
         {/* Bottom bar */}
         <div style={{
           borderTop: '1px solid var(--border-subtle)',
