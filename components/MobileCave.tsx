@@ -155,7 +155,15 @@ export default function MobileCave() {
       </div>
 
       {/* Contract address */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', marginBottom: '24px' }}>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '8px',
+        marginBottom: '24px',
+        width: 'calc(100vw - 48px)',
+        maxWidth: '400px',
+      }}>
         <span style={{
           fontFamily: 'var(--font-display)',
           fontSize: '9px',
@@ -165,7 +173,9 @@ export default function MobileCave() {
         }}>
           Contract Address
         </span>
-        <CopyButton text={CONTRACT_ADDRESS} fullAddress />
+        <div style={{ width: '100%', overflow: 'hidden' }}>
+          <CopyButton text={CONTRACT_ADDRESS} fullAddress />
+        </div>
       </div>
 
       {/* BUY DHD */}

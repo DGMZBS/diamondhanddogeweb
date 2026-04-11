@@ -39,6 +39,7 @@ export default function CopyButton({ text, className = '', fullAddress = false }
           display: 'flex',
           alignItems: 'center',
           gap: '10px',
+          width: '100%',
           background: copied ? 'rgba(0,212,255,0.08)' : 'rgba(255,184,0,0.06)',
           border: `1px solid ${copied ? 'var(--border-active)' : 'rgba(255,184,0,0.25)'}`,
           borderRadius: '8px',
@@ -49,11 +50,11 @@ export default function CopyButton({ text, className = '', fullAddress = false }
           fontSize: '12px',
           color: copied ? 'var(--accent-cyan)' : 'var(--accent-gold)',
           letterSpacing: '0.04em',
-          whiteSpace: 'nowrap',
           pointerEvents: 'all',
+          minWidth: 0,
         }}
       >
-        <span>{text}</span>
+        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1 }}>{text}</span>
         <span style={{
           display: 'flex',
           alignItems: 'center',
