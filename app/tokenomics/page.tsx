@@ -216,35 +216,37 @@ export default function TokenomicsPage() {
       {/* ── Buy Back Burns announcement banner ── */}
       <section style={{ padding: '0 24px 32px', maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <motion.div {...fadeUp(0.05)} style={{
-          padding: '18px 24px',
-          background: 'linear-gradient(135deg, rgba(255,184,0,0.15), rgba(255,100,0,0.06))',
-          border: '1px solid rgba(255,184,0,0.55)',
-          borderRadius: '14px',
+          padding: '24px 28px',
+          background: 'linear-gradient(135deg, rgba(180,20,30,0.92), rgba(120,10,20,0.92))',
+          border: '2px solid rgba(255,80,90,0.85)',
+          borderRadius: '16px',
           display: 'flex',
           alignItems: 'center',
-          gap: '14px',
-          boxShadow: '0 0 36px rgba(255,184,0,0.18)',
+          gap: '18px',
+          boxShadow: '0 0 48px rgba(220,40,50,0.4), 0 12px 40px rgba(0,0,0,0.4)',
           flexWrap: 'wrap',
         }}>
-          <span style={{ fontSize: '24px', lineHeight: 1 }}>🚨</span>
+          <span style={{ fontSize: '34px', lineHeight: 1 }}>🚨</span>
           <div style={{ flex: 1, minWidth: 0 }}>
             <p style={{
               margin: 0,
               fontFamily: 'var(--font-display)',
-              fontSize: '14px',
-              fontWeight: 800,
-              letterSpacing: '0.12em',
+              fontSize: 'clamp(20px, 2.6vw, 26px)',
+              fontWeight: 900,
+              letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              color: '#FFD86B',
-              textShadow: '0 0 12px rgba(255,184,0,0.4)',
+              color: '#FFFFFF',
+              textShadow: '0 0 16px rgba(255,80,90,0.6), 0 1px 2px rgba(0,0,0,0.5)',
+              lineHeight: 1.2,
             }}>
               Update: Buy Back Burns EVERY MONTH!
             </p>
             <p style={{
-              margin: '4px 0 0',
+              margin: '8px 0 0',
               fontFamily: 'var(--font-body)',
-              fontSize: '13px',
-              color: 'var(--text-secondary)',
+              fontSize: '15px',
+              color: 'rgba(255,235,235,0.9)',
+              lineHeight: 1.5,
             }}>
               DHD now executes monthly buy-back burns — strengthening scarcity and rewarding diamond hands every single month.
             </p>
