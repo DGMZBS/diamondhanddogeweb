@@ -22,6 +22,7 @@ const CRYSTALS = [
 ]
 
 const SOCIALS = [
+  { href: LINKS.x,           label: '𝕏 X' },
   { href: LINKS.telegram,    label: '✈️ Telegram' },
   { href: LINKS.dexscreener, label: '📊 DEX Screener' },
   { href: LINKS.raydium,     label: '⚡ Raydium' },
