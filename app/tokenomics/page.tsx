@@ -213,6 +213,45 @@ export default function TokenomicsPage() {
         </motion.div>
       </section>
 
+      {/* ── Buy Back Burns announcement banner ── */}
+      <section style={{ padding: '0 24px 32px', maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+        <motion.div {...fadeUp(0.05)} style={{
+          padding: '18px 24px',
+          background: 'linear-gradient(135deg, rgba(255,184,0,0.15), rgba(255,100,0,0.06))',
+          border: '1px solid rgba(255,184,0,0.55)',
+          borderRadius: '14px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '14px',
+          boxShadow: '0 0 36px rgba(255,184,0,0.18)',
+          flexWrap: 'wrap',
+        }}>
+          <span style={{ fontSize: '24px', lineHeight: 1 }}>🚨</span>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p style={{
+              margin: 0,
+              fontFamily: 'var(--font-display)',
+              fontSize: '14px',
+              fontWeight: 800,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: '#FFD86B',
+              textShadow: '0 0 12px rgba(255,184,0,0.4)',
+            }}>
+              Update: Buy Back Burns EVERY MONTH!
+            </p>
+            <p style={{
+              margin: '4px 0 0',
+              fontFamily: 'var(--font-body)',
+              fontSize: '13px',
+              color: 'var(--text-secondary)',
+            }}>
+              DHD now executes monthly buy-back burns — strengthening scarcity and rewarding diamond hands every single month.
+            </p>
+          </div>
+        </motion.div>
+      </section>
+
       {/* ── Live Stats Grid ── */}
       <section style={{ padding: '0 24px 64px', maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <motion.div {...fadeUp(0.1)} className="stats-grid">

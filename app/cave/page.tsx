@@ -5,6 +5,7 @@ import gsap from 'gsap'
 import { useIsMobile } from '@/hooks/useIsMobile'
 import CaveWorld from '@/components/CaveWorld'
 import MobileCave from '@/components/MobileCave'
+import CaveAnnouncement from '@/components/CaveAnnouncement'
 
 export default function CavePage() {
   const wrapRef = useRef<HTMLDivElement>(null)
@@ -18,6 +19,7 @@ export default function CavePage() {
   return (
     <div ref={wrapRef} style={{ opacity: 0 }}>
       {isMobile ? <MobileCave /> : <CaveWorld />}
+      <CaveAnnouncement />
     </div>
   )
 }
