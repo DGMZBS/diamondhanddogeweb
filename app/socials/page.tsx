@@ -123,6 +123,21 @@ function StatPill({ label }: { label: string }) {
 }
 
 // ── Cards ────────────────────────────────────────────────────────────
+function XCard() {
+  return (
+    <SocialCard glowColor="rgba(255,255,255,0.05)" accentBorder="#FFFFFF">
+      <CardHeader icon="𝕏" title="DHD on X" subtitle="Follow @dhdxcommunity for live updates and alpha." accentColor="#FFFFFF" />
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+        {['🚀 Launch Updates', '📰 Announcements', '💬 Community Posts'].map(l => <StatPill key={l} label={l} />)}
+      </div>
+      <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.7, flex: 1 }}>
+        Stay plugged in. Follow the official DHD X community for breaking news, milestone announcements, and the freshest doge memes on the timeline.
+      </p>
+      <CtaButton href={LINKS.x} label="Follow on X →" color="#FFFFFF" />
+    </SocialCard>
+  )
+}
+
 function TelegramCard() {
   return (
     <SocialCard glowColor="rgba(0,136,204,0.06)" accentBorder="#0088CC">
@@ -259,12 +274,17 @@ export default function SocialsPage() {
       {/* Cards */}
       <section style={{ padding: '0 24px 100px', maxWidth: '1100px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px', position: 'relative', zIndex: 1 }}>
 
-        {/* Row 1: Telegram full-width */}
-        <motion.div {...fadeUp(0)}><TelegramCard /></motion.div>
+        {/* Row 1: X full-width — header */}
+        <motion.div {...fadeUp(0)}><XCard /></motion.div>
 
         <SectionDivider />
 
-        {/* Row 2: DEX Screener full-width */}
+        {/* Row 2: Telegram full-width */}
+        <motion.div {...fadeUp(0.1)}><TelegramCard /></motion.div>
+
+        <SectionDivider />
+
+        {/* Row 3: DEX Screener full-width */}
         <motion.div {...fadeUp(0.15)}><DexScreenerCard /></motion.div>
 
         <SectionDivider />

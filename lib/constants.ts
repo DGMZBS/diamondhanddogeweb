@@ -8,6 +8,7 @@ export const LINKS = {
   dexscreener: 'https://dexscreener.com/solana/3UG4RvNMV9idmR9FpaEXz6ov9A9DkczDGuxMbGyFWFH2',
   dextools: 'https://www.dextools.io/token/diamondhanddoge',
   telegram: 'https://t.me/diamondhanddoge',
+  x: 'https://x.com/dhdxcommunity?s=21',
   email: 'dogehanddiamond@gmail.com',
   chartEmbed: 'https://dexscreener.com/solana/3UG4RvNMV9idmR9FpaEXz6ov9A9DkczDGuxMbGyFWFH2?embed=1&theme=dark',
   phantom: 'https://phantom.app',
